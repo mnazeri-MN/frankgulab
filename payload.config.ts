@@ -276,18 +276,19 @@ export default buildConfig({
           label: "Lab Logo",
           admin: { description: "SVG logo shown in navbar and footer. Leave blank to use the default nanoparticle icon." },
         },
-        { name: "labName", type: "text", label: "Lab Name", admin: { description: 'e.g. "The Mixture Lab"' } },
-        { name: "piName", type: "text", label: "Principal Investigator", admin: { description: 'e.g. "Frank Gu"' } },
-        { name: "institution", type: "text", label: "Institution", admin: { description: 'e.g. "University of Toronto"' } },
-        { name: "department", type: "text", label: "Department", admin: { description: 'e.g. "Department of Chemical Engineering & Applied Chemistry"' } },
-        { name: "address", type: "text", label: "Address", admin: { description: 'e.g. "Toronto, Ontario, Canada"' } },
-        { name: "contactEmail", type: "email", label: "Contact Email" },
-        { name: "missionStatement", type: "text", label: "Mission Statement", admin: { description: "Displayed as the main tagline in the hero section" } },
-        { name: "heroSubtitle", type: "textarea", label: "Hero Subtitle", admin: { description: "Secondary text below the mission statement in the hero" } },
+        { name: "labName", type: "text", label: "Lab Name", admin: { placeholder: "The Mixture Lab" } },
+        { name: "piName", type: "text", label: "Principal Investigator", admin: { placeholder: "Frank Gu" } },
+        { name: "institution", type: "text", label: "Institution", admin: { placeholder: "University of Toronto" } },
+        { name: "department", type: "text", label: "Department", admin: { placeholder: "Department of Chemical Engineering & Applied Chemistry" } },
+        { name: "address", type: "text", label: "Address", admin: { placeholder: "Toronto, Ontario, Canada" } },
+        { name: "contactEmail", type: "email", label: "Contact Email", admin: { placeholder: "f.gu@utoronto.ca" } },
+        { name: "missionStatement", type: "text", label: "Mission Statement", admin: { placeholder: "We build the labs that will discover tomorrow's formulations, today.", description: "Displayed as the main tagline in the hero section" } },
+        { name: "heroSubtitle", type: "textarea", label: "Hero Subtitle", admin: { placeholder: "Automation, robotics, and machine learning applied to formulation science, electrochemistry, and advanced materials research.", description: "Secondary text below the mission statement in the hero" } },
         {
           name: "linkedIn",
           type: "text",
           label: "LinkedIn URL",
+          admin: { placeholder: "https://linkedin.com/company/frank-gu-lab" },
           validate: (value: string | null | undefined) => {
             if (!value) return true
             if (!value.startsWith("https://linkedin.com/")) return 'Must start with "https://linkedin.com/"'
@@ -298,21 +299,22 @@ export default buildConfig({
           name: "googleScholar",
           type: "text",
           label: "Google Scholar URL",
+          admin: { placeholder: "https://scholar.google.ca/citations?user=nZYyToUAAAAJ&hl=en" },
           validate: (value: string | null | undefined) => {
             if (!value) return true
             if (!value.startsWith("https://scholar.google")) return 'Must start with "https://scholar.google"'
             return true
           },
         },
-        { name: "footerTagline", type: "text", label: "Footer Tagline", admin: { description: 'e.g. "Funded by NSERC and CIHR."' } },
+        { name: "footerTagline", type: "text", label: "Footer Tagline", admin: { placeholder: "Funded by NSERC and CIHR." } },
         {
           name: "affiliates",
           type: "array",
           label: "Affiliated With",
           admin: { description: "Links shown in the footer under 'Affiliated With'" },
           fields: [
-            { name: "name", type: "text", required: true, label: "Name" },
-            { name: "url", type: "text", required: true, label: "URL" },
+            { name: "name", type: "text", required: true, label: "Name", admin: { placeholder: "University of Toronto" } },
+            { name: "url", type: "text", required: true, label: "URL", admin: { placeholder: "https://www.utoronto.ca" } },
           ],
         },
         {
