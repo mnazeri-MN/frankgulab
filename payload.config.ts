@@ -288,31 +288,13 @@ export default buildConfig({
           name: "linkedIn",
           type: "text",
           label: "LinkedIn URL",
-          validate: (value: string | null | undefined) => {
-            if (!value) return true
-            if (!value.startsWith("https://linkedin.com/company/")) return 'Must start with "https://linkedin.com/company/"'
-            return true
-          },
-          admin: {
-            components: {
-              Field: "@/components/payload/prefixed-url-field#LinkedInCompanyField",
-            },
-          },
+          admin: { placeholder: "https://linkedin.com/company/frank-gu-lab" },
         },
         {
           name: "googleScholar",
           type: "text",
           label: "Google Scholar URL",
-          validate: (value: string | null | undefined) => {
-            if (!value) return true
-            if (!value.startsWith("https://scholar.google.ca/citations?user=")) return 'Must start with "https://scholar.google.ca/citations?user="'
-            return true
-          },
-          admin: {
-            components: {
-              Field: "@/components/payload/prefixed-url-field#ScholarField",
-            },
-          },
+          admin: { placeholder: "https://scholar.google.ca/citations?user=nZYyToUAAAAJ&hl=en" },
         },
         { name: "footerTagline", type: "text", label: "Footer Tagline", admin: { placeholder: "Funded by NSERC and CIHR." } },
         {
