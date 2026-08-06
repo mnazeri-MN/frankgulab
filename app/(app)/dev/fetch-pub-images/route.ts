@@ -15,7 +15,7 @@ export async function GET() {
     limit: 200,
   })
 
-  const results: { id: number; doi: string; imageUrl: string | null; status: string }[] = []
+  const results: { id: number | string; doi: string; imageUrl: string | null; status: string }[] = []
 
   for (const doc of docs) {
     if (!doc.doi || doc.fetchedImageUrl) {
@@ -31,7 +31,7 @@ export async function GET() {
         results.push({ id: doc.id, doi: doc.doi, imageUrl: null, status: "no_image" })
       }
     } catch (e) {
-      results.push({ id: doc.id, doi: doc.doi, imageUrl: null, status: `error: ${e instanceof Error ? e.message : e}` })
+      results.push({ id: doc.id, doi: doc.doi ?? "", imageUrl: null, status: `error: ${e instanceof Error ? e.message : e}` })
     }
   }
 
