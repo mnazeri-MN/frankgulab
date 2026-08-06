@@ -282,7 +282,7 @@ export default buildConfig({
 
   plugins: [
     vercelBlobStorage({
-      enabled: !!(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID),
+      enabled: /^vercel_blob_rw_/i.test(process.env.BLOB_READ_WRITE_TOKEN ?? ""),
       collections: { media: true },
       token: process.env.BLOB_READ_WRITE_TOKEN ?? "",
     }),
