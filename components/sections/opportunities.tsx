@@ -6,11 +6,13 @@ import { SectionLabel } from "@/components/ui/section-label"
 export async function Opportunities() {
   const [s, payload] = await Promise.all([getSiteSettings(), getPayload({ config })])
 
-  const { docs: positions } = await payload.find({
-    collection: "opportunities",
-    sort: "order",
-    limit: 20,
-  })
+  let positions: { title: string; description: string }[] = []
+  try {
+    const result = await payload.find({ collection: "opportunities", sort: "order", limit: 20 })
+    positions = result.docs
+  } catch {
+    // table not yet migrated — fall back to empty list
+  }
 
   return (
     <section id="opportunities" className="bg-warm-white px-6 py-section lg:px-16">
