@@ -22,12 +22,8 @@ export async function GET() {
   const log: string[] = []
 
   try {
-    // 1. Delete all existing media, projects, hero-slides
-    const existingMedia = await payload.find({ collection: "media", limit: 100 })
-    for (const doc of existingMedia.docs) {
-      await payload.delete({ collection: "media", id: doc.id })
-    }
-    log.push(`Deleted ${existingMedia.docs.length} media records`)
+    // 1. Delete dependents first, then media (foreign key order)
+    await payload.updateGlobal({ slug: "site-settings", data: { contactPhoto: null } })
 
     const existingProjects = await payload.find({ collection: "projects", limit: 100 })
     for (const doc of existingProjects.docs) {
@@ -40,6 +36,12 @@ export async function GET() {
       await payload.delete({ collection: "hero-slides", id: doc.id })
     }
     log.push(`Deleted ${existingSlides.docs.length} hero slides`)
+
+    const existingMedia = await payload.find({ collection: "media", limit: 100 })
+    for (const doc of existingMedia.docs) {
+      await payload.delete({ collection: "media", id: doc.id })
+    }
+    log.push(`Deleted ${existingMedia.docs.length} media records`)
 
     // 2. Upload images
     const elec      = await uploadImage(payload, "electrolyzer.jpg",      "Automated electrochemical reactor system")
