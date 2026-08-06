@@ -295,7 +295,7 @@ export default buildConfig({
           },
           admin: {
             components: {
-              Field: "@/components/payload/linkedin-company-field",
+              Field: "@/components/payload/prefixed-url-field#LinkedInCompanyField",
             },
           },
         },
