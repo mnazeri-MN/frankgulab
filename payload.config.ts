@@ -288,15 +288,11 @@ export default buildConfig({
           name: "linkedIn",
           type: "text",
           label: "LinkedIn URL",
+          admin: { placeholder: "https://linkedin.com/company/frank-gu-lab" },
           validate: (value: string | null | undefined) => {
             if (!value) return true
             if (!value.startsWith("https://linkedin.com/company/")) return 'Must start with "https://linkedin.com/company/"'
             return true
-          },
-          admin: {
-            components: {
-              Field: "@/components/payload/prefixed-url-field#LinkedInCompanyField",
-            },
           },
         },
         {
