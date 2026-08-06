@@ -1,30 +1,28 @@
-import { getPayload } from "payload"
-import config from "@payload-config"
+import { put } from "@vercel/blob"
 import { NextResponse } from "next/server"
 
 export async function GET() {
+  const token = process.env.BLOB_READ_WRITE_TOKEN ?? ""
+  if (!token) return NextResponse.json({ ok: false, error: "No BLOB_READ_WRITE_TOKEN" })
+
   try {
-    const payload = await getPayload({ config })
-
-    // Try listing with depth=0 like the admin does
-    const result = await payload.find({ collection: "media", depth: 0, limit: 1 })
-
-    // Check blob token
-    const token = process.env.BLOB_READ_WRITE_TOKEN ?? ""
-    const blobEnabled = /^vercel_blob_rw_/i.test(token)
-    const storeId = token.match(/^vercel_blob_rw_([a-z\d]+)_/i)?.[1] ?? null
-
-    return NextResponse.json({
-      ok: true,
-      count: result.totalDocs,
-      firstUrl: result.docs[0]?.url ?? null,
-      blob: { enabled: blobEnabled, storeId, tokenLength: token.length },
+    // Try uploading a tiny 1-pixel PNG directly to Blob
+    const pixel = Buffer.from(
+      "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+      "base64"
+    )
+    const result = await put("debug-test.png", pixel, {
+      access: "public",
+      token,
+      allowOverwrite: true,
+      contentType: "image/png",
     })
+    return NextResponse.json({ ok: true, url: result.url })
   } catch (e) {
     return NextResponse.json({
       ok: false,
       error: String(e),
-      stack: e instanceof Error ? e.stack?.split("\n").slice(0, 8).join("\n") : undefined,
-    }, { status: 500 })
+      stack: e instanceof Error ? e.stack?.split("\n").slice(0, 6).join("\n") : undefined,
+    })
   }
 }
