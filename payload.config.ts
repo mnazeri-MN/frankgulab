@@ -215,6 +215,16 @@ export default buildConfig({
     },
 
     {
+      slug: "opportunities",
+      admin: { useAsTitle: "title", defaultColumns: ["title", "order"] },
+      fields: [
+        { name: "title", type: "text", required: true },
+        { name: "description", type: "textarea", required: true },
+        { name: "order", type: "number", defaultValue: 99, admin: { description: "Display order (lower = first)" } },
+      ],
+    },
+
+    {
       slug: "research-highlights",
       admin: {
         useAsTitle: "title",

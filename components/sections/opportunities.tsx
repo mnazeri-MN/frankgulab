@@ -1,26 +1,16 @@
+import { getPayload } from "payload"
+import config from "@payload-config"
 import { getSiteSettings } from "@/lib/site-settings"
 import { SectionLabel } from "@/components/ui/section-label"
 
-const positions = [
-  {
-    title: "PhD Students",
-    description:
-      "We are looking for motivated PhD candidates with backgrounds in chemical engineering, chemistry, materials science, or related fields. Experience with automation, programming, or machine learning is a plus.",
-  },
-  {
-    title: "Postdoctoral Fellows",
-    description:
-      "Exceptional postdoctoral candidates with a strong publication record and interest in automated discovery are encouraged to reach out directly.",
-  },
-  {
-    title: "Undergraduate Researchers",
-    description:
-      "Undergraduate students at the University of Toronto interested in gaining research experience are welcome to apply. Positions are available through USRA and direct arrangements.",
-  },
-]
-
 export async function Opportunities() {
-  const s = await getSiteSettings()
+  const [s, payload] = await Promise.all([getSiteSettings(), getPayload({ config })])
+
+  const { docs: positions } = await payload.find({
+    collection: "opportunities",
+    sort: "order",
+    limit: 20,
+  })
 
   return (
     <section id="opportunities" className="bg-warm-white px-6 py-section lg:px-16">
