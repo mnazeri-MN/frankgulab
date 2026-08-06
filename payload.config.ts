@@ -165,7 +165,7 @@ export default buildConfig({
       admin: { useAsTitle: "title", defaultColumns: ["title", "tag", "order"] },
       fields: [
         { name: "title", type: "text", required: true },
-        { name: "description", type: "textarea", required: true },
+        { name: "description", type: "textarea", required: true, admin: { description: "Max 30 words. One punchy sentence summarising the research area." } },
         { name: "tag", type: "text", required: true, label: "Category Tag" },
         {
           name: "image",
