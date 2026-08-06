@@ -2,54 +2,97 @@ import { NextResponse } from "next/server"
 import { getPayload } from "payload"
 import config from "@payload-config"
 
-// Removes em/en dashes (with surrounding spaces) and collapses whitespace
-const clean = (s: unknown) =>
-  typeof s === "string"
-    ? s.replace(/\s*[–—]\s*/g, " ").replace(/\s{2,}/g, " ").trim()
-    : s
-
 export async function GET() {
   const payload = await getPayload({ config })
-  const log: string[] = []
 
-  const collections = [
-    { slug: "news", fields: ["title", "source"] },
-    { slug: "publications", fields: ["title", "firstAuthor"] },
-    { slug: "opportunities", fields: ["title", "description"] },
-    { slug: "research-highlights", fields: ["title", "description"] },
-    { slug: "projects", fields: ["title", "description", "tag"] },
-    { slug: "hero-slides", fields: ["name", "tagline"] },
-  ] as const
-
-  for (const { slug, fields } of collections) {
-    const { docs } = await payload.find({ collection: slug as any, limit: 100, depth: 0 })
-    for (const doc of docs) {
-      const update: Record<string, string> = {}
-      for (const field of fields) {
-        const cleaned = clean((doc as any)[field])
-        if (cleaned !== (doc as any)[field]) update[field] = cleaned as string
-      }
-      if (Object.keys(update).length > 0) {
-        await payload.update({ collection: slug as any, id: (doc as any).id, data: update })
-        log.push(`${slug}#${(doc as any).id}: ${JSON.stringify(update)}`)
-      }
-    }
-  }
-
-  const s = await payload.findGlobal({ slug: "site-settings" }) as any
-  const settingsFields = [
-    "labName", "piName", "institution", "department", "address",
-    "missionStatement", "heroSubtitle", "footerTagline",
+  const updates = [
+    {
+      collection: "research-highlights" as const,
+      id: 7,
+      data: {
+        description:
+          "We develop AI-driven delivery systems and engineered materials for mitochondrial transplantation therapy, introducing healthy mitochondria into damaged cells to reverse dysfunction underlying organ failure, chronic inflammation, and degenerative disease.",
+      },
+    },
+    {
+      collection: "research-highlights" as const,
+      id: 6,
+      data: {
+        description:
+          "Solar-driven photocatalytic systems that passively treat industrial wastewater, removing selenium from mine effluent and detoxifying oil sands process-affected water using buoyant TiO2-based reactors.",
+      },
+    },
+    {
+      collection: "research-highlights" as const,
+      id: 4,
+      data: {
+        description:
+          "Engineering nanoparticles and polymer coatings to carry drugs across biological barriers, from mucoadhesive systems for ocular therapy to inflammation-targeting microgels.",
+      },
+    },
+    {
+      collection: "projects" as const,
+      id: 13,
+      data: {
+        description:
+          "We develop AI-driven delivery systems and engineered materials to transplant healthy mitochondria into damaged cells, reversing the energy dysfunction underlying organ failure, chronic inflammation, and degenerative disease.",
+      },
+    },
+    {
+      collection: "projects" as const,
+      id: 12,
+      data: {
+        description:
+          "We apply automated formulation science to develop advanced materials for water purification and soil remediation, using machine learning to guide synthesis of photocatalysts, adsorbents, and reactive materials.",
+      },
+    },
+    {
+      collection: "projects" as const,
+      id: 11,
+      data: {
+        description:
+          "We use machine learning and high-throughput microfluidics to design lipid nanoparticles and polymeric carriers for drug delivery, tuning particle size, encapsulation efficiency, and release profile at scale.",
+      },
+    },
+    {
+      collection: "projects" as const,
+      id: 10,
+      data: {
+        description:
+          "Using automated synthesis robots and in-line rheology, we map the full design space of hydrogel networks, tuning crosslink density, swelling, and mechanical properties for wound healing, tissue engineering, and controlled release.",
+      },
+    },
+    {
+      collection: "projects" as const,
+      id: 9,
+      data: {
+        description:
+          "We apply closed-loop optimisation to personal care formulation, automatically navigating complex ingredient interactions to achieve target sensory, stability, and efficacy profiles across sunscreens, emulsions, and surfactant systems.",
+      },
+    },
+    {
+      collection: "projects" as const,
+      id: 7,
+      data: {
+        description:
+          "We develop self-driving electrochemical reactors that autonomously optimise conditions for green hydrogen production, battery electrolyte formulation, and electrodeposition, cutting the time from hypothesis to validated protocol.",
+      },
+    },
+    {
+      collection: "hero-slides" as const,
+      id: 6,
+      data: {
+        tagline:
+          "Robotic Autonomous Intelligent Systems for Experimentation: our flagship self-driving lab platform.",
+      },
+    },
   ]
-  const settingsUpdate: Record<string, string> = {}
-  for (const field of settingsFields) {
-    const cleaned = clean(s[field])
-    if (cleaned !== s[field]) settingsUpdate[field] = cleaned as string
-  }
-  if (Object.keys(settingsUpdate).length > 0) {
-    await payload.updateGlobal({ slug: "site-settings", data: settingsUpdate })
-    log.push(`site-settings: ${JSON.stringify(settingsUpdate)}`)
+
+  const log: string[] = []
+  for (const { collection, id, data } of updates) {
+    await payload.update({ collection, id, data })
+    log.push(`Updated ${collection}#${id}`)
   }
 
-  return NextResponse.json({ ok: true, changes: log.length, log })
+  return NextResponse.json({ ok: true, log })
 }
