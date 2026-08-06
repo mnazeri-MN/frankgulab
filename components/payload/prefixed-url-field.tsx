@@ -73,6 +73,16 @@ export function LinkedInField(props: TextFieldClientProps) {
   )
 }
 
+export function LinkedInCompanyField(props: TextFieldClientProps) {
+  return (
+    <PrefixedUrlField
+      {...props}
+      prefix="https://linkedin.com/company/"
+      placeholder="company-slug"
+    />
+  )
+}
+
 export function ScholarField(props: TextFieldClientProps) {
   return (
     <PrefixedUrlField
