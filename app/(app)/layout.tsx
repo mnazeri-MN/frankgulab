@@ -16,7 +16,7 @@ const instrumentSans = Instrument_Sans({
 export async function generateMetadata(): Promise<Metadata> {
   const s = await getSiteSettings()
   return {
-    title: `${s.labName} — ${s.piName} Lab, ${s.institution}`,
+    title: `${s.labName} | ${s.piName} Lab, ${s.institution}`,
     description: `${s.missionStatement} ${s.heroSubtitle}`,
     icons: { icon: "/fgl-logo.svg" },
   }

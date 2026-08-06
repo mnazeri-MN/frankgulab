@@ -19,7 +19,7 @@ export async function Research() {
           Active Projects
         </h2>
         <p className="mt-4 max-w-2xl font-body text-xl leading-9 text-dark-grey">
-          Our work sits at the intersection of automation, AI, and chemistry —
+          Our work sits at the intersection of automation, AI, and chemistry,
           building the infrastructure for formulation discovery at scale.
         </p>
 

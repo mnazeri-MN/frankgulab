@@ -20,7 +20,7 @@ export async function Contact() {
             </h2>
             <p className="mt-4 max-w-md font-body text-xl leading-9 text-white/60">
               Whether you&apos;re a prospective student, collaborator, or
-              industry partner — we&apos;d love to hear from you.
+              industry partner. We&apos;d love to hear from you.
             </p>
 
             <div className="mt-10 flex flex-col gap-5">
