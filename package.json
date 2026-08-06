@@ -1,0 +1,38 @@
+{
+  "name": "mixture-lab",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node --import ./polyfill-node18.mjs ./node_modules/.bin/next dev",
+    "dev:clean": "rm -rf .next && node --import ./polyfill-node18.mjs ./node_modules/.bin/next dev",
+    "build": "node --import ./polyfill-node18.mjs ./node_modules/.bin/next build",
+    "start": "node --import ./polyfill-node18.mjs ./node_modules/.bin/next start",
+    "lint": "next lint",
+    "payload": "node --import ./polyfill-node18.mjs ./node_modules/.bin/payload"
+  },
+  "dependencies": {
+    "@payloadcms/db-postgres": "^3.87.0",
+    "@payloadcms/next": "^3.86.0",
+    "@payloadcms/richtext-lexical": "^3.86.0",
+    "@payloadcms/storage-vercel-blob": "^3.87.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.511.0",
+    "next": "^15.3.9",
+    "payload": "^3.86.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sharp": "^0.35.3",
+    "tailwind-merge": "^2.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "15.3.3",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}

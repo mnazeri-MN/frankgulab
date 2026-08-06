@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply antialiased;
+  }
+
+  /* ── Theme: Warm (default) ── */
+  :root,
+  [data-theme="warm"] {
+    --bg-primary: rgb(245, 244, 240);   /* warm-white */
+    --bg-secondary: rgb(255, 255, 255); /* white */
+    --text-primary: rgb(26, 26, 26);
+    --text-secondary: rgb(102, 102, 102);
+    --border: rgb(26, 26, 26, 0.1);
+    --card-bg: rgb(255, 255, 255);
+    --section-alt-bg: rgb(245, 244, 240);
+  }
+
+  /* ── Theme: Light (pure white + very light gray) ── */
+  [data-theme="light"] {
+    --bg-primary: rgb(255, 255, 255);
+    --bg-secondary: rgb(248, 248, 248);
+    --text-primary: rgb(26, 26, 26);
+    --text-secondary: rgb(102, 102, 102);
+    --border: rgba(26, 26, 26, 0.08);
+    --card-bg: rgb(255, 255, 255);
+    --section-alt-bg: rgb(248, 248, 248);
+  }
+
+  /* ── Theme: Dark ── */
+  [data-theme="dark"] {
+    --bg-primary: rgb(18, 18, 18);
+    --bg-secondary: rgb(26, 26, 26);
+    --text-primary: rgb(245, 244, 240);
+    --text-secondary: rgb(160, 160, 160);
+    --border: rgba(255, 255, 255, 0.1);
+    --card-bg: rgb(32, 32, 32);
+    --section-alt-bg: rgb(26, 26, 26);
+  }
+}
+
+/* Section-level theming */
+.section-primary {
+  background-color: var(--bg-primary);
+}
+.section-secondary {
+  background-color: var(--bg-secondary);
+}
+.themed-card {
+  background-color: var(--card-bg);
+  border-color: var(--border);
+}
+.text-themed-primary {
+  color: var(--text-primary);
+}
+.text-themed-secondary {
+  color: var(--text-secondary);
+}

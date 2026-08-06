@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 356 392">
+  <!-- R=61, D=135 (13px gap between circles) — measured from original photo -->
+  <circle cx="178"   cy="61"    r="61" fill="#47537a"/> <!-- top        -->
+  <circle cx="294.8" cy="128.5" r="61" fill="#a1a9bc"/> <!-- top-right  -->
+  <circle cx="294.8" cy="263.5" r="61" fill="#9098af"/> <!-- bot-right  -->
+  <circle cx="178"   cy="331"   r="61" fill="#7c85a0"/> <!-- bottom     -->
+  <circle cx="61"    cy="263.5" r="61" fill="#6d7794"/> <!-- bot-left   -->
+  <circle cx="61"    cy="128.5" r="61" fill="#576485"/> <!-- top-left   -->
+  <circle cx="178"   cy="196"   r="61" fill="#293147"/> <!-- center     -->
+</svg>
