@@ -9,7 +9,7 @@ export async function Opportunities() {
   let positions: { title: string; description: string }[] = []
   try {
     const result = await payload.find({ collection: "opportunities", sort: "order", limit: 20 })
-    positions = result.docs
+    positions = result.docs as { title: string; description: string }[]
   } catch {
     // table not yet migrated — fall back to empty list
   }
