@@ -43,35 +43,40 @@ const DEFAULTS: SiteSettingsData = {
 }
 
 export async function getSiteSettings(): Promise<SiteSettingsData> {
-  const payload = await getPayload({ config })
-  const s = await payload.findGlobal({ slug: "site-settings" }) as Record<string, unknown>
+  try {
+    const payload = await getPayload({ config })
+    const s = await payload.findGlobal({ slug: "site-settings" }) as Record<string, unknown>
 
-  const logo = s.logo && typeof s.logo === "object" ? s.logo as { url?: string } : null
-  const contactPhoto =
-    s.contactPhoto && typeof s.contactPhoto === "object"
-      ? (s.contactPhoto as { url?: string; alt?: string })
-      : null
+    const logo = s.logo && typeof s.logo === "object" ? s.logo as { url?: string } : null
+    const contactPhoto =
+      s.contactPhoto && typeof s.contactPhoto === "object"
+        ? (s.contactPhoto as { url?: string; alt?: string })
+        : null
 
-  const affiliatesRaw = Array.isArray(s.affiliates) ? s.affiliates as { name?: string; url?: string }[] : []
+    const affiliatesRaw = Array.isArray(s.affiliates) ? s.affiliates as { name?: string; url?: string }[] : []
 
-  return {
-    logoUrl: logo?.url ?? DEFAULTS.logoUrl,
-    labName: (s.labName as string) || DEFAULTS.labName,
-    piName: (s.piName as string) || DEFAULTS.piName,
-    institution: (s.institution as string) || DEFAULTS.institution,
-    department: (s.department as string) || DEFAULTS.department,
-    address: (s.address as string) || DEFAULTS.address,
-    contactEmail: (s.contactEmail as string) || DEFAULTS.contactEmail,
-    missionStatement: (s.missionStatement as string) || DEFAULTS.missionStatement,
-    heroSubtitle: (s.heroSubtitle as string) || DEFAULTS.heroSubtitle,
-    linkedIn: (s.linkedIn as string) || DEFAULTS.linkedIn,
-    googleScholar: (s.googleScholar as string) || DEFAULTS.googleScholar,
-    footerTagline: (s.footerTagline as string) || DEFAULTS.footerTagline,
-    affiliates:
-      affiliatesRaw.length > 0
-        ? affiliatesRaw.map((a) => ({ name: a.name ?? "", url: a.url ?? "" }))
-        : DEFAULTS.affiliates,
-    contactPhotoUrl: contactPhoto?.url ?? DEFAULTS.contactPhotoUrl,
-    contactPhotoAlt: contactPhoto?.alt ?? DEFAULTS.contactPhotoAlt,
+    return {
+      logoUrl: logo?.url ?? DEFAULTS.logoUrl,
+      labName: (s.labName as string) || DEFAULTS.labName,
+      piName: (s.piName as string) || DEFAULTS.piName,
+      institution: (s.institution as string) || DEFAULTS.institution,
+      department: (s.department as string) || DEFAULTS.department,
+      address: (s.address as string) || DEFAULTS.address,
+      contactEmail: (s.contactEmail as string) || DEFAULTS.contactEmail,
+      missionStatement: (s.missionStatement as string) || DEFAULTS.missionStatement,
+      heroSubtitle: (s.heroSubtitle as string) || DEFAULTS.heroSubtitle,
+      linkedIn: (s.linkedIn as string) || DEFAULTS.linkedIn,
+      googleScholar: (s.googleScholar as string) || DEFAULTS.googleScholar,
+      footerTagline: (s.footerTagline as string) || DEFAULTS.footerTagline,
+      affiliates:
+        affiliatesRaw.length > 0
+          ? affiliatesRaw.map((a) => ({ name: a.name ?? "", url: a.url ?? "" }))
+          : DEFAULTS.affiliates,
+      contactPhotoUrl: contactPhoto?.url ?? DEFAULTS.contactPhotoUrl,
+      contactPhotoAlt: contactPhoto?.alt ?? DEFAULTS.contactPhotoAlt,
+    }
+  } catch (err) {
+    console.error("[getSiteSettings] Failed to fetch from CMS, using defaults:", err)
+    return DEFAULTS
   }
 }
