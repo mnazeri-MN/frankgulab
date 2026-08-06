@@ -7,7 +7,7 @@ export async function Publications() {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: "publications",
-    sort: "year",
+    sort: "-year",
     limit: 200,
   })
 
