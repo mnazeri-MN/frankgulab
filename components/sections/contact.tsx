@@ -1,18 +1,13 @@
 import Image from "next/image"
 import { Mail, MapPin } from "lucide-react"
-import { getPayload } from "payload"
-import config from "@payload-config"
+import { getSiteSettings } from "@/lib/site-settings"
 import { SectionLabel } from "@/components/ui/section-label"
 
 export async function Contact() {
-  const payload = await getPayload({ config })
-  const settings = await payload.findGlobal({ slug: "site-settings" })
+  const s = await getSiteSettings()
 
-  const photo = settings.contactPhoto && typeof settings.contactPhoto === "object"
-    ? (settings.contactPhoto as { url?: string; alt?: string })
-    : null
-  const photoUrl = photo?.url ?? "/images/electrolyzer-team.jpg"
-  const photoAlt = photo?.alt ?? "Mixture Lab team"
+  const photoUrl = s.contactPhotoUrl ?? "/images/electrolyzer-team.jpg"
+  const photoAlt = s.contactPhotoAlt ?? `${s.labName} team`
 
   return (
     <section id="contact" className="bg-ink px-6 py-section lg:px-16">
@@ -38,10 +33,10 @@ export async function Contact() {
                     Email
                   </p>
                   <a
-                    href="mailto:f.gu@utoronto.ca"
+                    href={`mailto:${s.contactEmail}`}
                     className="mt-1 font-body text-lg text-white transition-opacity hover:opacity-70"
                   >
-                    f.gu@utoronto.ca
+                    {s.contactEmail}
                   </a>
                 </div>
               </div>
@@ -55,11 +50,11 @@ export async function Contact() {
                     Location
                   </p>
                   <p className="mt-1 font-body text-lg text-white">
-                    Department of Chemical Engineering
+                    {s.department}
                     <br />
-                    University of Toronto
+                    {s.institution}
                     <br />
-                    Toronto, Ontario, Canada
+                    {s.address}
                   </p>
                 </div>
               </div>

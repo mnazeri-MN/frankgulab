@@ -1,3 +1,4 @@
+import { getSiteSettings } from "@/lib/site-settings"
 import { SectionLabel } from "@/components/ui/section-label"
 
 const positions = [
@@ -18,7 +19,9 @@ const positions = [
   },
 ]
 
-export function Opportunities() {
+export async function Opportunities() {
+  const s = await getSiteSettings()
+
   return (
     <section id="opportunities" className="bg-warm-white px-6 py-section lg:px-16">
       <div className="mx-auto max-w-7xl">
@@ -29,17 +32,17 @@ export function Opportunities() {
               Opportunities
             </h2>
             <p className="mt-4 font-body text-xl leading-9 text-dark-grey">
-              The Mixture Lab is actively recruiting at all levels. We value
+              {s.labName} is actively recruiting at all levels. We value
               curiosity, rigour, and the ability to build things that work.
             </p>
             <p className="mt-3 font-body text-xl leading-9 text-dark-grey">
               To apply, send your CV and a brief note about your research
               interests to{" "}
               <a
-                href="mailto:f.gu@utoronto.ca"
+                href={`mailto:${s.contactEmail}`}
                 className="text-accent underline underline-offset-2 hover:opacity-80"
               >
-                f.gu@utoronto.ca
+                {s.contactEmail}
               </a>
               .
             </p>

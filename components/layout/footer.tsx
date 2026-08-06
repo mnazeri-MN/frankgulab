@@ -1,20 +1,11 @@
 import { Linkedin, GraduationCap } from "lucide-react"
+import { getSiteSettings } from "@/lib/site-settings"
 
 const navLinks = ["Research", "People", "Publications", "News", "Opportunities", "Contact"]
 
-const institutionalLinks = [
-  { label: "University of Toronto", href: "https://www.utoronto.ca" },
-  {
-    label: "Chemical Engineering & Applied Chemistry",
-    href: "https://www.chem-eng.utoronto.ca",
-  },
-  {
-    label: "Acceleration Consortium",
-    href: "https://acceleration.utoronto.ca",
-  },
-]
+export async function Footer() {
+  const s = await getSiteSettings()
 
-export function Footer() {
   return (
     <footer className="bg-ink px-6 py-16 lg:px-16">
       <div className="mx-auto max-w-7xl">
@@ -22,22 +13,24 @@ export function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3">
-              <img src="/fgl-logo.svg" alt="The Mixture Lab logo" className="h-9 w-auto brightness-0 invert opacity-90" />
+              <img
+                src={s.logoUrl ?? "/fgl-logo.svg"}
+                alt={`${s.labName} logo`}
+                className="h-9 w-auto brightness-0 invert opacity-90"
+              />
               <p className="font-heading text-lg font-semibold text-white">
-                The Mixture Lab
+                {s.labName}
               </p>
             </div>
             <p className="mt-2 font-body text-base text-white/50">
-              Frank Gu · University of Toronto
+              {s.piName} · {s.institution}
             </p>
             <p className="mt-1 font-body text-base text-white/40">
-              Department of Chemical Engineering
-              <br />
-              and Applied Chemistry
+              {s.department}
             </p>
             <div className="mt-4 flex items-center gap-2">
               <a
-                href="https://linkedin.com/company/frank-gu-lab"
+                href={s.linkedIn}
                 aria-label="LinkedIn"
                 className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/60 transition-colors hover:bg-white/20 hover:text-white"
                 target="_blank"
@@ -46,7 +39,7 @@ export function Footer() {
                 <Linkedin className="h-4 w-4" />
               </a>
               <a
-                href="https://scholar.google.co.in/citations?user=nZYyToUAAAAJ&hl=en"
+                href={s.googleScholar}
                 aria-label="Google Scholar"
                 className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/60 transition-colors hover:bg-white/20 hover:text-white"
                 target="_blank"
@@ -73,20 +66,20 @@ export function Footer() {
             ))}
           </div>
 
-          {/* Institutional links */}
+          {/* Affiliated with */}
           <div className="flex flex-col gap-2">
             <p className="font-body text-base font-semibold uppercase tracking-[0.1em] text-white/30">
               Affiliated With
             </p>
-            {institutionalLinks.map((link) => (
+            {s.affiliates.map((affiliate) => (
               <a
-                key={link.label}
-                href={link.href}
+                key={affiliate.name}
+                href={affiliate.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-body text-base text-white/50 transition-colors hover:text-white"
               >
-                {link.label}
+                {affiliate.name}
               </a>
             ))}
           </div>
@@ -94,10 +87,10 @@ export function Footer() {
 
         <div className="mt-10 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
           <p className="font-body text-base text-white/30">
-            Funded by NSERC and CIHR.
+            {s.footerTagline}
           </p>
           <p className="font-body text-base text-white/30">
-            © {new Date().getFullYear()} The Mixture Lab. University of Toronto.
+            © {new Date().getFullYear()} {s.labName}. {s.institution}.
           </p>
         </div>
       </div>

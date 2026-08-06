@@ -1,15 +1,15 @@
 import { getPayload } from "payload"
 import config from "@payload-config"
+import { getSiteSettings } from "@/lib/site-settings"
 import { HeroSlideshow } from "./hero-slideshow"
 import type { HeroSlide } from "./hero-slideshow"
 
 export async function Hero() {
   const payload = await getPayload({ config })
-  const { docs } = await payload.find({
-    collection: "hero-slides",
-    sort: "order",
-    limit: 20,
-  })
+  const [{ docs }, s] = await Promise.all([
+    payload.find({ collection: "hero-slides", sort: "order", limit: 20 }),
+    getSiteSettings(),
+  ])
 
   const slides: HeroSlide[] = docs
     .filter((doc) => doc.image && typeof doc.image === "object")
@@ -29,18 +29,16 @@ export async function Hero() {
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <div>
             <p className="font-body text-sm font-semibold uppercase tracking-[0.12em] text-accent">
-              University of Toronto
+              {s.institution}
             </p>
             <h1 className="mt-4 font-heading text-5xl font-semibold leading-[1.05] tracking-[-0.03em] text-ink md:text-6xl lg:text-7xl">
-              The Mixture Lab
+              {s.labName}
             </h1>
             <p className="mt-6 max-w-xl font-body text-xl leading-9 text-dark-grey">
-              We build the labs that will discover tomorrow&apos;s formulations,
-              today.
+              {s.missionStatement}
             </p>
             <p className="mt-4 max-w-lg font-body text-lg leading-8 text-grey">
-              Automation, robotics, and machine learning applied to formulation
-              science, electrochemistry, and advanced materials research.
+              {s.heroSubtitle}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
