@@ -2,14 +2,16 @@ import { NextResponse } from "next/server"
 import { getPayload } from "payload"
 import config from "@payload-config"
 
+// Removes em/en dashes (with surrounding spaces) and collapses whitespace
 const clean = (s: unknown) =>
-  typeof s === "string" ? s.replace(/[–—]/g, (m) => (m === "–" ? "-" : " ")) : s
+  typeof s === "string"
+    ? s.replace(/\s*[–—]\s*/g, " ").replace(/\s{2,}/g, " ").trim()
+    : s
 
 export async function GET() {
   const payload = await getPayload({ config })
   const log: string[] = []
 
-  // Collections with text fields to clean
   const collections = [
     { slug: "news", fields: ["title", "source"] },
     { slug: "publications", fields: ["title", "firstAuthor"] },
@@ -34,7 +36,6 @@ export async function GET() {
     }
   }
 
-  // Site settings global
   const s = await payload.findGlobal({ slug: "site-settings" }) as any
   const settingsFields = [
     "labName", "piName", "institution", "department", "address",
