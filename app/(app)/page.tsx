@@ -9,7 +9,7 @@ import { News } from "@/components/sections/news"
 import { Opportunities } from "@/components/sections/opportunities"
 import { Contact } from "@/components/sections/contact"
 
-export const revalidate = 86400 // revalidate every 24 hours
+export const dynamic = "force-dynamic"
 
 export default function HomePage() {
   return (
