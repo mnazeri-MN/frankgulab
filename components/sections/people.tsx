@@ -113,7 +113,7 @@ export async function People() {
     })
     .map((doc) => {
       const title = doc.title && doc.title !== "" ? `${doc.title} ` : ""
-      const displayName = `${title}${doc.preferredFirstName} ${doc.lastInitial}.`
+      const displayName = `${title}${doc.preferredFirstName} ${doc.lastInitial}`
       return {
         displayName,
         role: doc.role,

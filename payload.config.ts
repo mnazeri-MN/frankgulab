@@ -58,13 +58,8 @@ export default buildConfig({
           name: "lastInitial",
           type: "text",
           required: true,
-          label: "Last Initial",
-          validate: (value: string | null | undefined) => {
-            if (!value) return "Required"
-            if (!/^[A-Za-z]$/.test(value)) return "Must be a single letter (A–Z)"
-            return true
-          },
-          admin: { description: "First letter of last name only, e.g. G" },
+          label: "Last Name",
+          admin: { description: "Full last name (e.g. Gu, Smith, Johnson)" },
         },
         {
           name: "role",
