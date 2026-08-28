@@ -34,7 +34,7 @@ export async function Contact() {
                   </p>
                   <a
                     href={`mailto:${s.contactEmail}`}
-                    className="mt-1 font-body text-lg text-white transition-opacity hover:opacity-70"
+                    className="mt-1 font-body text-xl text-white transition-opacity hover:opacity-70"
                   >
                     {s.contactEmail}
                   </a>
@@ -49,7 +49,7 @@ export async function Contact() {
                   <p className="font-body text-sm font-semibold uppercase tracking-[0.1em] text-white/40">
                     Location
                   </p>
-                  <p className="mt-1 font-body text-lg text-white">
+                  <p className="mt-1 font-body text-xl text-white">
                     {s.department}
                     <br />
                     {s.institution}

@@ -22,10 +22,10 @@ export function NavbarInner({ s }: { s: Pick<SiteSettingsData, "logoUrl" | "labN
         <a href="#" className="flex items-center gap-3">
           <img src={s.logoUrl ?? "/fgl-logo.svg"} alt={`${s.labName} logo`} className="h-9 w-auto" />
           <div className="flex flex-col leading-tight">
-            <span className="font-heading text-base font-semibold text-ink">
+            <span className="font-heading text-xl font-semibold text-ink">
               {s.labName}
             </span>
-            <span className="font-body text-base text-dark-grey">
+            <span className="font-body text-xl text-dark-grey">
               {s.piName} · {s.institution}
             </span>
           </div>
@@ -36,7 +36,7 @@ export function NavbarInner({ s }: { s: Pick<SiteSettingsData, "logoUrl" | "labN
             <a
               key={link.href}
               href={link.href}
-              className="font-body text-base text-dark-grey transition-colors hover:text-ink"
+              className="font-body text-xl text-dark-grey transition-colors hover:text-ink"
             >
               {link.label}
             </a>

@@ -42,8 +42,8 @@ export function HeroSlideshow({ slides }: { slides: HeroSlide[] }) {
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/70 to-transparent p-5">
-              <p className="font-heading text-lg font-semibold text-white">{s.name}</p>
-              <p className="mt-0.5 font-body text-base text-white/70">{s.tagline}</p>
+              <p className="font-heading text-xl font-semibold text-white">{s.name}</p>
+              <p className="mt-0.5 font-body text-xl text-white/70">{s.tagline}</p>
             </div>
           </div>
         ))}

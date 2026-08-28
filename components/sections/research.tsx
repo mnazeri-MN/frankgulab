@@ -24,7 +24,7 @@ export async function Research() {
         </p>
 
         {docs.length === 0 ? (
-          <p className="mt-10 font-body text-lg text-grey">No projects yet.</p>
+          <p className="mt-10 font-body text-xl text-grey">No projects yet.</p>
         ) : (
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {docs.map((project) => {
@@ -60,7 +60,7 @@ export async function Research() {
                     <h3 className="mt-3 font-heading text-xl font-semibold text-ink">
                       {project.title}
                     </h3>
-                    <p className="mt-2 font-body text-lg leading-8 text-dark-grey">
+                    <p className="mt-2 font-body text-xl leading-9 text-dark-grey">
                       {project.description}
                     </p>
                   </div>

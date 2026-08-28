@@ -36,10 +36,10 @@ function NewsCard({ item }: { item: NewsItem }) {
       </div>
       <div className="p-4 md:p-5">
         <div className="flex items-start justify-between gap-3">
-          <p className="font-body text-lg font-medium leading-7 text-ink">{item.title}</p>
+          <p className="font-body text-xl font-medium leading-8 text-ink">{item.title}</p>
           <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
         </div>
-        <p className="mt-3 font-body text-base text-grey">
+        <p className="mt-3 font-body text-xl text-grey">
           {item.source} · {item.date}
         </p>
       </div>
@@ -114,7 +114,7 @@ export function NewsCarousel({ items }: { items: NewsItem[] }) {
         </p>
 
         {items.length === 0 ? (
-          <p className="mt-10 font-body text-lg text-grey">No news yet.</p>
+          <p className="mt-10 font-body text-xl text-grey">No news yet.</p>
         ) : (
           <>
             <div className="mt-10 hidden gap-5 md:grid md:grid-cols-3">

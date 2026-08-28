@@ -38,12 +38,12 @@ function PubCard({ pub }: { pub: PublicationItem }) {
       </div>
       <div className="p-4 md:p-5">
         <div className="flex items-start justify-between gap-3">
-          <p className="font-body text-lg font-medium leading-7 text-ink">
+          <p className="font-body text-xl font-medium leading-8 text-ink">
             {pub.title}
           </p>
           <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
         </div>
-        <p className="mt-3 font-body text-base text-grey">
+        <p className="mt-3 font-body text-xl text-grey">
           {pub.firstAuthor} · {pub.year}
         </p>
       </div>
@@ -119,7 +119,7 @@ export function PublicationsCarousel({ publications }: { publications: Publicati
         </p>
 
         {publications.length === 0 ? (
-          <p className="mt-10 font-body text-lg text-grey">No publications yet.</p>
+          <p className="mt-10 font-body text-xl text-grey">No publications yet.</p>
         ) : (
           <>
             <div className="mt-10 hidden gap-5 md:grid md:grid-cols-3">

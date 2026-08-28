@@ -33,10 +33,10 @@ function PersonCard({ person }: { person: Person }) {
           </div>
         )}
       </div>
-      <h3 className="font-heading text-lg font-semibold text-ink">
+      <h3 className="font-heading text-xl font-semibold text-ink">
         {person.displayName}
       </h3>
-      <p className="mt-0.5 font-body text-lg text-dark-grey">{person.role}</p>
+      <p className="mt-0.5 font-body text-xl text-dark-grey">{person.role}</p>
       {(person.email || person.scholar || person.linkedin) && (
         <div className="mt-3 flex items-center gap-3">
           {person.email && (

@@ -49,7 +49,7 @@ export async function Opportunities() {
                 <h3 className="font-heading text-xl font-semibold text-ink">
                   {pos.title}
                 </h3>
-                <p className="mt-2 font-body text-lg leading-8 text-dark-grey">
+                <p className="mt-2 font-body text-xl leading-9 text-dark-grey">
                   {pos.description}
                 </p>
               </div>

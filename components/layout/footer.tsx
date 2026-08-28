@@ -18,14 +18,14 @@ export async function Footer() {
                 alt={`${s.labName} logo`}
                 className="h-9 w-auto brightness-0 invert opacity-90"
               />
-              <p className="font-heading text-lg font-semibold text-white">
+              <p className="font-heading text-xl font-semibold text-white">
                 {s.labName}
               </p>
             </div>
-            <p className="mt-2 font-body text-base text-white/50">
+            <p className="mt-2 font-body text-xl text-white/50">
               {s.piName} · {s.institution}
             </p>
-            <p className="mt-1 font-body text-base text-white/40">
+            <p className="mt-1 font-body text-xl text-white/40">
               {s.department}
             </p>
             <div className="mt-4 flex items-center gap-2">
@@ -59,7 +59,7 @@ export async function Footer() {
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="font-body text-base text-white/50 transition-colors hover:text-white"
+                className="font-body text-xl text-white/50 transition-colors hover:text-white"
               >
                 {item}
               </a>
@@ -77,7 +77,7 @@ export async function Footer() {
                 href={affiliate.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-body text-base text-white/50 transition-colors hover:text-white"
+                className="font-body text-xl text-white/50 transition-colors hover:text-white"
               >
                 {affiliate.name}
               </a>
@@ -86,10 +86,10 @@ export async function Footer() {
         </div>
 
         <div className="mt-10 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-          <p className="font-body text-base text-white/30">
+          <p className="font-body text-xl text-white/30">
             {s.footerTagline}
           </p>
-          <p className="font-body text-base text-white/30">
+          <p className="font-body text-xl text-white/30">
             © {new Date().getFullYear()} {s.labName}. {s.institution}.
           </p>
         </div>

@@ -37,7 +37,7 @@ export async function Hero() {
             <p className="mt-6 max-w-xl font-body text-xl leading-9 text-dark-grey">
               {s.missionStatement}
             </p>
-            <p className="mt-4 max-w-lg font-body text-lg leading-8 text-grey">
+            <p className="mt-4 max-w-lg font-body text-xl leading-9 text-grey">
               {s.heroSubtitle}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
