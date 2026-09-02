@@ -25,8 +25,11 @@ export function NavbarInner({ s }: { s: Pick<SiteSettingsData, "logoUrl" | "labN
             <span className="font-heading text-xl font-semibold text-ink">
               {s.labName}
             </span>
-            <span className="font-body text-xl text-dark-grey">
+            <span className="font-body text-xl text-dark-grey xl:hidden">
               {s.piName}
+            </span>
+            <span className="hidden font-body text-xl text-dark-grey xl:block">
+              {s.piName} · {s.institution}
             </span>
           </div>
         </a>
