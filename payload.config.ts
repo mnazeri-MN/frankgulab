@@ -207,7 +207,14 @@ export default buildConfig({
           type: "text",
           label: "LinkedIn Post URL",
           admin: {
-            description: "Paste a LinkedIn post URL and click Fetch to auto-fill fields below.",
+            description: "Paste a LinkedIn post URL, then click Fetch Details below.",
+          },
+        },
+        {
+          name: "linkedInFetch",
+          type: "ui",
+          label: "Fetch from LinkedIn",
+          admin: {
             components: {
               Field: "@/components/payload/linkedin-news-field#LinkedInNewsField",
             },
