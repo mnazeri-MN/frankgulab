@@ -207,7 +207,7 @@ export default buildConfig({
           type: "text",
           label: "LinkedIn Post URL",
           admin: {
-            description: "Paste a LinkedIn post URL, then click Fetch Details below.",
+            placeholder: "https://www.linkedin.com/feed/update/urn:li:activity:…",
           },
         },
         {
