@@ -130,7 +130,7 @@ export function NewsCarousel({ items }: { items: NewsItem[] }) {
           <p className="mt-10 font-body text-xl text-grey">No news yet.</p>
         ) : (
           <>
-            <div className="mt-10 hidden flex-col gap-5 md:flex">
+            <div className="mt-10 hidden gap-5 md:grid md:grid-cols-2">
               {visible.map((item, i) => <NewsCard key={i} item={item} />)}
             </div>
             <div className="mt-10 md:hidden">

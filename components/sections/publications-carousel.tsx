@@ -135,7 +135,7 @@ export function PublicationsCarousel({ publications }: { publications: Publicati
           <p className="mt-10 font-body text-xl text-grey">No publications yet.</p>
         ) : (
           <>
-            <div className="mt-10 hidden flex-col gap-5 md:flex">
+            <div className="mt-10 hidden gap-5 md:grid md:grid-cols-2">
               {visible.map((pub, i) => <PubCard key={i} pub={pub} />)}
             </div>
             <div className="mt-10 md:hidden">
