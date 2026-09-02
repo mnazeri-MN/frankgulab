@@ -10,9 +10,10 @@ export type NewsItem = {
   date: string
   url: string
   imageUrl: string | null
+  summary?: string | null
 }
 
-const VISIBLE = 3
+const VISIBLE = 2
 
 function NewsCard({ item }: { item: NewsItem }) {
   return (
@@ -20,28 +21,40 @@ function NewsCard({ item }: { item: NewsItem }) {
       href={item.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group overflow-hidden rounded-card bg-white ring-1 ring-ink/10 transition-shadow hover:shadow-md"
+      className="group overflow-hidden rounded-card bg-white ring-1 ring-ink/10 transition-shadow hover:shadow-md md:flex"
     >
-      <div className="relative aspect-video w-full overflow-hidden bg-light-grey">
-        {item.imageUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={item.imageUrl}
-            alt={item.title}
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center bg-light-grey" />
-        )}
-      </div>
-      <div className="p-4 md:p-5">
-        <div className="flex items-start justify-between gap-3">
-          <p className="font-body text-xl font-medium leading-8 text-ink">{item.title}</p>
-          <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
+      {/* Left: image + title + meta */}
+      <div className="flex flex-col md:w-1/2">
+        <div className="relative aspect-video w-full overflow-hidden bg-light-grey md:flex-1 md:aspect-auto">
+          {item.imageUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={item.imageUrl}
+              alt={item.title}
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-light-grey" />
+          )}
         </div>
-        <p className="mt-3 font-body text-xl text-grey">
-          {item.source} · {item.date}
-        </p>
+        <div className="p-4 md:p-5">
+          <div className="flex items-start justify-between gap-3">
+            <p className="font-body text-xl font-medium leading-8 text-ink">{item.title}</p>
+            <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
+          </div>
+          <p className="mt-2 font-body text-xl text-grey">
+            {item.source} · {item.date}
+          </p>
+        </div>
+      </div>
+
+      {/* Right: summary */}
+      <div className="border-t border-ink/10 p-4 md:w-1/2 md:border-l md:border-t-0 md:p-5">
+        {item.summary ? (
+          <p className="font-body text-xl leading-9 text-dark-grey">{item.summary}</p>
+        ) : (
+          <p className="font-body text-xl italic text-grey/50">No summary yet.</p>
+        )}
       </div>
     </a>
   )
@@ -117,7 +130,7 @@ export function NewsCarousel({ items }: { items: NewsItem[] }) {
           <p className="mt-10 font-body text-xl text-grey">No news yet.</p>
         ) : (
           <>
-            <div className="mt-10 hidden gap-5 md:grid md:grid-cols-3">
+            <div className="mt-10 hidden flex-col gap-5 md:flex">
               {visible.map((item, i) => <NewsCard key={i} item={item} />)}
             </div>
             <div className="mt-10 md:hidden">

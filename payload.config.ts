@@ -144,6 +144,7 @@ export default buildConfig({
         { name: "firstAuthor", type: "text", label: "First Author", admin: { description: "Auto-filled from DOI — edit if needed (e.g. F. Gu et al.)" } },
         { name: "year", type: "number", required: true, admin: { description: "Auto-filled from DOI" } },
         { name: "href", type: "text", label: "Publication URL", admin: { description: "Auto-filled from DOI" } },
+        { name: "summary", type: "textarea", label: "Summary", admin: { description: "~50 words. Why should someone care about this paper? Written for a general audience." } },
         {
           name: "image",
           type: "upload",
@@ -206,6 +207,7 @@ export default buildConfig({
         { name: "date", type: "date", required: true, label: "Publication Date" },
         { name: "url", type: "text", required: true, label: "Article URL" },
         { name: "imageUrl", type: "text", label: "Image URL", admin: { description: "Paste the image URL directly from the article page" } },
+        { name: "summary", type: "textarea", label: "Summary", admin: { description: "~50 words. What happened and why it matters." } },
       ],
     },
 

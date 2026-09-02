@@ -23,6 +23,7 @@ export async function Publications() {
       year: doc.year,
       href: doc.href ?? "",
       imageUrl: uploadedUrl ?? (doc.fetchedImageUrl as string | null) ?? null,
+      summary: (doc.summary as string | null) ?? null,
     }
   })
 

@@ -20,6 +20,7 @@ export async function News() {
     }),
     url: doc.url,
     imageUrl: (doc.imageUrl as string | null) ?? null,
+    summary: (doc.summary as string | null) ?? null,
   }))
 
   return <NewsCarousel items={items} />
