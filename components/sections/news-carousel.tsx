@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react"
+import { ArrowUpRight, ChevronLeft, ChevronRight, Linkedin } from "lucide-react"
 import { SectionLabel } from "@/components/ui/section-label"
 
 export type NewsItem = {
@@ -48,13 +48,28 @@ function NewsCard({ item }: { item: NewsItem }) {
         </div>
       </div>
 
-      {/* Right: summary */}
-      <div className="border-t border-ink/10 p-4 md:w-1/2 md:border-l md:border-t-0 md:p-5">
-        {item.summary ? (
-          <p className="font-body text-xl leading-9 text-dark-grey">{item.summary}</p>
-        ) : (
-          <p className="font-body text-xl italic text-grey/50">No summary yet.</p>
-        )}
+      {/* Right: summary + share */}
+      <div className="flex flex-col justify-between border-t border-ink/10 p-4 md:w-1/2 md:border-l md:border-t-0 md:p-5">
+        <div>
+          {item.summary ? (
+            <p className="font-body text-xl leading-9 text-dark-grey">{item.summary}</p>
+          ) : (
+            <p className="font-body text-xl italic text-grey/50">No summary yet.</p>
+          )}
+        </div>
+        <div className="mt-4 flex justify-end">
+          <a
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(item.url)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            aria-label="Share on LinkedIn"
+            className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-sm text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
+          >
+            <Linkedin className="h-3.5 w-3.5" />
+            Share
+          </a>
+        </div>
       </div>
     </a>
   )
