@@ -202,6 +202,17 @@ export default buildConfig({
         defaultColumns: ["title", "source", "date"],
       },
       fields: [
+        {
+          name: "linkedInUrl",
+          type: "text",
+          label: "LinkedIn Post URL",
+          admin: {
+            description: "Paste a LinkedIn post URL and click Fetch to auto-fill fields below.",
+            components: {
+              Field: "@/components/payload/linkedin-news-field#LinkedInNewsField",
+            },
+          },
+        },
         { name: "title", type: "text", required: true },
         { name: "source", type: "text", required: true, label: "Source", admin: { description: 'e.g. "Acceleration Consortium", "UofT Engineering News"' } },
         { name: "date", type: "date", required: true, label: "Publication Date" },
