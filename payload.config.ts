@@ -207,14 +207,6 @@ export default buildConfig({
           type: "text",
           label: "LinkedIn Post URL",
           admin: {
-            placeholder: "https://www.linkedin.com/feed/update/urn:li:activity:…",
-          },
-        },
-        {
-          name: "linkedInFetch",
-          type: "ui",
-          label: "Fetch from LinkedIn",
-          admin: {
             components: {
               Field: "@/components/payload/linkedin-news-field#LinkedInNewsField",
             },
