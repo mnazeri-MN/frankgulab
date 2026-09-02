@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { useField } from "@payloadcms/ui"
 import type { TextFieldClientProps } from "payload"
-import { fetchLinkedInOEmbed } from "@/lib/actions/linkedin-oembed"
 
 type Status = "idle" | "loading" | "done" | "error"
 
@@ -22,10 +21,13 @@ export function LinkedInNewsField(props: TextFieldClientProps) {
     setStatus("loading")
     setErrorMsg("")
     try {
-      const result = await fetchLinkedInOEmbed(linkedInUrl)
-      if (result.title) setTitle(result.title)
-      if (result.authorName) setSource(result.authorName)
-      if (result.thumbnailUrl) setImageUrl(result.thumbnailUrl)
+      const res = await fetch(`/api/linkedin-oembed?url=${encodeURIComponent(linkedInUrl)}`)
+      if (!res.ok) throw new Error(`Server returned ${res.status}`)
+      const data = await res.json()
+      if (data.error) throw new Error(data.error)
+      if (data.title) setTitle(data.title)
+      if (data.author_name) setSource(data.author_name)
+      if (data.thumbnail_url) setImageUrl(data.thumbnail_url)
       setUrl(linkedInUrl)
       setStatus("done")
     } catch (e) {
