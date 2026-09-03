@@ -13,9 +13,9 @@ export type NewsItem = {
   summary?: string | null
 }
 
-const VISIBLE = 2
+// ─── Variant A: current (image + title left, summary right) ──────────────────
 
-function NewsCard({ item }: { item: NewsItem }) {
+function NewsCardA({ item }: { item: NewsItem }) {
   return (
     <a
       href={item.url}
@@ -23,16 +23,11 @@ function NewsCard({ item }: { item: NewsItem }) {
       rel="noopener noreferrer"
       className="group overflow-hidden rounded-card bg-white ring-1 ring-ink/10 transition-shadow hover:shadow-md md:flex"
     >
-      {/* Left: image + title + meta */}
       <div className="flex flex-col md:w-1/2">
         <div className="relative aspect-video w-full overflow-hidden bg-light-grey md:flex-1 md:aspect-auto">
           {item.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={item.imageUrl}
-              alt={item.title}
-              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-            />
+            <img src={item.imageUrl} alt={item.title} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-light-grey" />
           )}
@@ -42,13 +37,9 @@ function NewsCard({ item }: { item: NewsItem }) {
             <p className="font-body text-xl font-medium leading-8 text-ink">{item.title}</p>
             <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
           </div>
-          <p className="mt-2 font-body text-xl text-grey">
-            {item.source} · {item.date}
-          </p>
+          <p className="mt-2 font-body text-xl text-grey">{item.source} · {item.date}</p>
         </div>
       </div>
-
-      {/* Right: summary + share */}
       <div className="flex flex-col justify-between border-t border-ink/10 p-4 md:w-1/2 md:border-l md:border-t-0 md:p-5">
         <div>
           {item.summary ? (
@@ -75,18 +66,70 @@ function NewsCard({ item }: { item: NewsItem }) {
   )
 }
 
-export function NewsCarousel({ items }: { items: NewsItem[] }) {
+// ─── Variant B: image top-left, title top-right, summary bottom ───────────────
+
+function NewsCardB({ item }: { item: NewsItem }) {
+  return (
+    <a
+      href={item.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex flex-col overflow-hidden rounded-card bg-white ring-1 ring-ink/10 transition-shadow hover:shadow-md"
+    >
+      <div className="flex">
+        <div className="relative w-2/5 shrink-0 overflow-hidden bg-light-grey" style={{ aspectRatio: "1/1" }}>
+          {item.imageUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={item.imageUrl} alt={item.title} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
+          ) : (
+            <div className="h-full w-full bg-light-grey" />
+          )}
+        </div>
+        <div className="flex flex-1 flex-col justify-between p-4">
+          <div className="flex items-start justify-between gap-2">
+            <p className="font-body text-base font-medium leading-6 text-ink">{item.title}</p>
+            <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
+          </div>
+          <p className="mt-2 font-body text-sm text-grey">{item.source} · {item.date}</p>
+        </div>
+      </div>
+      <div className="flex flex-col justify-between border-t border-ink/10 p-4">
+        <div>
+          {item.summary ? (
+            <p className="font-body text-base leading-7 text-dark-grey">{item.summary}</p>
+          ) : (
+            <p className="font-body text-base italic text-grey/50">No summary yet.</p>
+          )}
+        </div>
+        <div className="mt-3 flex justify-end">
+          <a
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(item.url)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            aria-label="Share on LinkedIn"
+            className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-sm text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
+          >
+            <Linkedin className="h-3.5 w-3.5" />
+            Share
+          </a>
+        </div>
+      </div>
+    </a>
+  )
+}
+
+// ─── Carousel ─────────────────────────────────────────────────────────────────
+
+const VISIBLE = 2
+
+export function NewsCarousel({ items, cardVariant = "a" }: { items: NewsItem[]; cardVariant?: "a" | "b" }) {
   const [start, setStart] = useState(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const max = Math.max(0, items.length - VISIBLE)
 
-  function advance() {
-    setStart((s) => (s >= max ? 0 : s + 1))
-  }
-
-  function retreat() {
-    setStart((s) => (s <= 0 ? max : s - 1))
-  }
+  function advance() { setStart((s) => (s >= max ? 0 : s + 1)) }
+  function retreat() { setStart((s) => (s <= 0 ? max : s - 1)) }
 
   function resetTimer() {
     if (timerRef.current) clearInterval(timerRef.current)
@@ -106,6 +149,7 @@ export function NewsCarousel({ items }: { items: NewsItem[] }) {
   }
 
   const visible = items.slice(start, start + VISIBLE)
+  const NewsCard = cardVariant === "b" ? NewsCardB : NewsCardA
 
   return (
     <section id="news" className="bg-white px-6 py-section lg:px-16">
@@ -119,18 +163,10 @@ export function NewsCarousel({ items }: { items: NewsItem[] }) {
           </div>
           {items.length > VISIBLE && (
             <div className="hidden items-center gap-2 md:flex">
-              <button
-                onClick={() => handleArrow("prev")}
-                aria-label="Previous news"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40"
-              >
+              <button onClick={() => handleArrow("prev")} aria-label="Previous news" className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
                 <ChevronLeft className="h-4 w-4" />
               </button>
-              <button
-                onClick={() => handleArrow("next")}
-                aria-label="Next news"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40"
-              >
+              <button onClick={() => handleArrow("next")} aria-label="Next news" className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
                 <ChevronRight className="h-4 w-4" />
               </button>
             </div>
@@ -154,14 +190,7 @@ export function NewsCarousel({ items }: { items: NewsItem[] }) {
             {items.length > VISIBLE && (
               <div className="mt-6 flex items-center justify-center gap-2">
                 {Array.from({ length: max + 1 }).map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => handleDot(i)}
-                    aria-label={`Go to news item ${i + 1}`}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      i === start ? "w-6 bg-ink" : "w-1.5 bg-light-grey"
-                    }`}
-                  />
+                  <button key={i} onClick={() => handleDot(i)} aria-label={`Go to news item ${i + 1}`} className={`h-1.5 rounded-full transition-all duration-300 ${i === start ? "w-6 bg-ink" : "w-1.5 bg-light-grey"}`} />
                 ))}
               </div>
             )}

@@ -13,9 +13,9 @@ export type PublicationItem = {
   summary?: string | null
 }
 
-const VISIBLE = 2
+// ─── Variant A: current (image + title left, summary right) ──────────────────
 
-function PubCard({ pub }: { pub: PublicationItem }) {
+function PubCardA({ pub }: { pub: PublicationItem }) {
   return (
     <a
       href={pub.href || "#"}
@@ -23,16 +23,11 @@ function PubCard({ pub }: { pub: PublicationItem }) {
       rel="noopener noreferrer"
       className="group overflow-hidden rounded-card bg-white ring-1 ring-ink/10 transition-shadow hover:shadow-md md:flex"
     >
-      {/* Left: image + title + meta */}
       <div className="flex flex-col md:w-1/2">
         <div className="relative aspect-video w-full overflow-hidden bg-light-grey md:flex-1 md:aspect-auto">
           {pub.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={pub.imageUrl}
-              alt={pub.title}
-              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-            />
+            <img src={pub.imageUrl} alt={pub.title} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-light-grey">
               <span className="font-body text-sm text-grey">No image</span>
@@ -41,18 +36,12 @@ function PubCard({ pub }: { pub: PublicationItem }) {
         </div>
         <div className="p-4 md:p-5">
           <div className="flex items-start justify-between gap-3">
-            <p className="font-body text-xl font-medium leading-8 text-ink">
-              {pub.title}
-            </p>
+            <p className="font-body text-xl font-medium leading-8 text-ink">{pub.title}</p>
             <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
           </div>
-          <p className="mt-2 font-body text-xl text-grey">
-            {pub.firstAuthor} · {pub.year}
-          </p>
+          <p className="mt-2 font-body text-xl text-grey">{pub.firstAuthor} · {pub.year}</p>
         </div>
       </div>
-
-      {/* Right: summary + share */}
       <div className="flex flex-col justify-between border-t border-ink/10 p-4 md:w-1/2 md:border-l md:border-t-0 md:p-5">
         <div>
           {pub.summary ? (
@@ -81,18 +70,72 @@ function PubCard({ pub }: { pub: PublicationItem }) {
   )
 }
 
-export function PublicationsCarousel({ publications }: { publications: PublicationItem[] }) {
+// ─── Variant B: image top-left, title top-right, summary bottom ───────────────
+
+function PubCardB({ pub }: { pub: PublicationItem }) {
+  return (
+    <a
+      href={pub.href || "#"}
+      target={pub.href ? "_blank" : undefined}
+      rel="noopener noreferrer"
+      className="group flex flex-col overflow-hidden rounded-card bg-white ring-1 ring-ink/10 transition-shadow hover:shadow-md"
+    >
+      <div className="flex">
+        <div className="relative w-2/5 shrink-0 overflow-hidden bg-light-grey" style={{ aspectRatio: "1/1" }}>
+          {pub.imageUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={pub.imageUrl} alt={pub.title} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
+          ) : (
+            <div className="h-full w-full bg-light-grey" />
+          )}
+        </div>
+        <div className="flex flex-1 flex-col justify-between p-4">
+          <div className="flex items-start justify-between gap-2">
+            <p className="font-body text-base font-medium leading-6 text-ink">{pub.title}</p>
+            <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
+          </div>
+          <p className="mt-2 font-body text-sm text-grey">{pub.firstAuthor} · {pub.year}</p>
+        </div>
+      </div>
+      <div className="flex flex-col justify-between border-t border-ink/10 p-4">
+        <div>
+          {pub.summary ? (
+            <p className="font-body text-base leading-7 text-dark-grey">{pub.summary}</p>
+          ) : (
+            <p className="font-body text-base italic text-grey/50">No summary yet.</p>
+          )}
+        </div>
+        {pub.href && (
+          <div className="mt-3 flex justify-end">
+            <a
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pub.href)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              aria-label="Share on LinkedIn"
+              className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-sm text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
+            >
+              <Linkedin className="h-3.5 w-3.5" />
+              Share
+            </a>
+          </div>
+        )}
+      </div>
+    </a>
+  )
+}
+
+// ─── Carousel ─────────────────────────────────────────────────────────────────
+
+const VISIBLE = 2
+
+export function PublicationsCarousel({ publications, cardVariant = "a" }: { publications: PublicationItem[]; cardVariant?: "a" | "b" }) {
   const [start, setStart] = useState(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const max = Math.max(0, publications.length - VISIBLE)
 
-  function advance() {
-    setStart((s) => (s >= max ? 0 : s + 1))
-  }
-
-  function retreat() {
-    setStart((s) => (s <= 0 ? max : s - 1))
-  }
+  function advance() { setStart((s) => (s >= max ? 0 : s + 1)) }
+  function retreat() { setStart((s) => (s <= 0 ? max : s - 1)) }
 
   function resetTimer() {
     if (timerRef.current) clearInterval(timerRef.current)
@@ -112,6 +155,7 @@ export function PublicationsCarousel({ publications }: { publications: Publicati
   }
 
   const visible = publications.slice(start, start + VISIBLE)
+  const PubCard = cardVariant === "b" ? PubCardB : PubCardA
 
   return (
     <section id="publications" className="bg-warm-white px-6 py-section lg:px-16">
@@ -125,18 +169,10 @@ export function PublicationsCarousel({ publications }: { publications: Publicati
           </div>
           {publications.length > VISIBLE && (
             <div className="hidden items-center gap-2 md:flex">
-              <button
-                onClick={() => handleArrow("prev")}
-                aria-label="Previous publications"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40"
-              >
+              <button onClick={() => handleArrow("prev")} aria-label="Previous publications" className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
                 <ChevronLeft className="h-4 w-4" />
               </button>
-              <button
-                onClick={() => handleArrow("next")}
-                aria-label="Next publications"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40"
-              >
+              <button onClick={() => handleArrow("next")} aria-label="Next publications" className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
                 <ChevronRight className="h-4 w-4" />
               </button>
             </div>
@@ -144,8 +180,7 @@ export function PublicationsCarousel({ publications }: { publications: Publicati
         </div>
 
         <p className="mt-4 max-w-2xl font-body text-xl leading-9 text-dark-grey">
-          Peer-reviewed research from the Mixture Lab. Click any card to view
-          the full publication.
+          Peer-reviewed research from the Mixture Lab. Click any card to view the full publication.
         </p>
 
         {publications.length === 0 ? (
@@ -161,14 +196,7 @@ export function PublicationsCarousel({ publications }: { publications: Publicati
             {publications.length > VISIBLE && (
               <div className="mt-6 flex items-center justify-center gap-2">
                 {Array.from({ length: max + 1 }).map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => handleDot(i)}
-                    aria-label={`Go to publication ${i + 1}`}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      i === start ? "w-6 bg-ink" : "w-1.5 bg-light-grey"
-                    }`}
-                  />
+                  <button key={i} onClick={() => handleDot(i)} aria-label={`Go to publication ${i + 1}`} className={`h-1.5 rounded-full transition-all duration-300 ${i === start ? "w-6 bg-ink" : "w-1.5 bg-light-grey"}`} />
                 ))}
               </div>
             )}
