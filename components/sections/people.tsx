@@ -1,80 +1,7 @@
-import Image from "next/image"
-import { Mail, BookOpen, Linkedin } from "lucide-react"
 import { getPayload } from "payload"
 import config from "@payload-config"
 import { SectionLabel } from "@/components/ui/section-label"
-
-type Person = {
-  displayName: string
-  role: string
-  photo?: string
-  email?: string
-  scholar?: string
-  linkedin?: string
-  lastInitial: string
-}
-
-function PersonCard({ person }: { person: Person }) {
-  return (
-    <div className="rounded-card bg-white p-5 ring-1 ring-ink/10">
-      <div className="relative mb-4 aspect-square w-full overflow-hidden rounded-inner bg-light-grey">
-        {person.photo ? (
-          <Image
-            src={person.photo}
-            alt={person.displayName}
-            fill
-            className="object-cover"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center">
-            <span className="font-heading text-3xl font-semibold text-grey">
-              {person.displayName.charAt(0)}
-            </span>
-          </div>
-        )}
-      </div>
-      <h3 className="font-heading text-xl font-semibold text-ink">
-        {person.displayName}
-      </h3>
-      <p className="mt-0.5 font-body text-xl text-dark-grey">{person.role}</p>
-      {(person.email || person.scholar || person.linkedin) && (
-        <div className="mt-3 flex items-center gap-3">
-          {person.email && (
-            <a
-              href={`mailto:${person.email}`}
-              className="text-grey transition-colors hover:text-ink"
-              aria-label="Email"
-            >
-              <Mail className="h-4 w-4" />
-            </a>
-          )}
-          {person.scholar && (
-            <a
-              href={person.scholar}
-              className="text-grey transition-colors hover:text-ink"
-              aria-label="Google Scholar"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <BookOpen className="h-4 w-4" />
-            </a>
-          )}
-          {person.linkedin && (
-            <a
-              href={person.linkedin}
-              className="text-grey transition-colors hover:text-ink"
-              aria-label="LinkedIn"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Linkedin className="h-4 w-4" />
-            </a>
-          )}
-        </div>
-      )}
-    </div>
-  )
-}
+import { PeopleGrid, type Person } from "@/components/sections/people-client"
 
 const ROLE_PRIORITY: Record<string, number> = {
   "Principal Investigator": 0,
@@ -118,6 +45,7 @@ export async function People() {
         displayName,
         role: doc.role,
         lastInitial: doc.lastInitial ?? "",
+        bio: (doc.bio as string | null | undefined) ?? undefined,
         email: doc.email ?? undefined,
         scholar: doc.googleScholar ?? undefined,
         linkedin: doc.linkedin ?? undefined,
@@ -138,12 +66,7 @@ export async function People() {
           A multidisciplinary team of researchers, engineers, and scientists
           working at the frontier of automated discovery.
         </p>
-
-        <div className="mt-12 grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
-          {people.map((person, i) => (
-            <PersonCard key={i} person={person} />
-          ))}
-        </div>
+        <PeopleGrid people={people} />
       </div>
     </section>
   )

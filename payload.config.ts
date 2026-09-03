@@ -77,6 +77,7 @@ export default buildConfig({
             { label: "Visiting Scholar", value: "Visiting Scholar" },
           ],
         },
+        { name: "bio", type: "textarea", label: "Bio", admin: { description: "100–200 words. Research focus, background, and what they're working on." } },
         { name: "email", type: "email" },
         {
           name: "googleScholar",
