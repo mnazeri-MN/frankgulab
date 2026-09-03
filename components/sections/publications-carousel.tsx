@@ -145,10 +145,10 @@ function PubCardC({ pub }: { pub: PublicationItem }) {
         )}
         <div className="absolute right-3 top-3 flex max-w-[60%] flex-col gap-1 rounded-lg bg-white/95 p-3 shadow-sm backdrop-blur-sm">
           <div className="flex items-start justify-between gap-2">
-            <p className="line-clamp-3 font-body text-base font-medium leading-6 text-ink">{pub.title}</p>
-            <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
+            <p className="line-clamp-3 font-body text-xl font-medium leading-8 text-ink">{pub.title}</p>
+            <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
           </div>
-          <p className="font-body text-sm text-grey">{pub.firstAuthor} · {pub.year}</p>
+          <p className="font-body text-base text-grey">{pub.firstAuthor} · {pub.year}</p>
         </div>
       </div>
       {/* Lower: summary + share */}
