@@ -15,9 +15,9 @@ export type Person = {
   bio?: string
 }
 
-function PersonCard({ person }: { person: Person }) {
+function PersonCard({ person, interactive = false }: { person: Person; interactive?: boolean }) {
   return (
-    <div className="rounded-card bg-white p-5 ring-1 ring-ink/10 h-full flex flex-col">
+    <div className={`rounded-card bg-white p-5 ring-1 h-full flex flex-col transition-all ${interactive ? "ring-ink/10 hover:ring-ink/25 hover:shadow-md hover:bg-warm-white" : "ring-ink/10"}`}>
       <div className="relative mb-4 aspect-square w-full overflow-hidden rounded-inner bg-light-grey">
         {person.photo ? (
           <Image
@@ -96,8 +96,9 @@ function PersonModal({ person, onClose }: { person: Person; onClose: () => void 
       className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-ink/60"
       onClick={onClose}
     >
+      {/* No bg-white on container — lets each panel sit directly over the backdrop so glass blur works */}
       <div
-        className="relative flex flex-col md:flex-row w-full max-w-2xl overflow-hidden rounded-card bg-white shadow-2xl max-h-[90vh]"
+        className="relative flex flex-col md:flex-row w-full max-w-2xl overflow-hidden rounded-card shadow-2xl max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -108,13 +109,13 @@ function PersonModal({ person, onClose }: { person: Person; onClose: () => void 
           <X className="h-5 w-5" />
         </button>
 
-        {/* Left: exact card */}
-        <div className="bg-light-grey p-5 md:w-56 md:shrink-0">
+        {/* Left: glass panel matching navbar, card floats inside */}
+        <div className="bg-warm-white/90 backdrop-blur-md md:w-56 md:shrink-0 p-5 border-b border-white/30 md:border-b-0 md:border-r">
           <PersonCard person={person} />
         </div>
 
         {/* Right: bio */}
-        <div className="flex-1 overflow-y-auto p-8 flex flex-col justify-center">
+        <div className="bg-white flex-1 overflow-y-auto p-8 flex flex-col justify-center">
           <p className="font-body text-base leading-relaxed text-dark-grey whitespace-pre-line">
             {person.bio}
           </p>
@@ -134,9 +135,9 @@ export function PeopleGrid({ people }: { people: Person[] }) {
           <div
             key={i}
             onClick={() => person.bio ? setSelected(person) : undefined}
-            className={person.bio ? "cursor-pointer transition-transform hover:scale-[1.02]" : undefined}
+            className={person.bio ? "cursor-pointer" : undefined}
           >
-            <PersonCard person={person} />
+            <PersonCard person={person} interactive={!!person.bio} />
           </div>
         ))}
       </div>
