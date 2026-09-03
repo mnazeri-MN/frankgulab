@@ -15,9 +15,9 @@ export type Person = {
   bio?: string
 }
 
-function PersonCard({ person, interactive = false }: { person: Person; interactive?: boolean }) {
+function PersonCard({ person, interactive = false, bare = false }: { person: Person; interactive?: boolean; bare?: boolean }) {
   return (
-    <div className={`rounded-card bg-white p-5 ring-1 h-full flex flex-col transition-all ${interactive ? "ring-ink/10 hover:ring-ink/25 hover:shadow-md hover:bg-warm-white" : "ring-ink/10"}`}>
+    <div className={`h-full flex flex-col ${bare ? "p-0" : `rounded-card bg-white p-5 ring-1 transition-all ${interactive ? "ring-ink/10 hover:ring-ink/25 hover:shadow-md hover:bg-warm-white" : "ring-ink/10"}`}`}>
       <div className="relative mb-4 aspect-square w-full overflow-hidden rounded-inner bg-light-grey">
         {person.photo ? (
           <Image
@@ -111,7 +111,7 @@ function PersonModal({ person, onClose }: { person: Person; onClose: () => void 
 
         {/* Left: glass panel matching navbar, card floats inside */}
         <div className="bg-warm-white/90 backdrop-blur-md md:w-56 md:shrink-0 p-5 border-b border-white/30 md:border-b-0 md:border-r">
-          <PersonCard person={person} />
+          <PersonCard person={person} bare />
         </div>
 
         {/* Right: bio */}
