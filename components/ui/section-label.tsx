@@ -9,6 +9,7 @@ export function SectionLabel({
 }) {
   return (
     <p
+      data-section-label=""
       className={cn(
         "font-body text-sm font-semibold uppercase tracking-[0.12em]",
         light ? "text-white/60" : "text-dark-grey"

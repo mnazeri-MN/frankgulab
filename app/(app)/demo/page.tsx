@@ -11,7 +11,7 @@ import { Contact } from "@/components/sections/contact"
 
 export const dynamic = "force-dynamic"
 
-type SearchParams = Promise<{ cards?: string }>
+type SearchParams = Promise<{ cards?: string; labels?: string }>
 
 const cardVariants = [
   { key: "a", label: "Current" },
@@ -20,12 +20,13 @@ const cardVariants = [
 ]
 
 export default async function DemoPage({ searchParams }: { searchParams: SearchParams }) {
-  const { cards = "a" } = await searchParams
+  const { cards = "a", labels = "on" } = await searchParams
   const cardVariant = (["a", "b", "c"].includes(cards) ? cards : "a") as "a" | "b" | "c"
+  const showLabels = labels !== "off"
 
   return (
     <>
-      <div className="min-h-screen">
+      <div className={`min-h-screen${showLabels ? "" : " [&_[data-section-label]]:hidden"}`}>
         <Navbar />
         <main>
           <Hero />
@@ -48,14 +49,26 @@ export default async function DemoPage({ searchParams }: { searchParams: SearchP
           {cardVariants.map((v) => (
             <a
               key={v.key}
-              href={`/demo?cards=${v.key}`}
+              href={`/demo?cards=${v.key}&labels=${labels}`}
               className={`rounded-full px-3 py-1 font-body text-sm transition-colors ${
-                cardVariant === v.key
-                  ? "bg-ink text-white"
-                  : "text-grey hover:text-ink"
+                cardVariant === v.key ? "bg-ink text-white" : "text-grey hover:text-ink"
               }`}
             >
               {v.label}
+            </a>
+          ))}
+          <div className="h-3 w-px bg-ink/15" />
+          <span className="px-3 font-body text-xs font-medium uppercase tracking-widest text-grey">Labels</span>
+          <div className="h-3 w-px bg-ink/15" />
+          {["on", "off"].map((v) => (
+            <a
+              key={v}
+              href={`/demo?cards=${cards}&labels=${v}`}
+              className={`rounded-full px-3 py-1 font-body text-sm transition-colors ${
+                labels === v ? "bg-ink text-white" : "text-grey hover:text-ink"
+              }`}
+            >
+              {v === "on" ? "Visible" : "Hidden"}
             </a>
           ))}
         </div>
