@@ -3,7 +3,7 @@ import config from "@payload-config"
 import { NewsCarousel } from "./news-carousel"
 import type { NewsItem } from "./news-carousel"
 
-export async function News({ cardVariant }: { cardVariant?: "a" | "b" }) {
+export async function News({ cardVariant }: { cardVariant?: "a" | "b" | "c" }) {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: "news",

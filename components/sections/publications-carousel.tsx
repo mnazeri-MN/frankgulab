@@ -125,11 +125,66 @@ function PubCardB({ pub }: { pub: PublicationItem }) {
   )
 }
 
+// ─── Variant C: full-width image top half, title cut-out overlay, summary bottom
+
+function PubCardC({ pub }: { pub: PublicationItem }) {
+  return (
+    <a
+      href={pub.href || "#"}
+      target={pub.href ? "_blank" : undefined}
+      rel="noopener noreferrer"
+      className="group flex flex-col overflow-hidden rounded-card bg-white ring-1 ring-ink/10 transition-shadow hover:shadow-md"
+    >
+      {/* Upper: full-width image with title/author cut-out top-right */}
+      <div className="relative aspect-video w-full overflow-hidden bg-light-grey">
+        {pub.imageUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={pub.imageUrl} alt={pub.title} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
+        ) : (
+          <div className="h-full w-full bg-light-grey" />
+        )}
+        <div className="absolute right-3 top-3 flex max-w-[60%] flex-col gap-1 rounded-lg bg-white/95 p-3 shadow-sm backdrop-blur-sm">
+          <div className="flex items-start justify-between gap-2">
+            <p className="line-clamp-3 font-body text-base font-medium leading-6 text-ink">{pub.title}</p>
+            <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
+          </div>
+          <p className="font-body text-sm text-grey">{pub.firstAuthor} · {pub.year}</p>
+        </div>
+      </div>
+      {/* Lower: summary + share */}
+      <div className="flex flex-col justify-between p-4 md:p-5">
+        <div>
+          {pub.summary ? (
+            <p className="font-body text-xl leading-9 text-dark-grey">{pub.summary}</p>
+          ) : (
+            <p className="font-body text-xl italic text-grey/50">No summary yet.</p>
+          )}
+        </div>
+        {pub.href && (
+          <div className="mt-4 flex justify-end">
+            <a
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pub.href)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              aria-label="Share on LinkedIn"
+              className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-sm text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
+            >
+              <Linkedin className="h-3.5 w-3.5" />
+              Share
+            </a>
+          </div>
+        )}
+      </div>
+    </a>
+  )
+}
+
 // ─── Carousel ─────────────────────────────────────────────────────────────────
 
 const VISIBLE = 2
 
-export function PublicationsCarousel({ publications, cardVariant = "a" }: { publications: PublicationItem[]; cardVariant?: "a" | "b" }) {
+export function PublicationsCarousel({ publications, cardVariant = "a" }: { publications: PublicationItem[]; cardVariant?: "a" | "b" | "c" }) {
   const [start, setStart] = useState(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const max = Math.max(0, publications.length - VISIBLE)
@@ -155,7 +210,7 @@ export function PublicationsCarousel({ publications, cardVariant = "a" }: { publ
   }
 
   const visible = publications.slice(start, start + VISIBLE)
-  const PubCard = cardVariant === "b" ? PubCardB : PubCardA
+  const PubCard = cardVariant === "c" ? PubCardC : cardVariant === "b" ? PubCardB : PubCardA
 
   return (
     <section id="publications" className="bg-warm-white px-6 py-section lg:px-16">

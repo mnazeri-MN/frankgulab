@@ -3,7 +3,7 @@ import config from "@payload-config"
 import { PublicationsCarousel } from "./publications-carousel"
 import type { PublicationItem } from "./publications-carousel"
 
-export async function Publications({ cardVariant }: { cardVariant?: "a" | "b" }) {
+export async function Publications({ cardVariant }: { cardVariant?: "a" | "b" | "c" }) {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: "publications",

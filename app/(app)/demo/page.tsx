@@ -16,11 +16,12 @@ type SearchParams = Promise<{ cards?: string }>
 const cardVariants = [
   { key: "a", label: "Current" },
   { key: "b", label: "Image · Title · Summary" },
+  { key: "c", label: "Full Image · Overlay" },
 ]
 
 export default async function DemoPage({ searchParams }: { searchParams: SearchParams }) {
   const { cards = "a" } = await searchParams
-  const cardVariant = cards === "b" ? "b" : "a"
+  const cardVariant = (["a", "b", "c"].includes(cards) ? cards : "a") as "a" | "b" | "c"
 
   return (
     <>
