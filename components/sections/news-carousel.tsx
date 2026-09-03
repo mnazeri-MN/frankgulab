@@ -37,7 +37,7 @@ function NewsCardA({ item }: { item: NewsItem }) {
             <p className="font-body text-xl font-medium leading-8 text-ink">{item.title}</p>
             <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
           </div>
-          <p className="mt-2 font-body text-xl text-grey">{item.source} · {item.date}</p>
+          <p className="mt-2 font-body text-base text-grey">{item.source} · {item.date}</p>
         </div>
       </div>
       <div className="flex flex-col justify-between border-t border-ink/10 p-4 md:w-1/2 md:border-l md:border-t-0 md:p-5">
