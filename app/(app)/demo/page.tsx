@@ -11,7 +11,7 @@ import { Contact } from "@/components/sections/contact"
 
 export const dynamic = "force-dynamic"
 
-type SearchParams = Promise<{ cards?: string; labels?: string }>
+type SearchParams = Promise<{ cards?: string; labels?: string; spacing?: string }>
 
 const cardVariants = [
   { key: "a", label: "Current" },
@@ -20,13 +20,25 @@ const cardVariants = [
 ]
 
 export default async function DemoPage({ searchParams }: { searchParams: SearchParams }) {
-  const { cards = "a", labels = "on" } = await searchParams
+  const { cards = "a", labels = "on", spacing = "default" } = await searchParams
   const cardVariant = (["a", "b", "c"].includes(cards) ? cards : "a") as "a" | "b" | "c"
   const showLabels = labels !== "off"
+  const compact = spacing === "compact"
+
+  const wrapperClasses = [
+    "min-h-screen",
+    showLabels ? "" : "[&_[data-section-label]]:hidden",
+    compact ? "[&_section]:!py-12" : "",
+  ].filter(Boolean).join(" ")
+
+  function href(overrides: Record<string, string>) {
+    const p = { cards, labels, spacing, ...overrides }
+    return `/demo?cards=${p.cards}&labels=${p.labels}&spacing=${p.spacing}`
+  }
 
   return (
     <>
-      <div className={`min-h-screen${showLabels ? "" : " [&_[data-section-label]]:hidden"}`}>
+      <div className={wrapperClasses}>
         <Navbar />
         <main>
           <Hero />
@@ -41,34 +53,33 @@ export default async function DemoPage({ searchParams }: { searchParams: SearchP
         <Footer />
       </div>
 
-      {/* Floating demo toolbar — fixed bottom, out of the way */}
+      {/* Floating demo toolbar */}
       <div className="fixed bottom-6 left-1/2 z-[100] -translate-x-1/2">
         <div className="flex items-center gap-1 rounded-full border border-ink/15 bg-warm-white/95 px-2 py-1.5 shadow-lg backdrop-blur-md">
           <span className="px-3 font-body text-xs font-medium uppercase tracking-widest text-grey">Cards</span>
           <div className="h-3 w-px bg-ink/15" />
           {cardVariants.map((v) => (
-            <a
-              key={v.key}
-              href={`/demo?cards=${v.key}&labels=${labels}`}
-              className={`rounded-full px-3 py-1 font-body text-sm transition-colors ${
-                cardVariant === v.key ? "bg-ink text-white" : "text-grey hover:text-ink"
-              }`}
-            >
+            <a key={v.key} href={href({ cards: v.key })}
+              className={`rounded-full px-3 py-1 font-body text-sm transition-colors ${cardVariant === v.key ? "bg-ink text-white" : "text-grey hover:text-ink"}`}>
               {v.label}
             </a>
           ))}
           <div className="h-3 w-px bg-ink/15" />
           <span className="px-3 font-body text-xs font-medium uppercase tracking-widest text-grey">Labels</span>
           <div className="h-3 w-px bg-ink/15" />
-          {["on", "off"].map((v) => (
-            <a
-              key={v}
-              href={`/demo?cards=${cards}&labels=${v}`}
-              className={`rounded-full px-3 py-1 font-body text-sm transition-colors ${
-                labels === v ? "bg-ink text-white" : "text-grey hover:text-ink"
-              }`}
-            >
-              {v === "on" ? "Visible" : "Hidden"}
+          {[{ key: "on", label: "Visible" }, { key: "off", label: "Hidden" }].map((v) => (
+            <a key={v.key} href={href({ labels: v.key })}
+              className={`rounded-full px-3 py-1 font-body text-sm transition-colors ${labels === v.key ? "bg-ink text-white" : "text-grey hover:text-ink"}`}>
+              {v.label}
+            </a>
+          ))}
+          <div className="h-3 w-px bg-ink/15" />
+          <span className="px-3 font-body text-xs font-medium uppercase tracking-widest text-grey">Spacing</span>
+          <div className="h-3 w-px bg-ink/15" />
+          {[{ key: "default", label: "Default" }, { key: "compact", label: "Compact" }].map((v) => (
+            <a key={v.key} href={href({ spacing: v.key })}
+              className={`rounded-full px-3 py-1 font-body text-sm transition-colors ${spacing === v.key ? "bg-ink text-white" : "text-grey hover:text-ink"}`}>
+              {v.label}
             </a>
           ))}
         </div>
