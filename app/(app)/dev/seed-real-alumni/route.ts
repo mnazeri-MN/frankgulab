@@ -71,19 +71,13 @@ const ALUMNI: {
 export async function GET() {
   const payload = await getPayload({ config })
 
-  // Delete placeholders
-  for (const p of PLACEHOLDERS) {
-    const { docs } = await payload.find({
-      collection: "people",
-      where: {
-        and: [
-          { preferredFirstName: { equals: p.preferredFirstName } },
-          { lastInitial: { equals: p.lastInitial } },
-        ],
-      },
-      limit: 5,
-    })
-    for (const doc of docs) {
+  // Delete placeholders — fetch all, filter in JS to avoid where-clause issues
+  const { docs: all } = await payload.find({ collection: "people", limit: 200 })
+  for (const doc of all) {
+    const isPlaceholder = PLACEHOLDERS.some(
+      (p) => p.preferredFirstName === doc.preferredFirstName && p.lastInitial === doc.lastInitial
+    )
+    if (isPlaceholder) {
       await payload.delete({ collection: "people", id: doc.id })
     }
   }
@@ -91,10 +85,15 @@ export async function GET() {
   // Create real alumni
   const created: string[] = []
   for (const person of ALUMNI) {
-    await payload.create({
-      collection: "people",
-      data: person as never,
-    })
+    const data: Record<string, unknown> = {
+      preferredFirstName: person.preferredFirstName,
+      lastInitial: person.lastInitial,
+      role: person.role,
+      endDate: new Date(person.endDate).toISOString(),
+    }
+    if (person.title) data.title = person.title
+
+    await payload.create({ collection: "people", data: data as never })
     created.push(`${person.title ?? ""} ${person.preferredFirstName} ${person.lastInitial}`.trim())
   }
 
