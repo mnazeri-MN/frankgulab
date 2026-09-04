@@ -33,6 +33,9 @@ const preventEditorPublish = ({
 export default buildConfig({
   admin: {
     user: "users",
+    components: {
+      afterNavLinks: ["@/components/payload/export-people-button#ExportPeopleButton"],
+    },
   },
 
   collections: [
@@ -95,13 +98,7 @@ export default buildConfig({
         update: ({ req }) => !!req.user,
         delete: ({ req }) => isAdmin(req),
       },
-      admin: {
-        useAsTitle: "preferredFirstName",
-        defaultColumns: ["preferredFirstName", "lastInitial", "role"],
-        components: {
-          beforeList: ["@/components/payload/export-people-button#ExportPeopleButton"],
-        },
-      },
+      admin: { useAsTitle: "preferredFirstName", defaultColumns: ["preferredFirstName", "lastInitial", "role"] },
       fields: [
         {
           name: "title",
