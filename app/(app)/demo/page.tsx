@@ -2,7 +2,6 @@ import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { Hero } from "@/components/sections/hero"
 import { Research } from "@/components/sections/research"
-import { ResearchHighlights } from "@/components/sections/research-highlights"
 import { People } from "@/components/sections/people"
 import { Publications } from "@/components/sections/publications"
 import { News } from "@/components/sections/news"
@@ -34,7 +33,6 @@ export default async function DemoPage({ searchParams }: { searchParams: SearchP
         <Navbar />
         <main>
           <Hero />
-          <ResearchHighlights />
           <Research />
           <People />
           <Publications cardVariant={cardVariant} />

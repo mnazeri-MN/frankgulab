@@ -3,6 +3,11 @@ import { getPayload } from "payload"
 import config from "@payload-config"
 import { SectionLabel } from "@/components/ui/section-label"
 
+function getYouTubeId(url: string): string | null {
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\s?]+)/)
+  return match?.[1] ?? null
+}
+
 export async function Research() {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
@@ -16,7 +21,7 @@ export async function Research() {
       <div className="mx-auto max-w-7xl">
         <SectionLabel>Research</SectionLabel>
         <h2 className="mt-4 font-heading text-4xl font-semibold tracking-[-0.02em] text-ink md:text-5xl">
-          Active Projects
+          Research Highlights
         </h2>
         <p className="mt-4 max-w-2xl font-body text-xl leading-9 text-dark-grey">
           Our work sits at the intersection of automation, AI, and chemistry,
@@ -28,6 +33,7 @@ export async function Research() {
         ) : (
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {docs.map((project) => {
+              const youtubeId = project.youtubeUrl ? getYouTubeId(project.youtubeUrl as string) : null
               const img =
                 project.image && typeof project.image === "object"
                   ? (project.image as { url?: string; alt?: string })
@@ -40,19 +46,31 @@ export async function Research() {
                   key={project.id}
                   className="overflow-hidden rounded-card ring-1 ring-ink/10"
                 >
-                  <div className="relative h-44 w-full overflow-hidden bg-light-grey md:aspect-video md:h-auto">
-                    {imgSrc ? (
-                      <Image
-                        src={imgSrc}
-                        alt={alt}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 50vw"
+                  {youtubeId ? (
+                    <div className="relative aspect-video w-full overflow-hidden">
+                      <iframe
+                        src={`https://www.youtube.com/embed/${youtubeId}`}
+                        title={project.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="h-full w-full"
                       />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-light-grey" />
-                    )}
-                  </div>
+                    </div>
+                  ) : (
+                    <div className="relative h-44 w-full overflow-hidden bg-light-grey md:aspect-video md:h-auto">
+                      {imgSrc ? (
+                        <Image
+                          src={imgSrc}
+                          alt={alt}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center bg-light-grey" />
+                      )}
+                    </div>
+                  )}
                   <div className="p-4 md:p-6">
                     <span className="inline-block rounded-full bg-accent/10 px-3 py-1 font-body text-base font-medium text-accent">
                       {project.tag}

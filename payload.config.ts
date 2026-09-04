@@ -159,16 +159,23 @@ export default buildConfig({
 
     {
       slug: "projects",
-      admin: { useAsTitle: "title", defaultColumns: ["title", "tag", "order"] },
+      admin: { label: "Research Highlights", useAsTitle: "title", defaultColumns: ["title", "tag", "order"] },
       fields: [
         { name: "title", type: "text", required: true },
         { name: "description", type: "textarea", required: true, admin: { description: "Max 30 words. One punchy sentence summarising the research area." } },
         { name: "tag", type: "text", required: true, label: "Category Tag" },
         {
+          name: "youtubeUrl",
+          type: "text",
+          label: "YouTube URL",
+          admin: { description: "Paste a YouTube video URL. If provided, the video player is embedded on the card instead of the image." },
+        },
+        {
           name: "image",
           type: "upload",
           relationTo: "media",
           label: "Cover Image",
+          admin: { description: "Used only when no YouTube URL is provided." },
         },
         {
           name: "order",
@@ -243,54 +250,6 @@ export default buildConfig({
       ],
     },
 
-    {
-      slug: "research-highlights",
-      admin: {
-        useAsTitle: "title",
-        defaultColumns: ["title", "icon", "order"],
-      },
-      fields: [
-        { name: "title", type: "text", required: true },
-        {
-          name: "icon",
-          type: "select",
-          required: true,
-          options: [
-            { label: "Robot / Automation",           value: "Bot" },
-            { label: "Machine Learning / AI",         value: "BrainCircuit" },
-            { label: "Electrochemistry / Energy",     value: "Zap" },
-            { label: "Formulation / Fluids",          value: "Droplets" },
-            { label: "Chemistry",                     value: "FlaskConical" },
-            { label: "Biology / Genetics",            value: "Dna" },
-            { label: "Microscopy / Imaging",          value: "Microscope" },
-            { label: "Physics / Materials",           value: "Atom" },
-            { label: "Experiments / Synthesis",       value: "TestTube" },
-            { label: "Computing / Hardware",          value: "Cpu" },
-            { label: "Networks / Systems",            value: "Network" },
-            { label: "Data Analysis",                 value: "TrendingUp" },
-            { label: "Magnetism",                     value: "Magnet" },
-            { label: "Thermal / Temperature",         value: "Thermometer" },
-            { label: "Spectroscopy / Waves",          value: "Waves" },
-            { label: "Electronics",                   value: "CircuitBoard" },
-            { label: "Pharmaceuticals",               value: "Pill" },
-            { label: "Biomedical / Health",           value: "HeartPulse" },
-            { label: "Drug Delivery",                 value: "Syringe" },
-            { label: "Sustainability / Environment",  value: "Leaf" },
-            { label: "Data Management",               value: "Database" },
-            { label: "Composites / Multilayer",       value: "Layers" },
-            { label: "Engineering",                   value: "Wrench" },
-            { label: "Global / Environmental",        value: "Globe" },
-          ],
-          admin: {
-            components: {
-              Field: "@/components/payload/icon-select-field#IconSelectField",
-            },
-          },
-        },
-        { name: "description", type: "textarea", required: true },
-        { name: "order", type: "number", defaultValue: 99 },
-      ],
-    },
   ],
 
   globals: [
