@@ -13,10 +13,22 @@ const isAdmin = (req: { user?: unknown } | undefined) =>
 // Hides the Publish button for non-admins in the admin UI
 const conditionalPublishButton = "@/components/payload/conditional-publish-button#ConditionalPublishButton"
 
-// Prevent editors from publishing — only admins can set _status to "published"
-const preventEditorPublish = ({ data, req }: { data: Record<string, unknown>; req: { user?: unknown } }) => {
-  if (data._status === "published" && !isAdmin(req)) {
+// Prevent editors from publishing or unpublishing — only admins can change _status
+const preventEditorPublish = ({
+  data,
+  req,
+  originalDoc,
+}: {
+  data: Record<string, unknown>
+  req: { user?: unknown }
+  originalDoc?: Record<string, unknown>
+}) => {
+  if (isAdmin(req)) return data
+  if (data._status === "published") {
     throw new Error("Only admins can publish content. Save as draft instead.")
+  }
+  if (data._status === "draft" && originalDoc?._status === "published") {
+    throw new Error("Only admins can unpublish content.")
   }
   return data
 }
