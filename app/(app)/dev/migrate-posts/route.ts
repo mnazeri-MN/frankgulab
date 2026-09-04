@@ -57,6 +57,9 @@ export async function GET() {
       `CREATE INDEX IF NOT EXISTS "_posts_v_parent_id_idx" ON "_posts_v" ("parent_id")`,
       `CREATE INDEX IF NOT EXISTS "_posts_v_version__status_idx" ON "_posts_v" ("version__status")`,
       `CREATE INDEX IF NOT EXISTS "_posts_v_latest_idx" ON "_posts_v" ("latest")`,
+
+      // Add posts_id to payload_locked_documents_rels so Payload can lock posts for editing
+      `ALTER TABLE "payload_locked_documents_rels" ADD COLUMN IF NOT EXISTS "posts_id" integer`,
     ]
 
     for (const stmt of statements) {
