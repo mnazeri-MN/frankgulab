@@ -2,6 +2,8 @@ import { getPayload } from "payload"
 import config from "@payload-config"
 import { NextResponse } from "next/server"
 
+export const dynamic = "force-dynamic"
+
 const BIO = `Frank Gu is a Professor in the Department of Chemical Engineering & Applied Chemistry at the University of Toronto, where he holds an NSERC Senior Industrial Research Chair in Nanotechnology Engineering. He received his PhD from Queen's University and completed postdoctoral training at MIT and Harvard Medical School before joining UofT in 2018.
 
 His research sits at the intersection of nanotechnology, automation, and AI — building self-driving laboratory platforms that navigate complex formulation spaces autonomously, compressing years of experimental iteration into weeks. At the Mixture Lab, these platforms span the full formulation workflow: high-throughput ingredient screening, microstructure characterization, autonomous synthesis, and performance optimization.
@@ -22,7 +24,7 @@ export async function GET() {
   }
 
   const frank = docs[0]
-  await payload.update({ collection: "people", id: frank.id, data: { bio: BIO } })
+  await payload.update({ collection: "people", id: frank.id, data: { bio: BIO } as never })
 
   return NextResponse.json({ ok: true, updated: frank.displayName })
 }
