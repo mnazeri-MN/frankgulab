@@ -234,11 +234,59 @@ function PubCardD({ pub }: { pub: PublicationItem }) {
   )
 }
 
+// ─── Variant E: title + summary top, image bottom ────────────────────────────
+
+function PubCardE({ pub }: { pub: PublicationItem }) {
+  const summary = pub.summary ? truncateWords(pub.summary, 30) : null
+  return (
+    <a
+      href={pub.href || "#"}
+      target={pub.href ? "_blank" : undefined}
+      rel="noopener noreferrer"
+      className="group flex flex-col overflow-hidden rounded-card bg-white ring-1 ring-ink/10 transition-shadow hover:shadow-md"
+    >
+      <div className="flex flex-1 flex-col p-4 md:p-5">
+        <div className="flex items-start justify-between gap-2">
+          <p className="font-body text-xl font-medium leading-8 text-ink">{pub.title}</p>
+          <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
+        </div>
+        {summary && (
+          <p data-reduced-text="" className="mt-3 font-body text-xl leading-9 text-dark-grey">{summary}</p>
+        )}
+        <div className="mt-auto flex items-center justify-between pt-4">
+          <p className="font-body text-base text-grey">{pub.firstAuthor} · {pub.year}</p>
+          {pub.href && (
+            <a
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pub.href)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              aria-label="Share on LinkedIn"
+              className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
+            >
+              <Linkedin className="h-3.5 w-3.5" />
+              Share
+            </a>
+          )}
+        </div>
+      </div>
+      <div className="relative h-48 w-full overflow-hidden bg-light-grey">
+        {pub.imageUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={pub.imageUrl} alt={pub.title} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
+        ) : (
+          <div className="h-full w-full bg-light-grey" />
+        )}
+      </div>
+    </a>
+  )
+}
+
 // ─── Carousel ─────────────────────────────────────────────────────────────────
 
 const VISIBLE = 2
 
-export function PublicationsCarousel({ publications, cardVariant = "a", cardLayout = "carousel" }: { publications: PublicationItem[]; cardVariant?: "a" | "b" | "c" | "d"; cardLayout?: "carousel" | "grid3" }) {
+export function PublicationsCarousel({ publications, cardVariant = "a", cardLayout = "carousel" }: { publications: PublicationItem[]; cardVariant?: "a" | "b" | "c" | "d" | "e"; cardLayout?: "carousel" | "grid3" }) {
   const [start, setStart] = useState(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const max = Math.max(0, publications.length - VISIBLE)
@@ -264,7 +312,7 @@ export function PublicationsCarousel({ publications, cardVariant = "a", cardLayo
   }
 
   const visible = publications.slice(start, start + VISIBLE)
-  const PubCard = cardVariant === "d" ? PubCardD : cardVariant === "c" ? PubCardC : cardVariant === "b" ? PubCardB : PubCardA
+  const PubCard = cardVariant === "e" ? PubCardE : cardVariant === "d" ? PubCardD : cardVariant === "c" ? PubCardC : cardVariant === "b" ? PubCardB : PubCardA
 
   const VISIBLE3 = 3
   const max3 = Math.max(0, publications.length - VISIBLE3)

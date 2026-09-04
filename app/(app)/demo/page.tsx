@@ -15,7 +15,7 @@ type SearchParams = Promise<{ cards?: string; layout?: string; labels?: string; 
 
 export default async function DemoPage({ searchParams }: { searchParams: SearchParams }) {
   const { cards = "a", layout = "carousel", labels = "on", spacing = "default", text = "default" } = await searchParams
-  const cardVariant = (["a", "b", "c", "d"].includes(cards) ? cards : "a") as "a" | "b" | "c" | "d"
+  const cardVariant = (["a", "b", "c", "d", "e"].includes(cards) ? cards : "a") as "a" | "b" | "c" | "d" | "e"
   const cardLayout = (["carousel", "grid3"].includes(layout) ? layout : "carousel") as "carousel" | "grid3"
   const showLabels = labels !== "off"
   const compact = spacing === "compact"

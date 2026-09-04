@@ -14,6 +14,7 @@ const controls: { key: keyof Params; label: string; options: { value: string; la
       { value: "b", label: "Image · Title · Summary" },
       { value: "c", label: "Full Image · Overlay" },
       { value: "d", label: "Cropped · Title · Bottom Bar" },
+      { value: "e", label: "Title · Summary · Image Bottom" },
     ],
   },
   {
