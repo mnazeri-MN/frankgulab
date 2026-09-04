@@ -30,7 +30,7 @@ export default async function DemoPage({ searchParams }: { searchParams: SearchP
     "min-h-screen",
     showLabels ? "" : "[&_[data-section-label]]:hidden",
     compact ? "[&_section]:!py-12" : "",
-    reduced ? "[&_[data-reduced-text]]:!text-lg [&_[data-reduced-text]]:!leading-8" : "",
+    reduced ? "[&_[data-reduced-text]]:!text-lg" : "",
   ].filter(Boolean).join(" ")
 
   function href(overrides: Record<string, string>) {
