@@ -31,6 +31,12 @@ export default buildConfig({
     {
       slug: "users",
       auth: true,
+      access: {
+        create: ({ req }) => isAdmin(req),
+        read: ({ req }) => !!req.user,
+        update: ({ req }) => isAdmin(req),
+        delete: ({ req }) => isAdmin(req),
+      },
       admin: { useAsTitle: "email" },
       fields: [
         { name: "name", type: "text" },
