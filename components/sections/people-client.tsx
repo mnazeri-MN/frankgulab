@@ -163,13 +163,13 @@ function PersonModal({ person, onClose }: { person: Person; onClose: () => void 
   )
 }
 
-export function PeopleGrid({ people }: { people: Person[] }) {
+export function PeopleGrid({ people, alumni = [] }: { people: Person[]; alumni?: Person[] }) {
   const [selected, setSelected] = useState<Person | null>(null)
 
-  return (
-    <>
-      <div className="mt-12 grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
-        {people.map((person, i) => (
+  function renderGrid(list: Person[]) {
+    return (
+      <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+        {list.map((person, i) => (
           <div
             key={i}
             onClick={() => person.bio ? setSelected(person) : undefined}
@@ -179,6 +179,32 @@ export function PeopleGrid({ people }: { people: Person[] }) {
           </div>
         ))}
       </div>
+    )
+  }
+
+  return (
+    <>
+      <div className="mt-12">
+        {renderGrid(people)}
+      </div>
+
+      {alumni.length > 0 && (
+        <details className="mt-12 group">
+          <summary className="flex cursor-pointer list-none items-center gap-3 select-none">
+            <span className="font-heading text-xl font-semibold text-ink">Alumni</span>
+            <span className="font-body text-base text-grey">({alumni.length})</span>
+            <svg
+              className="ml-1 h-4 w-4 text-grey transition-transform group-open:rotate-180"
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+            >
+              <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </summary>
+          <div className="mt-6">
+            {renderGrid(alumni)}
+          </div>
+        </details>
+      )}
 
       {selected && (
         <PersonModal person={selected} onClose={() => setSelected(null)} />

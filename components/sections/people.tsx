@@ -23,37 +23,41 @@ export async function People() {
   })
 
   const today = new Date()
-  const active = docs.filter((doc) => {
+  function isActive(doc: (typeof docs)[number]) {
     const start = doc.startDate ? new Date(doc.startDate as string) : null
     const end = doc.endDate ? new Date(doc.endDate as string) : null
     if (start && start > today) return false
     if (end && end < today) return false
     return true
-  })
+  }
 
-  const people: Person[] = active
-    .slice()
-    .sort((a, b) => {
+  function toPerson(doc: (typeof docs)[number]): Person {
+    const title = doc.title && doc.title !== "" ? `${doc.title} ` : ""
+    const displayName = `${title}${doc.preferredFirstName} ${doc.lastInitial}`
+    return {
+      displayName,
+      role: doc.role,
+      lastInitial: doc.lastInitial ?? "",
+      bio: (doc.bio as string | null | undefined) ?? undefined,
+      email: doc.email ?? undefined,
+      scholar: doc.googleScholar ?? undefined,
+      linkedin: doc.linkedin ?? undefined,
+      photo: doc.photo && typeof doc.photo === "object"
+        ? (doc.photo as { url?: string | null }).url ?? undefined
+        : undefined,
+    }
+  }
+
+  function sortPeople(list: (typeof docs)) {
+    return list.slice().sort((a, b) => {
       const rDiff = (ROLE_PRIORITY[a.role] ?? 99) - (ROLE_PRIORITY[b.role] ?? 99)
       if (rDiff !== 0) return rDiff
       return (a.lastInitial ?? "").localeCompare(b.lastInitial ?? "")
     })
-    .map((doc) => {
-      const title = doc.title && doc.title !== "" ? `${doc.title} ` : ""
-      const displayName = `${title}${doc.preferredFirstName} ${doc.lastInitial}`
-      return {
-        displayName,
-        role: doc.role,
-        lastInitial: doc.lastInitial ?? "",
-        bio: (doc.bio as string | null | undefined) ?? undefined,
-        email: doc.email ?? undefined,
-        scholar: doc.googleScholar ?? undefined,
-        linkedin: doc.linkedin ?? undefined,
-        photo: doc.photo && typeof doc.photo === "object"
-          ? (doc.photo as { url?: string | null }).url ?? undefined
-          : undefined,
-      }
-    })
+  }
+
+  const people = sortPeople(docs.filter(isActive)).map(toPerson)
+  const alumni = sortPeople(docs.filter((d) => !isActive(d) && d.endDate)).map(toPerson)
 
   return (
     <section id="people" className="bg-white px-6 py-section lg:px-16">
@@ -66,7 +70,7 @@ export async function People() {
           A multidisciplinary team of researchers, engineers, and scientists
           working at the frontier of automated discovery.
         </p>
-        <PeopleGrid people={people} />
+        <PeopleGrid people={people} alumni={alumni} />
       </div>
     </section>
   )
