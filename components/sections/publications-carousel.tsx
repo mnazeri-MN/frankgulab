@@ -266,23 +266,51 @@ export function PublicationsCarousel({ publications, cardVariant = "a", cardLayo
   const visible = publications.slice(start, start + VISIBLE)
   const PubCard = cardVariant === "d" ? PubCardD : cardVariant === "c" ? PubCardC : cardVariant === "b" ? PubCardB : PubCardA
 
+  const VISIBLE3 = 3
+  const max3 = Math.max(0, publications.length - VISIBLE3)
+  const start3 = Math.min(start, max3)
+  const visible3 = publications.slice(start3, start3 + VISIBLE3)
+
   if (cardLayout === "grid3") {
     return (
       <section id="publications" className="bg-white px-6 py-section lg:px-16">
         <div className="mx-auto max-w-7xl">
-          <SectionLabel>Selected Works</SectionLabel>
-          <h2 className="mt-4 font-heading text-4xl font-semibold tracking-[-0.02em] text-ink md:text-5xl">
-            Publications
-          </h2>
+          <div className="flex items-end justify-between">
+            <div>
+              <SectionLabel>Selected Works</SectionLabel>
+              <h2 className="mt-4 font-heading text-4xl font-semibold tracking-[-0.02em] text-ink md:text-5xl">
+                Publications
+              </h2>
+            </div>
+            {publications.length > VISIBLE3 && (
+              <div className="hidden items-center gap-2 md:flex">
+                <button onClick={() => { setStart((s) => Math.max(0, s - VISIBLE3)); resetTimer() }} aria-label="Previous publications" className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
+                  <ChevronLeft className="h-4 w-4" />
+                </button>
+                <button onClick={() => { setStart((s) => (s + VISIBLE3 > max3 ? 0 : s + VISIBLE3)); resetTimer() }} aria-label="Next publications" className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              </div>
+            )}
+          </div>
           <p className="mt-4 max-w-2xl font-body text-xl leading-9 text-dark-grey">
             Peer-reviewed research from the Mixture Lab. Click any card to view the full publication.
           </p>
           {publications.length === 0 ? (
             <p className="mt-10 font-body text-xl text-grey">No publications yet.</p>
           ) : (
-            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {publications.map((pub, i) => <PubCard key={i} pub={pub} />)}
-            </div>
+            <>
+              <div className="mt-10 grid gap-5 lg:grid-cols-3">
+                {visible3.map((pub, i) => <PubCard key={i} pub={pub} />)}
+              </div>
+              {publications.length > VISIBLE3 && (
+                <div className="mt-6 flex items-center justify-center gap-2">
+                  {Array.from({ length: Math.ceil(publications.length / VISIBLE3) }).map((_, i) => (
+                    <button key={i} onClick={() => { setStart(i * VISIBLE3); resetTimer() }} aria-label={`Page ${i + 1}`} className={`h-1.5 rounded-full transition-all duration-300 ${Math.floor(start3 / VISIBLE3) === i ? "w-6 bg-ink" : "w-1.5 bg-light-grey"}`} />
+                  ))}
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
