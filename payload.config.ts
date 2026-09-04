@@ -17,8 +17,31 @@ export default buildConfig({
       slug: "users",
       auth: true,
       admin: { useAsTitle: "email" },
+      access: {
+        read: ({ req }) => !!req.user,
+        create: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+        update: ({ req, id }) => {
+          if (!req.user) return false
+          if ((req.user as { role?: string }).role === "admin") return true
+          return (req.user as { id: number }).id === id
+        },
+        delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+      },
       fields: [
         { name: "name", type: "text" },
+        {
+          name: "role",
+          type: "select",
+          options: [
+            { label: "Admin", value: "admin" },
+            { label: "Editor", value: "editor" },
+          ],
+          defaultValue: "editor",
+          access: {
+            update: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+          },
+          admin: { description: "Admins can publish content. Editors can only save drafts for review." },
+        },
       ],
     },
 
@@ -26,6 +49,9 @@ export default buildConfig({
       slug: "media",
       access: {
         read: () => true,
+        create: ({ req }) => !!req.user,
+        update: ({ req }) => !!req.user,
+        delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
       },
       upload: {
         staticDir: path.resolve(dirname, "public/uploads"),
@@ -41,6 +67,17 @@ export default buildConfig({
 
     {
       slug: "people",
+      versions: { drafts: true },
+      access: {
+        read: () => true,
+        create: ({ req }) => !!req.user,
+        update: ({ req, data }) => {
+          if (!req.user) return false
+          if ((req.user as { role?: string }).role === "admin") return true
+          return (data as { _status?: string } | undefined)?._status !== "published"
+        },
+        delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+      },
       admin: { useAsTitle: "preferredFirstName", defaultColumns: ["preferredFirstName", "lastInitial", "role"] },
       fields: [
         {
@@ -169,6 +206,17 @@ export default buildConfig({
 
     {
       slug: "publications",
+      versions: { drafts: true },
+      access: {
+        read: () => true,
+        create: ({ req }) => !!req.user,
+        update: ({ req, data }) => {
+          if (!req.user) return false
+          if ((req.user as { role?: string }).role === "admin") return true
+          return (data as { _status?: string } | undefined)?._status !== "published"
+        },
+        delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+      },
       admin: { useAsTitle: "title", defaultColumns: ["firstAuthor", "title", "year"] },
       fields: [
         {
@@ -199,6 +247,17 @@ export default buildConfig({
 
     {
       slug: "projects",
+      versions: { drafts: true },
+      access: {
+        read: () => true,
+        create: ({ req }) => !!req.user,
+        update: ({ req, data }) => {
+          if (!req.user) return false
+          if ((req.user as { role?: string }).role === "admin") return true
+          return (data as { _status?: string } | undefined)?._status !== "published"
+        },
+        delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+      },
       admin: { useAsTitle: "title", defaultColumns: ["title", "tag", "order"] },
       fields: [
         { name: "title", type: "text", required: true },
@@ -229,6 +288,17 @@ export default buildConfig({
 
     {
       slug: "hero-slides",
+      versions: { drafts: true },
+      access: {
+        read: () => true,
+        create: ({ req }) => !!req.user,
+        update: ({ req, data }) => {
+          if (!req.user) return false
+          if ((req.user as { role?: string }).role === "admin") return true
+          return (data as { _status?: string } | undefined)?._status !== "published"
+        },
+        delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+      },
       admin: { useAsTitle: "name", defaultColumns: ["name", "tagline", "order"] },
       fields: [
         { name: "name", type: "text", required: true, label: "Name / Title" },
@@ -245,6 +315,17 @@ export default buildConfig({
 
     {
       slug: "news",
+      versions: { drafts: true },
+      access: {
+        read: () => true,
+        create: ({ req }) => !!req.user,
+        update: ({ req, data }) => {
+          if (!req.user) return false
+          if ((req.user as { role?: string }).role === "admin") return true
+          return (data as { _status?: string } | undefined)?._status !== "published"
+        },
+        delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+      },
       admin: {
         useAsTitle: "title",
         defaultColumns: ["title", "source", "date"],
@@ -271,6 +352,17 @@ export default buildConfig({
 
     {
       slug: "opportunities",
+      versions: { drafts: true },
+      access: {
+        read: () => true,
+        create: ({ req }) => !!req.user,
+        update: ({ req, data }) => {
+          if (!req.user) return false
+          if ((req.user as { role?: string }).role === "admin") return true
+          return (data as { _status?: string } | undefined)?._status !== "published"
+        },
+        delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+      },
       admin: { useAsTitle: "title", defaultColumns: ["title", "order"] },
       fields: [
         { name: "title", type: "text", required: true },
@@ -281,6 +373,17 @@ export default buildConfig({
 
     {
       slug: "lab-photos",
+      versions: { drafts: true },
+      access: {
+        read: () => true,
+        create: ({ req }) => !!req.user,
+        update: ({ req, data }) => {
+          if (!req.user) return false
+          if ((req.user as { role?: string }).role === "admin") return true
+          return (data as { _status?: string } | undefined)?._status !== "published"
+        },
+        delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+      },
       admin: { useAsTitle: "year", defaultColumns: ["year", "caption"] },
       fields: [
         { name: "year", type: "number", required: true, admin: { description: "Year the photo was taken (e.g. 2025)" } },
@@ -295,6 +398,10 @@ export default buildConfig({
   globals: [
     {
       slug: "site-settings",
+      access: {
+        read: () => true,
+        update: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+      },
       admin: { group: "Settings" },
       fields: [
         {
