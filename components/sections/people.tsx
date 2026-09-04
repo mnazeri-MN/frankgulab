@@ -94,6 +94,7 @@ export async function People() {
           working at the frontier of automated discovery.
         </p>
         <PeopleGrid people={people} alumni={alumni} />
+        {labPhotos.length > 0 && <hr className="mt-14 border-ink/10" />}
         <LabPhotosCarousel photos={labPhotos} />
       </div>
     </section>
