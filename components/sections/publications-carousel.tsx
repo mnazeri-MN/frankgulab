@@ -238,7 +238,7 @@ function PubCardD({ pub }: { pub: PublicationItem }) {
 
 const VISIBLE = 2
 
-export function PublicationsCarousel({ publications, cardVariant = "a" }: { publications: PublicationItem[]; cardVariant?: "a" | "b" | "c" | "d" }) {
+export function PublicationsCarousel({ publications, cardVariant = "a", cardLayout = "carousel" }: { publications: PublicationItem[]; cardVariant?: "a" | "b" | "c" | "d"; cardLayout?: "carousel" | "grid3" }) {
   const [start, setStart] = useState(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const max = Math.max(0, publications.length - VISIBLE)
@@ -265,6 +265,29 @@ export function PublicationsCarousel({ publications, cardVariant = "a" }: { publ
 
   const visible = publications.slice(start, start + VISIBLE)
   const PubCard = cardVariant === "d" ? PubCardD : cardVariant === "c" ? PubCardC : cardVariant === "b" ? PubCardB : PubCardA
+
+  if (cardLayout === "grid3") {
+    return (
+      <section id="publications" className="bg-white px-6 py-section lg:px-16">
+        <div className="mx-auto max-w-7xl">
+          <SectionLabel>Selected Works</SectionLabel>
+          <h2 className="mt-4 font-heading text-4xl font-semibold tracking-[-0.02em] text-ink md:text-5xl">
+            Publications
+          </h2>
+          <p className="mt-4 max-w-2xl font-body text-xl leading-9 text-dark-grey">
+            Peer-reviewed research from the Mixture Lab. Click any card to view the full publication.
+          </p>
+          {publications.length === 0 ? (
+            <p className="mt-10 font-body text-xl text-grey">No publications yet.</p>
+          ) : (
+            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {publications.map((pub, i) => <PubCard key={i} pub={pub} />)}
+            </div>
+          )}
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section id="publications" className="bg-white px-6 py-section lg:px-16">

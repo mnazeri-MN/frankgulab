@@ -226,7 +226,7 @@ function NewsCardD({ item }: { item: NewsItem }) {
 
 const VISIBLE = 2
 
-export function NewsCarousel({ items, cardVariant = "a" }: { items: NewsItem[]; cardVariant?: "a" | "b" | "c" | "d" }) {
+export function NewsCarousel({ items, cardVariant = "a", cardLayout = "carousel" }: { items: NewsItem[]; cardVariant?: "a" | "b" | "c" | "d"; cardLayout?: "carousel" | "grid3" }) {
   const [start, setStart] = useState(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const max = Math.max(0, items.length - VISIBLE)
@@ -253,6 +253,29 @@ export function NewsCarousel({ items, cardVariant = "a" }: { items: NewsItem[]; 
 
   const visible = items.slice(start, start + VISIBLE)
   const NewsCard = cardVariant === "d" ? NewsCardD : cardVariant === "c" ? NewsCardC : cardVariant === "b" ? NewsCardB : NewsCardA
+
+  if (cardLayout === "grid3") {
+    return (
+      <section id="news" className="bg-warm-white px-6 py-section lg:px-16">
+        <div className="mx-auto max-w-7xl">
+          <SectionLabel>Press &amp; Updates</SectionLabel>
+          <h2 className="mt-4 font-heading text-4xl font-semibold tracking-[-0.02em] text-ink md:text-5xl">
+            News
+          </h2>
+          <p className="mt-4 max-w-2xl font-body text-xl leading-9 text-dark-grey">
+            Lab updates, press coverage, and recent highlights from the Mixture Lab.
+          </p>
+          {items.length === 0 ? (
+            <p className="mt-10 font-body text-xl text-grey">No news yet.</p>
+          ) : (
+            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {items.map((item, i) => <NewsCard key={i} item={item} />)}
+            </div>
+          )}
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section id="news" className="bg-warm-white px-6 py-section lg:px-16">

@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import { ChevronDown } from "lucide-react"
 
-type Params = { cards: string; labels: string; spacing: string; text: string }
+type Params = { cards: string; layout: string; labels: string; spacing: string; text: string }
 
 const controls: { key: keyof Params; label: string; options: { value: string; label: string }[] }[] = [
   {
@@ -14,6 +14,14 @@ const controls: { key: keyof Params; label: string; options: { value: string; la
       { value: "b", label: "Image · Title · Summary" },
       { value: "c", label: "Full Image · Overlay" },
       { value: "d", label: "Cropped · Title · Bottom Bar" },
+    ],
+  },
+  {
+    key: "layout",
+    label: "Layout",
+    options: [
+      { value: "carousel", label: "Carousel" },
+      { value: "grid3", label: "3-up Grid" },
     ],
   },
   {
@@ -47,7 +55,7 @@ export function DemoToolbar(params: Params) {
 
   function navigate(overrides: Partial<Params>) {
     const p = { ...params, ...overrides }
-    router.push(`/demo?cards=${p.cards}&labels=${p.labels}&spacing=${p.spacing}&text=${p.text}`)
+    router.push(`/demo?cards=${p.cards}&layout=${p.layout}&labels=${p.labels}&spacing=${p.spacing}&text=${p.text}`)
   }
 
   return (

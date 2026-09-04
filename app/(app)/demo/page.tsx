@@ -11,11 +11,12 @@ import { DemoToolbar } from "./demo-toolbar"
 
 export const dynamic = "force-dynamic"
 
-type SearchParams = Promise<{ cards?: string; labels?: string; spacing?: string; text?: string }>
+type SearchParams = Promise<{ cards?: string; layout?: string; labels?: string; spacing?: string; text?: string }>
 
 export default async function DemoPage({ searchParams }: { searchParams: SearchParams }) {
-  const { cards = "a", labels = "on", spacing = "default", text = "default" } = await searchParams
+  const { cards = "a", layout = "carousel", labels = "on", spacing = "default", text = "default" } = await searchParams
   const cardVariant = (["a", "b", "c", "d"].includes(cards) ? cards : "a") as "a" | "b" | "c" | "d"
+  const cardLayout = (["carousel", "grid3"].includes(layout) ? layout : "carousel") as "carousel" | "grid3"
   const showLabels = labels !== "off"
   const compact = spacing === "compact"
   const reduced = text === "reduced"
@@ -35,15 +36,15 @@ export default async function DemoPage({ searchParams }: { searchParams: SearchP
           <Hero />
           <Research />
           <People />
-          <Publications cardVariant={cardVariant} />
-          <News cardVariant={cardVariant} />
+          <Publications cardVariant={cardVariant} cardLayout={cardLayout} />
+          <News cardVariant={cardVariant} cardLayout={cardLayout} />
           <Opportunities />
           <Contact />
         </main>
         <Footer />
       </div>
 
-      <DemoToolbar cards={cards} labels={labels} spacing={spacing} text={text} />
+      <DemoToolbar cards={cards} layout={layout} labels={labels} spacing={spacing} text={text} />
     </>
   )
 }
