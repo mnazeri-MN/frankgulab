@@ -60,7 +60,7 @@ export async function Blog() {
   if (posts.length === 0) return null
 
   return (
-    <section id="blog" className="bg-warm-white px-6 py-section lg:px-16">
+    <section id="blog" className="bg-white px-6 py-section lg:px-16">
       <div className="mx-auto max-w-7xl">
         <SectionLabel>Blog</SectionLabel>
         <div className="mt-4 flex items-end justify-between">
@@ -80,7 +80,7 @@ export async function Blog() {
             <Link
               key={post.slug}
               href={`/blog/${post.slug}`}
-              className="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-white transition-shadow hover:shadow-md"
+              className="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-warm-white transition-shadow hover:shadow-md"
             >
               {post.coverImageUrl && (
                 <div className="relative h-48 w-full overflow-hidden">

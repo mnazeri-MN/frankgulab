@@ -15,7 +15,7 @@ export async function Opportunities() {
   }
 
   return (
-    <section id="opportunities" className="bg-white px-6 py-section lg:px-16">
+    <section id="opportunities" className="bg-warm-white px-6 py-section lg:px-16">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-16 lg:grid-cols-[1fr_1.2fr] lg:items-start">
           <div>
@@ -44,7 +44,7 @@ export async function Opportunities() {
             {positions.map((pos) => (
               <div
                 key={pos.title}
-                className="rounded-card bg-warm-white p-6 ring-1 ring-ink/10"
+                className="rounded-card bg-white p-6 ring-1 ring-ink/10"
               >
                 <h3 className="font-heading text-xl font-semibold text-ink">
                   {pos.title}
