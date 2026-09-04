@@ -9,10 +9,10 @@ const ROLE_PRIORITY: Record<string, number> = {
   "Research Associate": 1,
   "Postdoctoral Fellow": 2,
   "PhD Candidate": 3,
-  "MASc Student": 4,
-  "MEng Student": 5,
-  "Undergraduate Researcher": 6,
-  "Lab Manager": 7,
+  "Lab Manager": 4,
+  "MASc Student": 5,
+  "MEng Student": 6,
+  "Undergraduate Researcher": 7,
   "Visiting Scholar": 8,
 }
 
