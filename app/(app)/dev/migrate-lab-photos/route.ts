@@ -19,6 +19,7 @@ export async function GET() {
       "created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
     );
     CREATE INDEX IF NOT EXISTS "lab_photos_created_at_idx" ON "lab_photos" USING btree ("created_at");
+    ALTER TABLE "payload_locked_documents_rels" ADD COLUMN IF NOT EXISTS "lab_photos_id" integer REFERENCES "lab_photos"("id") ON DELETE cascade;
   `)
 
   return NextResponse.json({ ok: true })
