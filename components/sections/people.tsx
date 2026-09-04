@@ -21,7 +21,7 @@ export async function People() {
   const { docs } = await payload.find({
     collection: "people",
     limit: 100,
-    where: { _status: { equals: "published" } },
+    where: { status: { equals: "published" } },
   })
 
   const today = new Date()
@@ -74,7 +74,7 @@ export async function People() {
       collection: "lab-photos",
       sort: "order",
       limit: 50,
-      where: { _status: { equals: "published" } },
+      where: { status: { equals: "published" } },
     })
     labPhotos = photoDocs
       .filter((d) => d.photo && typeof d.photo === "object")

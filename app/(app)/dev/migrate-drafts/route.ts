@@ -25,12 +25,11 @@ export async function GET() {
     const results: Record<string, number> = {}
 
     for (const table of tables) {
-      // Add the column if Payload hasn't pushed the schema yet
       await db.drizzle.execute(
-        sql.raw(`ALTER TABLE "${table}" ADD COLUMN IF NOT EXISTS "_status" varchar(255) DEFAULT 'published'`)
+        sql.raw(`ALTER TABLE "${table}" ADD COLUMN IF NOT EXISTS "status" varchar(255) DEFAULT 'published'`)
       )
       const res = await db.drizzle.execute(
-        sql.raw(`UPDATE "${table}" SET "_status" = 'published' WHERE "_status" IS NULL OR "_status" != 'published'`)
+        sql.raw(`UPDATE "${table}" SET "status" = 'published' WHERE "status" IS NULL OR "status" != 'published'`)
       )
       results[table] = (res as { rowCount?: number }).rowCount ?? 0
     }

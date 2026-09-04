@@ -7,6 +7,25 @@ import { lexicalEditor } from "@payloadcms/richtext-lexical"
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+const isAdmin = (user: unknown) => (user as { role?: string } | null)?.role === "admin"
+
+const statusField = {
+  name: "status",
+  type: "select" as const,
+  label: "Status",
+  options: [
+    { label: "Published", value: "published" },
+    { label: "Draft", value: "draft" },
+  ],
+  defaultValue: "draft",
+  access: {
+    read: ({ req }: { req: { user?: unknown } }) => isAdmin(req.user),
+    create: ({ req }: { req: { user?: unknown } }) => isAdmin(req.user),
+    update: ({ req }: { req: { user?: unknown } }) => isAdmin(req.user),
+  },
+  admin: { description: "Controls whether this record appears on the public site. Only admins can change this." },
+}
+
 export default buildConfig({
   admin: {
     user: "users",
@@ -67,15 +86,10 @@ export default buildConfig({
 
     {
       slug: "people",
-      versions: { drafts: true },
       access: {
         read: () => true,
         create: ({ req }) => !!req.user,
-        update: ({ req, data }) => {
-          if (!req.user) return false
-          if ((req.user as { role?: string }).role === "admin") return true
-          return (data as { _status?: string } | undefined)?._status !== "published"
-        },
+        update: ({ req }) => !!req.user,
         delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
       },
       admin: { useAsTitle: "preferredFirstName", defaultColumns: ["preferredFirstName", "lastInitial", "role"] },
@@ -201,20 +215,16 @@ export default buildConfig({
           label: "End Date",
           admin: { description: "When this person leaves the lab. Leave blank for permanent members (e.g. Frank)." },
         },
+        statusField,
       ],
     },
 
     {
       slug: "publications",
-      versions: { drafts: true },
       access: {
         read: () => true,
         create: ({ req }) => !!req.user,
-        update: ({ req, data }) => {
-          if (!req.user) return false
-          if ((req.user as { role?: string }).role === "admin") return true
-          return (data as { _status?: string } | undefined)?._status !== "published"
-        },
+        update: ({ req }) => !!req.user,
         delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
       },
       admin: { useAsTitle: "title", defaultColumns: ["firstAuthor", "title", "year"] },
@@ -242,20 +252,16 @@ export default buildConfig({
           admin: { description: "Upload an image to override the one fetched from the DOI URL" },
         },
         { name: "fetchedImageUrl", type: "text", admin: { hidden: true } },
+        statusField,
       ],
     },
 
     {
       slug: "projects",
-      versions: { drafts: true },
       access: {
         read: () => true,
         create: ({ req }) => !!req.user,
-        update: ({ req, data }) => {
-          if (!req.user) return false
-          if ((req.user as { role?: string }).role === "admin") return true
-          return (data as { _status?: string } | undefined)?._status !== "published"
-        },
+        update: ({ req }) => !!req.user,
         delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
       },
       admin: { useAsTitle: "title", defaultColumns: ["title", "tag", "order"] },
@@ -282,21 +288,17 @@ export default buildConfig({
           defaultValue: 99,
           admin: { description: "Display order (lower = first)" },
         },
+        statusField,
       ],
     },
 
 
     {
       slug: "hero-slides",
-      versions: { drafts: true },
       access: {
         read: () => true,
         create: ({ req }) => !!req.user,
-        update: ({ req, data }) => {
-          if (!req.user) return false
-          if ((req.user as { role?: string }).role === "admin") return true
-          return (data as { _status?: string } | undefined)?._status !== "published"
-        },
+        update: ({ req }) => !!req.user,
         delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
       },
       admin: { useAsTitle: "name", defaultColumns: ["name", "tagline", "order"] },
@@ -310,20 +312,16 @@ export default buildConfig({
           defaultValue: 99,
           admin: { description: "Display order (lower = first)" },
         },
+        statusField,
       ],
     },
 
     {
       slug: "news",
-      versions: { drafts: true },
       access: {
         read: () => true,
         create: ({ req }) => !!req.user,
-        update: ({ req, data }) => {
-          if (!req.user) return false
-          if ((req.user as { role?: string }).role === "admin") return true
-          return (data as { _status?: string } | undefined)?._status !== "published"
-        },
+        update: ({ req }) => !!req.user,
         delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
       },
       admin: {
@@ -347,20 +345,16 @@ export default buildConfig({
         { name: "url", type: "text", required: true, label: "Article URL" },
         { name: "imageUrl", type: "text", label: "Image URL", admin: { description: "Paste the image URL directly from the article page" } },
         { name: "summary", type: "textarea", label: "Summary", admin: { description: "~50 words. What happened and why it matters." } },
+        statusField,
       ],
     },
 
     {
       slug: "opportunities",
-      versions: { drafts: true },
       access: {
         read: () => true,
         create: ({ req }) => !!req.user,
-        update: ({ req, data }) => {
-          if (!req.user) return false
-          if ((req.user as { role?: string }).role === "admin") return true
-          return (data as { _status?: string } | undefined)?._status !== "published"
-        },
+        update: ({ req }) => !!req.user,
         delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
       },
       admin: { useAsTitle: "title", defaultColumns: ["title", "order"] },
@@ -368,20 +362,16 @@ export default buildConfig({
         { name: "title", type: "text", required: true },
         { name: "description", type: "textarea", required: true },
         { name: "order", type: "number", defaultValue: 99, admin: { description: "Display order (lower = first)" } },
+        statusField,
       ],
     },
 
     {
       slug: "lab-photos",
-      versions: { drafts: true },
       access: {
         read: () => true,
         create: ({ req }) => !!req.user,
-        update: ({ req, data }) => {
-          if (!req.user) return false
-          if ((req.user as { role?: string }).role === "admin") return true
-          return (data as { _status?: string } | undefined)?._status !== "published"
-        },
+        update: ({ req }) => !!req.user,
         delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
       },
       admin: { useAsTitle: "year", defaultColumns: ["year", "caption"] },
@@ -390,6 +380,7 @@ export default buildConfig({
         { name: "caption", type: "text", label: "Caption (optional)" },
         { name: "photo", type: "upload", relationTo: "media", required: true },
         { name: "order", type: "number", defaultValue: 99, admin: { description: "Display order (lower = first). Use 1 for newest." } },
+        statusField,
       ],
     },
 

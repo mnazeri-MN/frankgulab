@@ -7,7 +7,7 @@ import type { HeroSlide } from "./hero-slideshow"
 export async function Hero() {
   const payload = await getPayload({ config })
   const [{ docs }, s] = await Promise.all([
-    payload.find({ collection: "hero-slides", sort: "order", limit: 20, where: { _status: { equals: "published" } } }),
+    payload.find({ collection: "hero-slides", sort: "order", limit: 20, where: { status: { equals: "published" } } }),
     getSiteSettings(),
   ])
 
