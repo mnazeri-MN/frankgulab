@@ -7,7 +7,8 @@ import { lexicalEditor } from "@payloadcms/richtext-lexical"
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-const isAdmin = (user: unknown) => (user as { role?: string } | null)?.role === "admin"
+const isAdmin = (req: { user?: unknown } | undefined) =>
+  (req?.user as { role?: string } | null)?.role === "admin"
 
 const statusField = {
   name: "status",
@@ -18,11 +19,6 @@ const statusField = {
     { label: "Draft", value: "draft" },
   ],
   defaultValue: "draft",
-  access: {
-    read: ({ req }: { req: { user?: unknown } }) => isAdmin(req.user),
-    create: ({ req }: { req: { user?: unknown } }) => isAdmin(req.user),
-    update: ({ req }: { req: { user?: unknown } }) => isAdmin(req.user),
-  },
   admin: { description: "Controls whether this record appears on the public site. Only admins can change this." },
 }
 
@@ -46,9 +42,6 @@ export default buildConfig({
             { label: "Editor", value: "editor" },
           ],
           defaultValue: "editor",
-          access: {
-            update: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
-          },
           admin: { description: "Admins can publish content. Editors can only save drafts for review." },
         },
       ],
@@ -60,7 +53,7 @@ export default buildConfig({
         read: () => true,
         create: ({ req }) => !!req.user,
         update: ({ req }) => !!req.user,
-        delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+        delete: ({ req }) => isAdmin(req),
       },
       upload: {
         staticDir: path.resolve(dirname, "public/uploads"),
@@ -80,7 +73,7 @@ export default buildConfig({
         read: () => true,
         create: ({ req }) => !!req.user,
         update: ({ req }) => !!req.user,
-        delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+        delete: ({ req }) => isAdmin(req),
       },
       admin: { useAsTitle: "preferredFirstName", defaultColumns: ["preferredFirstName", "lastInitial", "role"] },
       fields: [
@@ -215,7 +208,7 @@ export default buildConfig({
         read: () => true,
         create: ({ req }) => !!req.user,
         update: ({ req }) => !!req.user,
-        delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+        delete: ({ req }) => isAdmin(req),
       },
       admin: { useAsTitle: "title", defaultColumns: ["firstAuthor", "title", "year"] },
       fields: [
@@ -252,7 +245,7 @@ export default buildConfig({
         read: () => true,
         create: ({ req }) => !!req.user,
         update: ({ req }) => !!req.user,
-        delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+        delete: ({ req }) => isAdmin(req),
       },
       admin: { useAsTitle: "title", defaultColumns: ["title", "tag", "order"] },
       fields: [
@@ -289,7 +282,7 @@ export default buildConfig({
         read: () => true,
         create: ({ req }) => !!req.user,
         update: ({ req }) => !!req.user,
-        delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+        delete: ({ req }) => isAdmin(req),
       },
       admin: { useAsTitle: "name", defaultColumns: ["name", "tagline", "order"] },
       fields: [
@@ -312,7 +305,7 @@ export default buildConfig({
         read: () => true,
         create: ({ req }) => !!req.user,
         update: ({ req }) => !!req.user,
-        delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+        delete: ({ req }) => isAdmin(req),
       },
       admin: {
         useAsTitle: "title",
@@ -345,7 +338,7 @@ export default buildConfig({
         read: () => true,
         create: ({ req }) => !!req.user,
         update: ({ req }) => !!req.user,
-        delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+        delete: ({ req }) => isAdmin(req),
       },
       admin: { useAsTitle: "title", defaultColumns: ["title", "order"] },
       fields: [
@@ -362,7 +355,7 @@ export default buildConfig({
         read: () => true,
         create: ({ req }) => !!req.user,
         update: ({ req }) => !!req.user,
-        delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+        delete: ({ req }) => isAdmin(req),
       },
       admin: { useAsTitle: "year", defaultColumns: ["year", "caption"] },
       fields: [
@@ -381,7 +374,7 @@ export default buildConfig({
       slug: "site-settings",
       access: {
         read: () => true,
-        update: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
+        update: ({ req }) => isAdmin(req),
       },
       admin: { group: "Settings" },
       fields: [
