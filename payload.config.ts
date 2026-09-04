@@ -159,7 +159,7 @@ export default buildConfig({
 
     {
       slug: "projects",
-      admin: { label: "Research Highlights", useAsTitle: "title", defaultColumns: ["title", "tag", "order"] },
+      admin: { useAsTitle: "title", defaultColumns: ["title", "tag", "order"] },
       fields: [
         { name: "title", type: "text", required: true },
         { name: "description", type: "textarea", required: true, admin: { description: "Max 30 words. One punchy sentence summarising the research area." } },
