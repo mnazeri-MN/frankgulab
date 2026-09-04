@@ -377,6 +377,50 @@ export default buildConfig({
     },
 
     {
+      slug: "posts",
+      versions: { drafts: true },
+      hooks: { beforeChange: [preventEditorPublish] },
+      access: {
+        read: () => true,
+        create: ({ req }) => !!req.user,
+        update: ({ req }) => !!req.user,
+        delete: ({ req }) => isAdmin(req),
+      },
+      admin: { useAsTitle: "title", defaultColumns: ["title", "publishedAt", "_status"] },
+      fields: [
+        { name: "title", type: "text", required: true },
+        {
+          name: "slug",
+          type: "text",
+          required: true,
+          unique: true,
+          admin: { description: "URL-friendly identifier, e.g. 'new-paper-2025'. Must be unique." },
+        },
+        { name: "excerpt", type: "textarea", label: "Excerpt", admin: { description: "1–2 sentence preview shown on the homepage card." } },
+        {
+          name: "coverImage",
+          type: "upload",
+          relationTo: "media",
+          label: "Cover Image",
+        },
+        {
+          name: "author",
+          type: "relationship",
+          relationTo: "people",
+          label: "Author",
+          admin: { description: "Optional — select the lab member who wrote this post." },
+        },
+        { name: "publishedAt", type: "date", label: "Published Date", admin: { description: "Date shown on the post. Defaults to today." } },
+        {
+          name: "body",
+          type: "richText",
+          label: "Body",
+          editor: lexicalEditor({}),
+        },
+      ],
+    },
+
+    {
       slug: "lab-photos",
       versions: { drafts: true },
       hooks: { beforeChange: [preventEditorPublish] },

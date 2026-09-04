@@ -9,6 +9,7 @@ const links = [
   { href: "#people", label: "People" },
   { href: "#publications", label: "Publications" },
   { href: "#news", label: "News" },
+  { href: "#blog", label: "Blog" },
   { href: "#opportunities", label: "Opportunities" },
   { href: "#contact", label: "Contact" },
 ]

@@ -5,6 +5,7 @@ import { Research } from "@/components/sections/research"
 import { People } from "@/components/sections/people"
 import { Publications } from "@/components/sections/publications"
 import { News } from "@/components/sections/news"
+import { Blog } from "@/components/sections/blog"
 import { Opportunities } from "@/components/sections/opportunities"
 import { Contact } from "@/components/sections/contact"
 
@@ -20,6 +21,7 @@ export default function HomePage() {
         <People />
         <Publications />
         <News />
+        <Blog />
         <Opportunities />
         <Contact />
       </main>
