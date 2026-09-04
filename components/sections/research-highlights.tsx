@@ -46,7 +46,7 @@ export async function ResearchHighlights() {
                 <h3 className="mt-4 font-heading text-xl font-semibold text-ink">
                   {item.title}
                 </h3>
-                <p className="mt-2 font-body text-xl leading-8 text-dark-grey">
+                <p data-reduced-text="" className="mt-2 font-body text-xl leading-8 text-dark-grey">
                   {item.description}
                 </p>
               </div>

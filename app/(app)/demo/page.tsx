@@ -11,7 +11,7 @@ import { Contact } from "@/components/sections/contact"
 
 export const dynamic = "force-dynamic"
 
-type SearchParams = Promise<{ cards?: string; labels?: string; spacing?: string }>
+type SearchParams = Promise<{ cards?: string; labels?: string; spacing?: string; text?: string }>
 
 const cardVariants = [
   { key: "a", label: "Current" },
@@ -20,20 +20,22 @@ const cardVariants = [
 ]
 
 export default async function DemoPage({ searchParams }: { searchParams: SearchParams }) {
-  const { cards = "a", labels = "on", spacing = "default" } = await searchParams
+  const { cards = "a", labels = "on", spacing = "default", text = "default" } = await searchParams
   const cardVariant = (["a", "b", "c"].includes(cards) ? cards : "a") as "a" | "b" | "c"
   const showLabels = labels !== "off"
   const compact = spacing === "compact"
+  const reduced = text === "reduced"
 
   const wrapperClasses = [
     "min-h-screen",
     showLabels ? "" : "[&_[data-section-label]]:hidden",
     compact ? "[&_section]:!py-12" : "",
+    reduced ? "[&_[data-reduced-text]]:!text-base [&_[data-reduced-text]]:!leading-7" : "",
   ].filter(Boolean).join(" ")
 
   function href(overrides: Record<string, string>) {
-    const p = { cards, labels, spacing, ...overrides }
-    return `/demo?cards=${p.cards}&labels=${p.labels}&spacing=${p.spacing}`
+    const p = { cards, labels, spacing, text, ...overrides }
+    return `/demo?cards=${p.cards}&labels=${p.labels}&spacing=${p.spacing}&text=${p.text}`
   }
 
   return (
@@ -79,6 +81,15 @@ export default async function DemoPage({ searchParams }: { searchParams: SearchP
           {[{ key: "default", label: "Default" }, { key: "compact", label: "Compact" }].map((v) => (
             <a key={v.key} href={href({ spacing: v.key })}
               className={`rounded-full px-3 py-1 font-body text-sm transition-colors ${spacing === v.key ? "bg-ink text-white" : "text-grey hover:text-ink"}`}>
+              {v.label}
+            </a>
+          ))}
+          <div className="h-3 w-px bg-ink/15" />
+          <span className="px-3 font-body text-xs font-medium uppercase tracking-widest text-grey">Text</span>
+          <div className="h-3 w-px bg-ink/15" />
+          {[{ key: "default", label: "Default" }, { key: "reduced", label: "Reduced" }].map((v) => (
+            <a key={v.key} href={href({ text: v.key })}
+              className={`rounded-full px-3 py-1 font-body text-sm transition-colors ${text === v.key ? "bg-ink text-white" : "text-grey hover:text-ink"}`}>
               {v.label}
             </a>
           ))}

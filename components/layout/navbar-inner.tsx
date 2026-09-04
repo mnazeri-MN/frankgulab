@@ -39,6 +39,7 @@ export function NavbarInner({ s }: { s: Pick<SiteSettingsData, "logoUrl" | "labN
             <a
               key={link.href}
               href={link.href}
+              data-reduced-text=""
               className="font-body text-xl text-dark-grey transition-colors hover:text-ink"
             >
               {link.label}

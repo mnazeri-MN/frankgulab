@@ -43,7 +43,7 @@ function NewsCardA({ item }: { item: NewsItem }) {
       <div className="flex flex-col justify-between border-t border-ink/10 p-4 md:w-1/2 md:border-l md:border-t-0 md:p-5">
         <div>
           {item.summary ? (
-            <p className="font-body text-xl leading-9 text-dark-grey">{item.summary}</p>
+            <p data-reduced-text="" className="font-body text-xl leading-9 text-dark-grey">{item.summary}</p>
           ) : (
             <p className="font-body text-xl italic text-grey/50">No summary yet.</p>
           )}
@@ -96,7 +96,7 @@ function NewsCardB({ item }: { item: NewsItem }) {
       <div className="flex flex-col justify-between border-t border-ink/10 p-4 md:p-5">
         <div>
           {item.summary ? (
-            <p className="font-body text-xl leading-9 text-dark-grey">{item.summary}</p>
+            <p data-reduced-text="" className="font-body text-xl leading-9 text-dark-grey">{item.summary}</p>
           ) : (
             <p className="font-body text-xl italic text-grey/50">No summary yet.</p>
           )}
@@ -147,7 +147,7 @@ function NewsCardC({ item }: { item: NewsItem }) {
       <div className="flex flex-col justify-between p-4 md:p-5">
         <div>
           {item.summary ? (
-            <p className="font-body text-xl leading-9 text-dark-grey">{item.summary}</p>
+            <p data-reduced-text="" className="font-body text-xl leading-9 text-dark-grey">{item.summary}</p>
           ) : (
             <p className="font-body text-xl italic text-grey/50">No summary yet.</p>
           )}

@@ -23,11 +23,11 @@ export async function Opportunities() {
             <h2 className="mt-4 font-heading text-4xl font-semibold tracking-[-0.02em] text-ink md:text-5xl">
               Opportunities
             </h2>
-            <p className="mt-4 font-body text-xl leading-9 text-dark-grey">
+            <p data-reduced-text="" className="mt-4 font-body text-xl leading-9 text-dark-grey">
               {s.labName} is actively recruiting at all levels. We value
               curiosity, rigour, and the ability to build things that work.
             </p>
-            <p className="mt-3 font-body text-xl leading-9 text-dark-grey">
+            <p data-reduced-text="" className="mt-3 font-body text-xl leading-9 text-dark-grey">
               To apply, send your CV and a brief note about your research
               interests to{" "}
               <a
@@ -49,7 +49,7 @@ export async function Opportunities() {
                 <h3 className="font-heading text-xl font-semibold text-ink">
                   {pos.title}
                 </h3>
-                <p className="mt-2 font-body text-xl leading-9 text-dark-grey">
+                <p data-reduced-text="" className="mt-2 font-body text-xl leading-9 text-dark-grey">
                   {pos.description}
                 </p>
               </div>

@@ -22,10 +22,10 @@ export async function Footer() {
                 {s.labName}
               </p>
             </div>
-            <p className="mt-2 font-body text-xl text-white/50">
+            <p data-reduced-text="" className="mt-2 font-body text-xl text-white/50">
               {s.piName} · {s.institution}
             </p>
-            <p className="mt-1 font-body text-xl text-white/40">
+            <p data-reduced-text="" className="mt-1 font-body text-xl text-white/40">
               {s.department}
             </p>
             <div className="mt-4 flex items-center gap-2">
@@ -59,6 +59,7 @@ export async function Footer() {
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
+                data-reduced-text=""
                 className="font-body text-xl text-white/50 transition-colors hover:text-white"
               >
                 {item}
@@ -77,6 +78,7 @@ export async function Footer() {
                 href={affiliate.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-reduced-text=""
                 className="font-body text-xl text-white/50 transition-colors hover:text-white"
               >
                 {affiliate.name}
@@ -86,10 +88,10 @@ export async function Footer() {
         </div>
 
         <div className="mt-10 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-          <p className="font-body text-xl text-white/30">
+          <p data-reduced-text="" className="font-body text-xl text-white/30">
             {s.footerTagline}
           </p>
-          <p className="font-body text-xl text-white/30">
+          <p data-reduced-text="" className="font-body text-xl text-white/30">
             © {new Date().getFullYear()} {s.labName}. {s.institution}.
           </p>
         </div>
