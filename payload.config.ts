@@ -19,6 +19,10 @@ const statusField = {
     { label: "Draft", value: "draft" },
   ],
   defaultValue: "draft",
+  access: {
+    read: () => true,
+    update: ({ req }: { req: { user?: unknown } }) => isAdmin(req),
+  },
   admin: { description: "Controls whether this record appears on the public site. Only admins can change this." },
 }
 
