@@ -34,18 +34,25 @@ export async function People() {
 
   function toPerson(doc: (typeof docs)[number]): Person {
     const title = doc.title && doc.title !== "" ? `${doc.title} ` : ""
-    const displayName = `${title}${doc.preferredFirstName} ${doc.lastInitial}`
+    const showFull = doc.showFullLastName !== false
+    const lastName = showFull
+      ? (doc.lastInitial ?? "")
+      : `${(doc.lastInitial ?? "").charAt(0)}.`
+    const displayName = `${title}${doc.preferredFirstName} ${lastName}`
+
+    const photoUrl = doc.photo && typeof doc.photo === "object"
+      ? (doc.photo as { url?: string | null }).url ?? undefined
+      : undefined
+
     return {
       displayName,
       role: doc.role,
       lastInitial: doc.lastInitial ?? "",
-      bio: (doc.bio as string | null | undefined) ?? undefined,
-      email: doc.email ?? undefined,
-      scholar: doc.googleScholar ?? undefined,
-      linkedin: doc.linkedin ?? undefined,
-      photo: doc.photo && typeof doc.photo === "object"
-        ? (doc.photo as { url?: string | null }).url ?? undefined
-        : undefined,
+      bio: doc.showBio !== false ? ((doc.bio as string | null | undefined) ?? undefined) : undefined,
+      email: doc.showEmail === true ? (doc.email ?? undefined) : undefined,
+      scholar: doc.showScholar !== false ? (doc.googleScholar ?? undefined) : undefined,
+      linkedin: doc.showLinkedin !== false ? (doc.linkedin ?? undefined) : undefined,
+      photo: doc.showPhoto !== false ? photoUrl : undefined,
     }
   }
 

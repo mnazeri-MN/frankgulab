@@ -62,6 +62,13 @@ export default buildConfig({
           admin: { description: "Full last name (e.g. Gu, Smith, Johnson)" },
         },
         {
+          name: "showFullLastName",
+          type: "checkbox",
+          label: "Show full last name publicly",
+          defaultValue: true,
+          admin: { description: "When off, only the first initial is shown on the site (e.g. Frank G.)" },
+        },
+        {
           name: "role",
           type: "select",
           required: true,
@@ -78,7 +85,21 @@ export default buildConfig({
           ],
         },
         { name: "bio", type: "textarea", label: "Bio", admin: { description: "100–200 words. Research focus, background, and what they're working on." } },
+        {
+          name: "showBio",
+          type: "checkbox",
+          label: "Show bio publicly",
+          defaultValue: true,
+          admin: { description: "When off, the card is non-interactive and the bio is not shown on the site." },
+        },
         { name: "email", type: "email" },
+        {
+          name: "showEmail",
+          type: "checkbox",
+          label: "Show email publicly",
+          defaultValue: false,
+          admin: { description: "Off by default — enable to show the email address on the public site." },
+        },
         {
           name: "googleScholar",
           type: "text",
@@ -96,6 +117,12 @@ export default buildConfig({
           },
         },
         {
+          name: "showScholar",
+          type: "checkbox",
+          label: "Show Google Scholar link publicly",
+          defaultValue: true,
+        },
+        {
           name: "linkedin",
           type: "text",
           label: "LinkedIn URL",
@@ -111,7 +138,20 @@ export default buildConfig({
             },
           },
         },
+        {
+          name: "showLinkedin",
+          type: "checkbox",
+          label: "Show LinkedIn link publicly",
+          defaultValue: true,
+        },
         { name: "photo", type: "upload", relationTo: "media" },
+        {
+          name: "showPhoto",
+          type: "checkbox",
+          label: "Show photo publicly",
+          defaultValue: true,
+          admin: { description: "When off, the initial placeholder is shown instead of the photo." },
+        },
         {
           name: "startDate",
           type: "date",
