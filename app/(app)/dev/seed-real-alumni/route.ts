@@ -69,6 +69,7 @@ const ALUMNI: {
 ]
 
 export async function GET() {
+  try {
   const payload = await getPayload({ config })
 
   // Delete placeholders — fetch all, filter in JS to avoid where-clause issues
@@ -98,4 +99,8 @@ export async function GET() {
   }
 
   return NextResponse.json({ ok: true, created })
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err)
+    return NextResponse.json({ error: msg }, { status: 500 })
+  }
 }
