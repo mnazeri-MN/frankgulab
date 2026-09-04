@@ -42,6 +42,10 @@ export default buildConfig({
             { label: "Editor", value: "editor" },
           ],
           defaultValue: "editor",
+          access: {
+            read: () => true,
+            update: ({ req }) => isAdmin(req),
+          },
           admin: { description: "Admins can publish content. Editors can only save drafts for review." },
         },
       ],
