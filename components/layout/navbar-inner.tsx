@@ -18,7 +18,7 @@ export function NavbarInner({ s }: { s: Pick<SiteSettingsData, "logoUrl" | "labN
 
   return (
     <header className="sticky top-0 z-50 border-b border-ink/10 bg-warm-white/90 backdrop-blur">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-16">
+      <nav data-reduced-nav="" className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-16">
         <a href="#" className="flex items-center gap-3">
           <img src={s.logoUrl ?? "/fgl-logo.svg"} alt={`${s.labName} logo`} className="h-9 w-auto" />
           <div className="flex flex-col leading-tight md:hidden lg:flex">
