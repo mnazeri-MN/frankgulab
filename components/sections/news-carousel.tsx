@@ -255,7 +255,7 @@ export function NewsCarousel({ items, cardVariant = "a" }: { items: NewsItem[]; 
   const NewsCard = cardVariant === "d" ? NewsCardD : cardVariant === "c" ? NewsCardC : cardVariant === "b" ? NewsCardB : NewsCardA
 
   return (
-    <section id="news" className="bg-white px-6 py-section lg:px-16">
+    <section id="news" className="bg-warm-white px-6 py-section lg:px-16">
       <div className="mx-auto max-w-7xl">
         <div className="flex items-end justify-between">
           <div>

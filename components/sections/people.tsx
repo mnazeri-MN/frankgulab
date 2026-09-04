@@ -83,7 +83,7 @@ export async function People() {
   }
 
   return (
-    <section id="people" className="bg-white px-6 py-section lg:px-16">
+    <section id="people" className="bg-warm-white px-6 py-section lg:px-16">
       <div className="mx-auto max-w-7xl">
         <SectionLabel>The Team</SectionLabel>
         <h2 className="mt-4 font-heading text-4xl font-semibold tracking-[-0.02em] text-ink md:text-5xl">
