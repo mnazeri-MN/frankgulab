@@ -10,9 +10,6 @@ const dirname = path.dirname(filename)
 const isAdmin = (req: { user?: unknown } | undefined) =>
   (req?.user as { role?: string } | null)?.role === "admin"
 
-// Hides the Publish button for non-admins in the admin UI
-const conditionalPublishButton = "@/components/payload/conditional-publish-button#ConditionalPublishButton"
-
 // Prevent editors from publishing or unpublishing — only admins can change _status
 const preventEditorPublish = ({
   data,
@@ -98,7 +95,7 @@ export default buildConfig({
         update: ({ req }) => !!req.user,
         delete: ({ req }) => isAdmin(req),
       },
-      admin: { useAsTitle: "preferredFirstName", defaultColumns: ["preferredFirstName", "lastInitial", "role"], components: { edit: { PublishButton: conditionalPublishButton } } },
+      admin: { useAsTitle: "preferredFirstName", defaultColumns: ["preferredFirstName", "lastInitial", "role"] },
       fields: [
         {
           name: "title",
@@ -234,7 +231,7 @@ export default buildConfig({
         update: ({ req }) => !!req.user,
         delete: ({ req }) => isAdmin(req),
       },
-      admin: { useAsTitle: "title", defaultColumns: ["firstAuthor", "title", "year"], components: { edit: { PublishButton: conditionalPublishButton } } },
+      admin: { useAsTitle: "title", defaultColumns: ["firstAuthor", "title", "year"] },
       fields: [
         {
           name: "doi",
@@ -272,7 +269,7 @@ export default buildConfig({
         update: ({ req }) => !!req.user,
         delete: ({ req }) => isAdmin(req),
       },
-      admin: { useAsTitle: "title", defaultColumns: ["title", "tag", "order"], components: { edit: { PublishButton: conditionalPublishButton } } },
+      admin: { useAsTitle: "title", defaultColumns: ["title", "tag", "order"] },
       fields: [
         { name: "title", type: "text", required: true },
         { name: "description", type: "textarea", required: true, admin: { description: "Max 30 words. One punchy sentence summarising the research area." } },
@@ -310,7 +307,7 @@ export default buildConfig({
         update: ({ req }) => !!req.user,
         delete: ({ req }) => isAdmin(req),
       },
-      admin: { useAsTitle: "name", defaultColumns: ["name", "tagline", "order"], components: { edit: { PublishButton: conditionalPublishButton } } },
+      admin: { useAsTitle: "name", defaultColumns: ["name", "tagline", "order"] },
       fields: [
         { name: "name", type: "text", required: true, label: "Name / Title" },
         { name: "tagline", type: "text", required: true },
@@ -337,7 +334,6 @@ export default buildConfig({
       admin: {
         useAsTitle: "title",
         defaultColumns: ["title", "source", "date"],
-        components: { edit: { PublishButton: conditionalPublishButton } },
       },
       fields: [
         {
@@ -369,7 +365,7 @@ export default buildConfig({
         update: ({ req }) => !!req.user,
         delete: ({ req }) => isAdmin(req),
       },
-      admin: { useAsTitle: "title", defaultColumns: ["title", "order"], components: { edit: { PublishButton: conditionalPublishButton } } },
+      admin: { useAsTitle: "title", defaultColumns: ["title", "order"] },
       fields: [
         { name: "title", type: "text", required: true },
         { name: "description", type: "textarea", required: true },
@@ -387,7 +383,7 @@ export default buildConfig({
         update: ({ req }) => !!req.user,
         delete: ({ req }) => isAdmin(req),
       },
-      admin: { useAsTitle: "year", defaultColumns: ["year", "caption"], components: { edit: { PublishButton: conditionalPublishButton } } },
+      admin: { useAsTitle: "year", defaultColumns: ["year", "caption"] },
       fields: [
         { name: "year", type: "number", required: true, admin: { description: "Year the photo was taken (e.g. 2025)" } },
         { name: "caption", type: "text", label: "Caption (optional)" },
