@@ -36,16 +36,6 @@ export default buildConfig({
       slug: "users",
       auth: true,
       admin: { useAsTitle: "email" },
-      access: {
-        read: ({ req }) => !!req.user,
-        create: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
-        update: ({ req, id }) => {
-          if (!req.user) return false
-          if ((req.user as { role?: string }).role === "admin") return true
-          return (req.user as { id: number }).id === id
-        },
-        delete: ({ req }) => (req.user as { role?: string } | null)?.role === "admin",
-      },
       fields: [
         { name: "name", type: "text" },
         {
