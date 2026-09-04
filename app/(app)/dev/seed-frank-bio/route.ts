@@ -15,7 +15,7 @@ export async function GET() {
 
   const { docs } = await payload.find({
     collection: "people",
-    where: { displayName: { contains: "Frank" } },
+    where: { preferredFirstName: { contains: "Frank" } },
     limit: 5,
   })
 
@@ -26,5 +26,5 @@ export async function GET() {
   const frank = docs[0]
   await payload.update({ collection: "people", id: frank.id, data: { bio: BIO } as never })
 
-  return NextResponse.json({ ok: true, updated: frank.displayName })
+  return NextResponse.json({ ok: true, updated: frank.preferredFirstName })
 }
