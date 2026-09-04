@@ -55,7 +55,7 @@ function NewsCardA({ item }: { item: NewsItem }) {
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
             aria-label="Share on LinkedIn"
-            className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-sm text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
+            className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
           >
             <Linkedin className="h-3.5 w-3.5" />
             Share
@@ -108,7 +108,7 @@ function NewsCardB({ item }: { item: NewsItem }) {
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
             aria-label="Share on LinkedIn"
-            className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-sm text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
+            className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
           >
             <Linkedin className="h-3.5 w-3.5" />
             Share
@@ -159,7 +159,7 @@ function NewsCardC({ item }: { item: NewsItem }) {
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
             aria-label="Share on LinkedIn"
-            className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-sm text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
+            className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
           >
             <Linkedin className="h-3.5 w-3.5" />
             Share

@@ -29,7 +29,7 @@ export async function Contact() {
                   <Mail className="h-4 w-4 text-white" />
                 </div>
                 <div>
-                  <p className="font-body text-sm font-semibold uppercase tracking-[0.1em] text-white/40">
+                  <p className="font-body text-base font-semibold uppercase tracking-[0.1em] text-white/40">
                     Email
                   </p>
                   <a
@@ -46,7 +46,7 @@ export async function Contact() {
                   <MapPin className="h-4 w-4 text-white" />
                 </div>
                 <div>
-                  <p className="font-body text-sm font-semibold uppercase tracking-[0.1em] text-white/40">
+                  <p className="font-body text-base font-semibold uppercase tracking-[0.1em] text-white/40">
                     Location
                   </p>
                   <p className="mt-1 font-body text-xl text-white">

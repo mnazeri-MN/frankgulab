@@ -54,7 +54,7 @@ export async function Research() {
                     )}
                   </div>
                   <div className="p-4 md:p-6">
-                    <span className="inline-block rounded-full bg-accent/10 px-3 py-1 font-body text-sm font-medium text-accent">
+                    <span className="inline-block rounded-full bg-accent/10 px-3 py-1 font-body text-base font-medium text-accent">
                       {project.tag}
                     </span>
                     <h3 className="mt-3 font-heading text-xl font-semibold text-ink">

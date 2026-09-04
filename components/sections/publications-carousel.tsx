@@ -30,7 +30,7 @@ function PubCardA({ pub }: { pub: PublicationItem }) {
             <img src={pub.imageUrl} alt={pub.title} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-light-grey">
-              <span className="font-body text-sm text-grey">No image</span>
+              <span className="font-body text-base text-grey">No image</span>
             </div>
           )}
         </div>
@@ -58,7 +58,7 @@ function PubCardA({ pub }: { pub: PublicationItem }) {
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
               aria-label="Share on LinkedIn"
-              className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-sm text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
+              className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
             >
               <Linkedin className="h-3.5 w-3.5" />
               Share
@@ -113,7 +113,7 @@ function PubCardB({ pub }: { pub: PublicationItem }) {
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
               aria-label="Share on LinkedIn"
-              className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-sm text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
+              className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
             >
               <Linkedin className="h-3.5 w-3.5" />
               Share
@@ -168,7 +168,7 @@ function PubCardC({ pub }: { pub: PublicationItem }) {
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
               aria-label="Share on LinkedIn"
-              className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-sm text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
+              className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
             >
               <Linkedin className="h-3.5 w-3.5" />
               Share

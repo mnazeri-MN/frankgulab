@@ -37,7 +37,7 @@ function PersonCard({ person, interactive = false, bare = false }: { person: Per
       <h3 className="font-heading text-xl font-semibold text-ink">
         {person.displayName}
       </h3>
-      <p className="mt-0.5 font-body text-sm text-dark-grey">{person.role}</p>
+      <p className="mt-0.5 font-body text-base text-dark-grey">{person.role}</p>
       {(person.email || person.scholar || person.linkedin) && (
         <div className="mt-auto pt-3 flex items-center gap-3">
           {person.email && (

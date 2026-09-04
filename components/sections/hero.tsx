@@ -28,7 +28,7 @@ export async function Hero() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <div>
-            <p className="font-body text-sm font-semibold uppercase tracking-[0.12em] text-accent">
+            <p className="font-body text-base font-semibold uppercase tracking-[0.12em] text-accent">
               {s.institution}
             </p>
             <h1 className="mt-4 font-heading text-5xl font-semibold leading-[1.05] tracking-[-0.03em] text-ink md:text-6xl lg:text-7xl">
