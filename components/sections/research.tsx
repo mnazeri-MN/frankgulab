@@ -14,7 +14,7 @@ export async function Research() {
     collection: "projects",
     sort: "order",
     limit: 20,
-    where: { status: { equals: "published" } },
+    where: { _status: { equals: "published" } },
   })
 
   return (

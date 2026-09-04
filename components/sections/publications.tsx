@@ -9,7 +9,7 @@ export async function Publications({ cardVariant }: { cardVariant?: "a" | "b" | 
     collection: "publications",
     sort: "-year",
     limit: 200,
-    where: { status: { equals: "published" } },
+    where: { _status: { equals: "published" } },
   })
 
   const publications: PublicationItem[] = docs.map((doc) => {

@@ -10,20 +10,12 @@ const dirname = path.dirname(filename)
 const isAdmin = (req: { user?: unknown } | undefined) =>
   (req?.user as { role?: string } | null)?.role === "admin"
 
-const statusField = {
-  name: "status",
-  type: "select" as const,
-  label: "Status",
-  options: [
-    { label: "Published", value: "published" },
-    { label: "Draft", value: "draft" },
-  ],
-  defaultValue: "draft",
-  access: {
-    read: () => true,
-    update: ({ req }: { req: { user?: unknown } }) => isAdmin(req),
-  },
-  admin: { description: "Controls whether this record appears on the public site. Only admins can change this." },
+// Prevent editors from publishing — only admins can set _status to "published"
+const preventEditorPublish = ({ data, req }: { data: Record<string, unknown>; req: { user?: unknown } }) => {
+  if (data._status === "published" && !isAdmin(req)) {
+    throw new Error("Only admins can publish content. Save as draft instead.")
+  }
+  return data
 }
 
 export default buildConfig({
@@ -83,6 +75,8 @@ export default buildConfig({
 
     {
       slug: "people",
+      versions: { drafts: true },
+      hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
         create: ({ req }) => !!req.user,
@@ -212,12 +206,13 @@ export default buildConfig({
           label: "End Date",
           admin: { description: "When this person leaves the lab. Leave blank for permanent members (e.g. Frank)." },
         },
-        statusField,
       ],
     },
 
     {
       slug: "publications",
+      versions: { drafts: true },
+      hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
         create: ({ req }) => !!req.user,
@@ -249,12 +244,13 @@ export default buildConfig({
           admin: { description: "Upload an image to override the one fetched from the DOI URL" },
         },
         { name: "fetchedImageUrl", type: "text", admin: { hidden: true } },
-        statusField,
       ],
     },
 
     {
       slug: "projects",
+      versions: { drafts: true },
+      hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
         create: ({ req }) => !!req.user,
@@ -285,13 +281,14 @@ export default buildConfig({
           defaultValue: 99,
           admin: { description: "Display order (lower = first)" },
         },
-        statusField,
       ],
     },
 
 
     {
       slug: "hero-slides",
+      versions: { drafts: true },
+      hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
         create: ({ req }) => !!req.user,
@@ -309,12 +306,13 @@ export default buildConfig({
           defaultValue: 99,
           admin: { description: "Display order (lower = first)" },
         },
-        statusField,
       ],
     },
 
     {
       slug: "news",
+      versions: { drafts: true },
+      hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
         create: ({ req }) => !!req.user,
@@ -342,12 +340,13 @@ export default buildConfig({
         { name: "url", type: "text", required: true, label: "Article URL" },
         { name: "imageUrl", type: "text", label: "Image URL", admin: { description: "Paste the image URL directly from the article page" } },
         { name: "summary", type: "textarea", label: "Summary", admin: { description: "~50 words. What happened and why it matters." } },
-        statusField,
       ],
     },
 
     {
       slug: "opportunities",
+      versions: { drafts: true },
+      hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
         create: ({ req }) => !!req.user,
@@ -359,12 +358,13 @@ export default buildConfig({
         { name: "title", type: "text", required: true },
         { name: "description", type: "textarea", required: true },
         { name: "order", type: "number", defaultValue: 99, admin: { description: "Display order (lower = first)" } },
-        statusField,
       ],
     },
 
     {
       slug: "lab-photos",
+      versions: { drafts: true },
+      hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
         create: ({ req }) => !!req.user,
@@ -377,7 +377,6 @@ export default buildConfig({
         { name: "caption", type: "text", label: "Caption (optional)" },
         { name: "photo", type: "upload", relationTo: "media", required: true },
         { name: "order", type: "number", defaultValue: 99, admin: { description: "Display order (lower = first). Use 1 for newest." } },
-        statusField,
       ],
     },
 
