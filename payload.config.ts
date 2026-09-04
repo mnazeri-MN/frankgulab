@@ -233,6 +233,17 @@ export default buildConfig({
     },
 
     {
+      slug: "lab-photos",
+      admin: { useAsTitle: "year", defaultColumns: ["year", "caption"] },
+      fields: [
+        { name: "year", type: "number", required: true, admin: { description: "Year the photo was taken (e.g. 2025)" } },
+        { name: "caption", type: "text", label: "Caption (optional)" },
+        { name: "photo", type: "upload", relationTo: "media", required: true },
+        { name: "order", type: "number", defaultValue: 99, admin: { description: "Display order (lower = first). Use 1 for newest." } },
+      ],
+    },
+
+    {
       slug: "research-highlights",
       admin: {
         useAsTitle: "title",

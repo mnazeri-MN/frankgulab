@@ -2,6 +2,7 @@ import { getPayload } from "payload"
 import config from "@payload-config"
 import { SectionLabel } from "@/components/ui/section-label"
 import { PeopleGrid, type Person } from "@/components/sections/people-client"
+import { LabPhotosCarousel, type LabPhoto } from "@/components/sections/lab-photos-carousel"
 
 const ROLE_PRIORITY: Record<string, number> = {
   "Principal Investigator": 0,
@@ -59,6 +60,28 @@ export async function People() {
   const people = sortPeople(docs.filter(isActive)).map(toPerson)
   const alumni = sortPeople(docs.filter((d) => !isActive(d) && d.endDate)).map(toPerson)
 
+  let labPhotos: LabPhoto[] = []
+  try {
+    const { docs: photoDocs } = await payload.find({
+      collection: "lab-photos",
+      sort: "order",
+      limit: 50,
+    })
+    labPhotos = photoDocs
+      .filter((d) => d.photo && typeof d.photo === "object")
+      .map((d) => {
+        const img = d.photo as { url?: string | null; alt?: string | null }
+        return {
+          url: img.url ?? "",
+          alt: img.alt ?? `Lab photo ${d.year}`,
+          year: d.year,
+          caption: (d.caption as string | null) ?? undefined,
+        }
+      })
+  } catch {
+    // table not yet migrated — skip
+  }
+
   return (
     <section id="people" className="bg-white px-6 py-section lg:px-16">
       <div className="mx-auto max-w-7xl">
@@ -71,6 +94,7 @@ export async function People() {
           working at the frontier of automated discovery.
         </p>
         <PeopleGrid people={people} alumni={alumni} />
+        <LabPhotosCarousel photos={labPhotos} />
       </div>
     </section>
   )
