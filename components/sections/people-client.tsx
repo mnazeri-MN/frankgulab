@@ -109,9 +109,47 @@ function PersonModal({ person, onClose }: { person: Person; onClose: () => void 
           <X className="h-5 w-5" />
         </button>
 
-        {/* Left: glass panel matching navbar, card floats inside */}
+        {/* Left: glass panel — horizontal strip on mobile, vertical card on desktop */}
         <div className="bg-warm-white/90 backdrop-blur-md md:w-56 md:shrink-0 p-5 border-b border-white/30 md:border-b-0 md:border-r">
-          <PersonCard person={person} bare />
+          {/* Mobile: compact horizontal */}
+          <div className="flex items-center gap-4 md:hidden">
+            <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-inner bg-light-grey">
+              {person.photo ? (
+                <Image src={person.photo} alt={person.displayName} fill className="object-cover" />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center">
+                  <span className="font-heading text-xl font-semibold text-grey">{person.displayName.charAt(0)}</span>
+                </div>
+              )}
+            </div>
+            <div className="min-w-0">
+              <h3 className="font-heading text-xl font-semibold text-ink">{person.displayName}</h3>
+              <p className="font-body text-base text-dark-grey">{person.role}</p>
+              {(person.email || person.scholar || person.linkedin) && (
+                <div className="mt-2 flex items-center gap-3">
+                  {person.email && (
+                    <a href={`mailto:${person.email}`} className="text-grey transition-colors hover:text-ink" aria-label="Email" onClick={(e) => e.stopPropagation()}>
+                      <Mail className="h-4 w-4" />
+                    </a>
+                  )}
+                  {person.scholar && (
+                    <a href={person.scholar} className="text-grey transition-colors hover:text-ink" aria-label="Google Scholar" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                      <BookOpen className="h-4 w-4" />
+                    </a>
+                  )}
+                  {person.linkedin && (
+                    <a href={person.linkedin} className="text-grey transition-colors hover:text-ink" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                      <Linkedin className="h-4 w-4" />
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+          {/* Desktop: full vertical card */}
+          <div className="hidden md:block">
+            <PersonCard person={person} bare />
+          </div>
         </div>
 
         {/* Right: bio */}
