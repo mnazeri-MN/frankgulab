@@ -17,11 +17,12 @@ const cardVariants = [
   { key: "a", label: "Current" },
   { key: "b", label: "Image · Title · Summary" },
   { key: "c", label: "Full Image · Overlay" },
+  { key: "d", label: "Cropped · Title · Bottom Bar" },
 ]
 
 export default async function DemoPage({ searchParams }: { searchParams: SearchParams }) {
   const { cards = "a", labels = "on", spacing = "default", text = "default" } = await searchParams
-  const cardVariant = (["a", "b", "c"].includes(cards) ? cards : "a") as "a" | "b" | "c"
+  const cardVariant = (["a", "b", "c", "d"].includes(cards) ? cards : "a") as "a" | "b" | "c" | "d"
   const showLabels = labels !== "off"
   const compact = spacing === "compact"
   const reduced = text === "reduced"
