@@ -99,7 +99,7 @@ export default buildConfig({
         useAsTitle: "preferredFirstName",
         defaultColumns: ["preferredFirstName", "lastInitial", "role"],
         components: {
-          beforeListTable: ["@/components/payload/export-people-button#ExportPeopleButton"],
+          beforeList: ["@/components/payload/export-people-button#ExportPeopleButton"],
         },
       },
       fields: [
