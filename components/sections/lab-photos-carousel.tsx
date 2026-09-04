@@ -13,7 +13,7 @@ export function LabPhotosCarousel({ photos }: { photos: LabPhoto[] }) {
       {photos.map((photo, i) => (
         <div
           key={i}
-          className="relative w-80 shrink-0 overflow-hidden rounded-card snap-start lg:w-[28rem]"
+          className="relative w-[40rem] shrink-0 overflow-hidden rounded-card snap-start lg:w-[56rem]"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
