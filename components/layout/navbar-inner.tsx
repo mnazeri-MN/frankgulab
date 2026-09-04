@@ -22,13 +22,13 @@ export function NavbarInner({ s }: { s: Pick<SiteSettingsData, "logoUrl" | "labN
         <a href="#" className="flex items-center gap-3">
           <img src={s.logoUrl ?? "/fgl-logo.svg"} alt={`${s.labName} logo`} className="h-9 w-auto" />
           <div className="flex flex-col leading-tight md:hidden lg:flex">
-            <span className="font-heading text-xl font-semibold text-ink">
+            <span data-reduced-text="" className="font-heading text-xl font-semibold text-ink">
               {s.labName}
             </span>
-            <span className="font-body text-xl text-dark-grey min-[1152px]:hidden">
+            <span data-reduced-text="" className="font-body text-xl text-dark-grey min-[1152px]:hidden">
               {s.piName}
             </span>
-            <span className="hidden font-body text-xl text-dark-grey min-[1152px]:block">
+            <span data-reduced-text="" className="hidden font-body text-xl text-dark-grey min-[1152px]:block">
               {s.piName} · {s.institution}
             </span>
           </div>
