@@ -95,7 +95,13 @@ export default buildConfig({
         update: ({ req }) => !!req.user,
         delete: ({ req }) => isAdmin(req),
       },
-      admin: { useAsTitle: "preferredFirstName", defaultColumns: ["preferredFirstName", "lastInitial", "role"] },
+      admin: {
+        useAsTitle: "preferredFirstName",
+        defaultColumns: ["preferredFirstName", "lastInitial", "role"],
+        components: {
+          beforeListTable: ["@/components/payload/export-people-button#ExportPeopleButton"],
+        },
+      },
       fields: [
         {
           name: "title",
