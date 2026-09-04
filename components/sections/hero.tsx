@@ -34,7 +34,7 @@ export async function Hero() {
             <h1 className="mt-4 font-heading text-5xl font-semibold leading-[1.05] tracking-[-0.03em] text-ink md:text-6xl lg:text-7xl">
               {s.labName}
             </h1>
-            <p className="mt-6 max-w-xl font-body text-xl leading-9 text-dark-grey">
+            <p className="mt-6 max-w-xl font-body text-2xl leading-10 text-dark-grey">
               {s.missionStatement}
             </p>
             <p className="mt-4 max-w-lg font-body text-xl leading-9 text-grey">
