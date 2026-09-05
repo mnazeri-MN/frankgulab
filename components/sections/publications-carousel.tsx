@@ -311,13 +311,24 @@ export function PublicationsCarousel({ publications, cardVariant = "a", cardLayo
     resetTimer()
   }
 
+  const [cols, setCols] = useState(3)
+  useEffect(() => {
+    function update() {
+      if (window.innerWidth < 640) setCols(1)
+      else if (window.innerWidth < 1024) setCols(2)
+      else setCols(3)
+    }
+    update()
+    window.addEventListener("resize", update)
+    return () => window.removeEventListener("resize", update)
+  }, [])
+
   const visible = publications.slice(start, start + VISIBLE)
   const PubCard = cardVariant === "e" ? PubCardE : cardVariant === "d" ? PubCardD : cardVariant === "c" ? PubCardC : cardVariant === "b" ? PubCardB : PubCardA
 
-  const VISIBLE3 = 3
-  const max3 = Math.max(0, publications.length - VISIBLE3)
+  const max3 = Math.max(0, publications.length - cols)
   const start3 = Math.min(start, max3)
-  const visible3 = publications.slice(start3, start3 + VISIBLE3)
+  const visible3 = publications.slice(start3, start3 + cols)
 
   if (cardLayout === "grid3") {
     return (
@@ -330,12 +341,12 @@ export function PublicationsCarousel({ publications, cardVariant = "a", cardLayo
                 Publications
               </h2>
             </div>
-            {publications.length > VISIBLE3 && (
+            {publications.length > cols && (
               <div className="hidden items-center gap-2 md:flex">
-                <button onClick={() => { setStart((s) => Math.max(0, s - VISIBLE3)); resetTimer() }} aria-label="Previous publications" className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
+                <button onClick={() => { setStart((s) => Math.max(0, s - cols)); resetTimer() }} aria-label="Previous publications" className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
                   <ChevronLeft className="h-4 w-4" />
                 </button>
-                <button onClick={() => { setStart((s) => (s + VISIBLE3 > max3 ? 0 : s + VISIBLE3)); resetTimer() }} aria-label="Next publications" className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
+                <button onClick={() => { setStart((s) => (s + cols > max3 ? 0 : s + cols)); resetTimer() }} aria-label="Next publications" className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
                   <ChevronRight className="h-4 w-4" />
                 </button>
               </div>
@@ -351,10 +362,10 @@ export function PublicationsCarousel({ publications, cardVariant = "a", cardLayo
               <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {visible3.map((pub, i) => <PubCard key={i} pub={pub} />)}
               </div>
-              {publications.length > VISIBLE3 && (
+              {publications.length > cols && (
                 <div className="mt-6 flex items-center justify-center gap-2">
-                  {Array.from({ length: Math.ceil(publications.length / VISIBLE3) }).map((_, i) => (
-                    <button key={i} onClick={() => { setStart(i * VISIBLE3); resetTimer() }} aria-label={`Page ${i + 1}`} className={`h-1.5 rounded-full transition-all duration-300 ${Math.floor(start3 / VISIBLE3) === i ? "w-6 bg-ink" : "w-1.5 bg-light-grey"}`} />
+                  {Array.from({ length: Math.ceil(publications.length / cols) }).map((_, i) => (
+                    <button key={i} onClick={() => { setStart(i * cols); resetTimer() }} aria-label={`Page ${i + 1}`} className={`h-1.5 rounded-full transition-all duration-300 ${Math.floor(start3 / cols) === i ? "w-6 bg-ink" : "w-1.5 bg-light-grey"}`} />
                   ))}
                 </div>
               )}
