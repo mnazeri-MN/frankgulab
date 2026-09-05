@@ -334,7 +334,7 @@ export function NewsCarousel({ items, cardVariant = "a", cardLayout = "carousel"
             <p className="mt-10 font-body text-xl text-grey">No news yet.</p>
           ) : (
             <>
-              <div className="mt-10 grid gap-5 lg:grid-cols-3">
+              <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {visible3.map((item, i) => <NewsCard key={i} item={item} />)}
               </div>
               {items.length > VISIBLE3 && (
