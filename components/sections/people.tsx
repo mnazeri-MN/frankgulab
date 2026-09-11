@@ -21,9 +21,25 @@ export async function People() {
   const payload = await getPayload({ config })
   const { docs } = await payload.find({
     collection: "people",
+    depth: 0,
     limit: 100,
     where: { _status: { equals: "published" } },
   })
+
+  // Fetch raw media URLs directly — bypasses Payload's afterRead hook which
+  // ignores stored url when filename is set and regenerates /api/media/file/<n>.
+  const photoIds = docs.map(d => d.photo).filter((v): v is number => typeof v === "number")
+  const mediaUrls: Record<number, string> = {}
+  if (photoIds.length > 0) {
+    const db = (payload.db as unknown as { pool: { query: (sql: string, params: unknown[]) => Promise<{ rows: { id: number; url: string }[] }> } }).pool
+    const result = await db.query(
+      "SELECT id, url FROM media WHERE id = ANY($1::int[])",
+      [photoIds]
+    )
+    for (const row of result.rows) {
+      if (row.url) mediaUrls[row.id] = row.url
+    }
+  }
 
   const today = new Date()
   function isActive(doc: (typeof docs)[number]) {
@@ -42,9 +58,8 @@ export async function People() {
       : `${(doc.lastInitial ?? "").charAt(0)}.`
     const displayName = `${title}${doc.preferredFirstName} ${lastName}`
 
-    const photoUrl = doc.photo && typeof doc.photo === "object"
-      ? (doc.photo as { url?: string | null }).url ?? undefined
-      : undefined
+    const photoId = typeof doc.photo === "number" ? doc.photo : null
+    const photoUrl = photoId ? mediaUrls[photoId] : undefined
 
     return {
       displayName,
