@@ -7,13 +7,14 @@ import { LabPhotosCarousel, type LabPhoto } from "@/components/sections/lab-phot
 const ROLE_PRIORITY: Record<string, number> = {
   "Principal Investigator": 0,
   "Research Associate": 1,
-  "Postdoctoral Fellow": 2,
-  "PhD Candidate": 3,
-  "Lab Manager": 4,
-  "MASc Student": 5,
-  "MEng Student": 6,
-  "Undergraduate Researcher": 7,
-  "Visiting Scholar": 8,
+  "Research Assistant": 2,
+  "Postdoctoral Fellow": 3,
+  "PhD Candidate": 4,
+  "Lab Manager": 5,
+  "MASc Student": 6,
+  "MEng Student": 7,
+  "Undergraduate Researcher": 8,
+  "Visiting Scholar": 9,
 }
 
 export async function People() {

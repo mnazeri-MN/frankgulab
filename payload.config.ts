@@ -138,6 +138,7 @@ export default buildConfig({
           options: [
             { label: "Principal Investigator", value: "Principal Investigator" },
             { label: "Research Associate", value: "Research Associate" },
+            { label: "Research Assistant", value: "Research Assistant" },
             { label: "Postdoctoral Fellow", value: "Postdoctoral Fellow" },
             { label: "PhD Candidate", value: "PhD Candidate" },
             { label: "Lab Manager", value: "Lab Manager" },
