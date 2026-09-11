@@ -1,19 +1,21 @@
-import type { ServerProps } from "payload"
+import type { AdminViewServerProps } from "payload"
 import { DefaultTemplate } from "@payloadcms/next/templates"
 
 const COLLECTIONS = [
-  { slug: "people",       label: "People",             titleField: "preferredFirstName" },
-  { slug: "publications", label: "Publications",        titleField: "title" },
-  { slug: "projects",     label: "Research Highlights", titleField: "title" },
-  { slug: "hero-slides",  label: "Hero Slides",         titleField: "name" },
-  { slug: "news",         label: "News",                titleField: "title" },
-  { slug: "opportunities",label: "Opportunities",       titleField: "title" },
-  { slug: "posts",        label: "Posts",               titleField: "title" },
-  { slug: "lab-photos",   label: "Lab Photos",          titleField: "year" },
+  { slug: "people",        label: "People",             titleField: "preferredFirstName" },
+  { slug: "publications",  label: "Publications",        titleField: "title" },
+  { slug: "projects",      label: "Research Highlights", titleField: "title" },
+  { slug: "hero-slides",   label: "Hero Slides",         titleField: "name" },
+  { slug: "news",          label: "News",                titleField: "title" },
+  { slug: "opportunities", label: "Opportunities",       titleField: "title" },
+  { slug: "posts",         label: "Posts",               titleField: "title" },
+  { slug: "lab-photos",    label: "Lab Photos",          titleField: "year" },
 ] as const
 
-export default async function PendingChangesView(props: ServerProps) {
-  const { payload, user, i18n, visibleEntities } = props
+export default async function PendingChangesView(props: AdminViewServerProps) {
+  const { initPageResult, params, searchParams } = props
+  const { req, visibleEntities } = initPageResult
+  const { payload, user } = req
 
   const isAdmin = (user as { role?: string } | null)?.role === "admin"
 
@@ -38,10 +40,12 @@ export default async function PendingChangesView(props: ServerProps) {
 
   return (
     <DefaultTemplate
-      i18n={i18n}
+      i18n={req.i18n}
       payload={payload}
-      visibleEntities={visibleEntities!}
-      user={user}
+      visibleEntities={visibleEntities}
+      user={user ?? undefined}
+      params={params}
+      searchParams={searchParams}
     >
       <div style={{ padding: "32px 40px", maxWidth: 860 }}>
         <h1 style={{ fontSize: 24, fontWeight: 600, marginBottom: 8 }}>Pending Changes</h1>
