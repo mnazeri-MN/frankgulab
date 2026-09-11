@@ -35,8 +35,8 @@ export default async function DemoPage({ searchParams }: { searchParams: SearchP
         <main>
           <Hero />
           <Research />
-          <People />
           <Publications cardVariant={cardVariant} cardLayout={cardLayout} />
+          <People />
           <News cardVariant={cardVariant} cardLayout={cardLayout} />
           <Opportunities />
           <Contact />

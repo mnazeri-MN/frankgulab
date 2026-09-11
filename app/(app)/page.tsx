@@ -18,8 +18,8 @@ export default function HomePage() {
       <main>
         <Hero />
         <Research />
-        <People />
         <Publications cardVariant="e" cardLayout="grid3" />
+        <People />
         <News cardVariant="e" cardLayout="grid3" />
         <Blog />
         <Opportunities />
