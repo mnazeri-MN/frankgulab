@@ -13,8 +13,8 @@ const config: Config = {
       },
       colors: {
         ink: "rgb(26, 26, 26)",
-        grey: "rgb(153, 153, 153)",
-        "dark-grey": "rgb(102, 102, 102)",
+        grey: "rgb(100, 100, 100)",
+        "dark-grey": "rgb(64, 64, 64)",
         "light-grey": "rgb(204, 204, 204)",
         "warm-white": "rgb(245, 244, 240)",
         accent: "#2987d9",
