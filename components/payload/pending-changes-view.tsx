@@ -5,7 +5,7 @@ import { headers as getHeaders } from "next/headers"
 const COLLECTIONS = [
   { slug: "people",              label: "People",             titleField: "preferredFirstName" },
   { slug: "publications",        label: "Publications",        titleField: "title" },
-  { slug: "research-highlights", label: "Research Highlights", titleField: "title" },
+  { slug: "projects",            label: "Research Highlights", titleField: "title" },
   { slug: "hero-slides",         label: "Hero Slides",         titleField: "name" },
   { slug: "news",                label: "News",                titleField: "title" },
   { slug: "opportunities",       label: "Opportunities",       titleField: "title" },
