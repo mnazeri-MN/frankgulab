@@ -26,7 +26,7 @@ export function LabPhotosCarousel({ photos }: { photos: LabPhoto[] }) {
           animation-play-state: paused;
         }
       `}</style>
-      <div className="lab-scroll-track flex gap-4" style={{ width: "max-content" }}>
+      <div className="lab-scroll-track flex items-center gap-4" style={{ width: "max-content" }}>
         {doubled.map((photo, i) => (
           <div
             key={i}
