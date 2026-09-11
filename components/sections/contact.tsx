@@ -10,7 +10,7 @@ export async function Contact() {
   const photoAlt = s.contactPhotoAlt ?? `${s.labName} team`
 
   return (
-    <section id="contact" className="bg-ink px-6 py-section lg:px-16">
+    <section id="contact" className="bg-ink px-6 py-12 lg:px-16">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
           <div>

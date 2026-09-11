@@ -332,7 +332,7 @@ export function NewsCarousel({ items, cardVariant = "a", cardLayout = "carousel"
 
   if (cardLayout === "grid3") {
     return (
-      <section id="news" className="bg-warm-white px-6 py-section lg:px-16">
+      <section id="news" className="bg-warm-white px-6 py-12 lg:px-16">
         <div className="mx-auto max-w-7xl">
           <div className="flex items-end justify-between">
             <div>
@@ -377,7 +377,7 @@ export function NewsCarousel({ items, cardVariant = "a", cardLayout = "carousel"
   }
 
   return (
-    <section id="news" className="bg-warm-white px-6 py-section lg:px-16">
+    <section id="news" className="bg-warm-white px-6 py-12 lg:px-16">
       <div className="mx-auto max-w-7xl">
         <div className="flex items-end justify-between">
           <div>

@@ -63,7 +63,7 @@ export async function Blog() {
   if (posts.length === 0) return null
 
   return (
-    <section id="blog" className="bg-white px-6 py-section lg:px-16">
+    <section id="blog" className="bg-white px-6 py-12 lg:px-16">
       <div className="mx-auto max-w-7xl">
         <SectionLabel>Blog</SectionLabel>
         <div className="mt-4 flex items-end justify-between">

@@ -15,7 +15,7 @@ export async function Opportunities() {
   }
 
   return (
-    <section id="opportunities" className="bg-warm-white px-6 py-section lg:px-16">
+    <section id="opportunities" className="bg-warm-white px-6 py-12 lg:px-16">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-16 lg:grid-cols-[1fr_1.2fr] lg:items-start">
           <div>

@@ -365,7 +365,7 @@ export function PublicationsCarousel({ publications, cardVariant = "a", cardLayo
 
   if (cardLayout === "grid3") {
     return (
-      <section id="publications" className="bg-warm-white px-6 py-section lg:px-16">
+      <section id="publications" className="bg-warm-white px-6 py-12 lg:px-16">
         <div className="mx-auto max-w-7xl">
           <div className="flex items-end justify-between">
             <div>
@@ -410,7 +410,7 @@ export function PublicationsCarousel({ publications, cardVariant = "a", cardLayo
   }
 
   return (
-    <section id="publications" className="bg-white px-6 py-section lg:px-16">
+    <section id="publications" className="bg-white px-6 py-12 lg:px-16">
       <div className="mx-auto max-w-7xl">
         <div className="flex items-end justify-between">
           <div>

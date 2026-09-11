@@ -11,6 +11,7 @@ export function SectionLabel({
     <p
       data-section-label=""
       className={cn(
+        "hidden",
         "font-body text-base font-semibold uppercase tracking-[0.12em]",
         light ? "text-white/60" : "text-dark-grey"
       )}
