@@ -359,13 +359,13 @@ export function NewsCarousel({ items, cardVariant = "a", cardLayout = "carousel"
             <p className="mt-10 font-body text-xl text-grey">No news yet.</p>
           ) : (
             <>
-              <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" onTouchStart={onTouchStart} onTouchEnd={(e) => onTouchEnd(e, cols)}>
+              <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" onTouchStart={onTouchStart} onTouchEnd={(e) => onTouchEnd(e, 1)}>
                 {visible3.map((item, i) => <NewsCard key={i} item={item} />)}
               </div>
               {items.length > cols && (
                 <div className="mt-6 flex items-center justify-center gap-2">
-                  {Array.from({ length: Math.ceil(items.length / cols) }).map((_, i) => (
-                    <button key={i} onClick={() => { setStart(i * cols); resetTimer() }} aria-label={`Page ${i + 1}`} className={`h-1.5 rounded-full transition-all duration-300 ${Math.floor(start3 / cols) === i ? "w-6 bg-ink" : "w-1.5 bg-light-grey"}`} />
+                  {Array.from({ length: max3 + 1 }).map((_, i) => (
+                    <button key={i} onClick={() => { setStart(i); resetTimer() }} aria-label={`Position ${i + 1}`} className={`h-1.5 rounded-full transition-all duration-300 ${start3 === i ? "w-6 bg-ink" : "w-1.5 bg-light-grey"}`} />
                   ))}
                 </div>
               )}
