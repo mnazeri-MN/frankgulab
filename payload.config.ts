@@ -31,7 +31,16 @@ export default buildConfig({
   admin: {
     user: "users",
     components: {
-      afterNavLinks: ["@/components/payload/export-people-button#ExportPeopleButton"],
+      afterNavLinks: [
+        "@/components/payload/export-people-button#ExportPeopleButton",
+        "@/components/payload/pending-changes-nav#PendingChangesNav",
+      ],
+      views: {
+        pendingChanges: {
+          Component: "@/components/payload/pending-changes-view#default",
+          path: "/pending-changes",
+        },
+      },
     },
   },
 
