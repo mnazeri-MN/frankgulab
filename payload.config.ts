@@ -24,6 +24,9 @@ const preventEditorPublish = ({
   if (data._status === "published") {
     throw new Error("Only admins can publish content. Save as draft instead.")
   }
+  if (data._status === "draft" && originalDoc?._status === "published") {
+    throw new Error("Only admins can unpublish content.")
+  }
   return data
 }
 
@@ -87,7 +90,7 @@ export default buildConfig({
 
     {
       slug: "people",
-      versions: { drafts: true },
+      versions: { drafts: { autosave: true } },
       hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
@@ -223,7 +226,7 @@ export default buildConfig({
 
     {
       slug: "publications",
-      versions: { drafts: true },
+      versions: { drafts: { autosave: true } },
       hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
@@ -261,7 +264,7 @@ export default buildConfig({
 
     {
       slug: "projects",
-      versions: { drafts: true },
+      versions: { drafts: { autosave: true } },
       hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
@@ -299,7 +302,7 @@ export default buildConfig({
 
     {
       slug: "hero-slides",
-      versions: { drafts: true },
+      versions: { drafts: { autosave: true } },
       hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
@@ -323,7 +326,7 @@ export default buildConfig({
 
     {
       slug: "news",
-      versions: { drafts: true },
+      versions: { drafts: { autosave: true } },
       hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
@@ -357,7 +360,7 @@ export default buildConfig({
 
     {
       slug: "opportunities",
-      versions: { drafts: true },
+      versions: { drafts: { autosave: true } },
       hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
@@ -375,7 +378,7 @@ export default buildConfig({
 
     {
       slug: "posts",
-      versions: { drafts: true },
+      versions: { drafts: { autosave: true } },
       hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
@@ -419,7 +422,7 @@ export default buildConfig({
 
     {
       slug: "lab-photos",
-      versions: { drafts: true },
+      versions: { drafts: { autosave: true } },
       hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
