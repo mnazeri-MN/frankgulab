@@ -24,9 +24,6 @@ const preventEditorPublish = ({
   if (data._status === "published") {
     throw new Error("Only admins can publish content. Save as draft instead.")
   }
-  if (data._status === "draft" && originalDoc?._status === "published") {
-    throw new Error("Only admins can unpublish content.")
-  }
   return data
 }
 
