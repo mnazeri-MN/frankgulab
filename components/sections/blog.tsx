@@ -1,8 +1,11 @@
 import Link from "next/link"
 import Image from "next/image"
+import { Linkedin } from "lucide-react"
 import { getPayload } from "payload"
 import config from "@payload-config"
 import { SectionLabel } from "@/components/ui/section-label"
+
+const SITE_URL = "https://frankgulab.com"
 
 export async function Blog() {
   const payload = await getPayload({ config })
@@ -77,38 +80,48 @@ export async function Blog() {
 
         <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
-            <Link
-              key={post.slug}
-              href={`/blog/${post.slug}`}
-              className="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-warm-white transition-shadow hover:shadow-md"
-            >
-              {post.coverImageUrl && (
-                <div className="relative h-48 w-full overflow-hidden">
-                  <Image
-                    src={post.coverImageUrl}
-                    alt={post.title}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-              )}
-              <div className="flex flex-1 flex-col p-6">
-                <p className="font-body text-sm text-dark-grey">
-                  {[post.publishedAt, post.authorName].filter(Boolean).join(" · ")}
-                </p>
-                <h3 className="mt-2 font-heading text-xl font-semibold leading-snug text-ink">
-                  {post.title}
-                </h3>
-                {post.excerpt && (
-                  <p className="mt-3 font-body text-base leading-7 text-dark-grey line-clamp-3">
-                    {post.excerpt}
-                  </p>
+            <div key={post.slug} className="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-warm-white transition-shadow hover:shadow-md">
+              <Link href={`/blog/${post.slug}`} className="flex flex-1 flex-col">
+                {post.coverImageUrl && (
+                  <div className="relative h-48 w-full overflow-hidden">
+                    <Image
+                      src={post.coverImageUrl}
+                      alt={post.title}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
                 )}
-                <p className="mt-4 font-body text-sm font-medium text-ink group-hover:underline">
-                  Read more →
-                </p>
+                <div className="flex flex-1 flex-col p-6">
+                  <p className="font-body text-sm text-dark-grey">
+                    {[post.publishedAt, post.authorName].filter(Boolean).join(" · ")}
+                  </p>
+                  <h3 className="mt-2 font-heading text-xl font-semibold leading-snug text-ink">
+                    {post.title}
+                  </h3>
+                  {post.excerpt && (
+                    <p className="mt-3 font-body text-base leading-7 text-dark-grey line-clamp-3">
+                      {post.excerpt}
+                    </p>
+                  )}
+                  <p className="mt-4 font-body text-sm font-medium text-ink group-hover:underline">
+                    Read more →
+                  </p>
+                </div>
+              </Link>
+              <div className="flex justify-end px-6 pb-5">
+                <a
+                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${SITE_URL}/blog/${post.slug}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Share on LinkedIn"
+                  className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
+                >
+                  <Linkedin className="h-3.5 w-3.5" />
+                  Share
+                </a>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </div>
