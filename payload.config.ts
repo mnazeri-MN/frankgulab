@@ -24,9 +24,6 @@ const preventEditorPublish = ({
   if (data._status === "published") {
     throw new Error("Only admins can publish content. Save as draft instead.")
   }
-  if (data._status === "draft" && originalDoc?._status === "published") {
-    throw new Error("Only admins can unpublish content.")
-  }
   return data
 }
 
@@ -90,7 +87,7 @@ export default buildConfig({
 
     {
       slug: "people",
-      versions: { drafts: { autosave: true } },
+      versions: { drafts: true },
       hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
@@ -98,7 +95,7 @@ export default buildConfig({
         update: ({ req }) => !!req.user,
         delete: ({ req }) => isAdmin(req),
       },
-      admin: { useAsTitle: "preferredFirstName", defaultColumns: ["preferredFirstName", "lastInitial", "role"] },
+      admin: { useAsTitle: "preferredFirstName", defaultColumns: ["preferredFirstName", "lastInitial", "role"], components: { edit: { PublishButton: "@/components/payload/conditional-publish-button#ConditionalPublishButton" } } },
       fields: [
         {
           name: "title",
@@ -226,7 +223,7 @@ export default buildConfig({
 
     {
       slug: "publications",
-      versions: { drafts: { autosave: true } },
+      versions: { drafts: true },
       hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
@@ -234,7 +231,7 @@ export default buildConfig({
         update: ({ req }) => !!req.user,
         delete: ({ req }) => isAdmin(req),
       },
-      admin: { useAsTitle: "title", defaultColumns: ["firstAuthor", "title", "year"] },
+      admin: { useAsTitle: "title", defaultColumns: ["firstAuthor", "title", "year"], components: { edit: { PublishButton: "@/components/payload/conditional-publish-button#ConditionalPublishButton" } } },
       fields: [
         {
           name: "doi",
@@ -264,7 +261,7 @@ export default buildConfig({
 
     {
       slug: "projects",
-      versions: { drafts: { autosave: true } },
+      versions: { drafts: true },
       hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
@@ -272,7 +269,7 @@ export default buildConfig({
         update: ({ req }) => !!req.user,
         delete: ({ req }) => isAdmin(req),
       },
-      admin: { useAsTitle: "title", defaultColumns: ["title", "tag", "order"] },
+      admin: { useAsTitle: "title", defaultColumns: ["title", "tag", "order"], components: { edit: { PublishButton: "@/components/payload/conditional-publish-button#ConditionalPublishButton" } } },
       fields: [
         { name: "title", type: "text", required: true },
         { name: "description", type: "textarea", required: true, admin: { description: "Max 30 words. One punchy sentence summarising the research area." } },
@@ -302,7 +299,7 @@ export default buildConfig({
 
     {
       slug: "hero-slides",
-      versions: { drafts: { autosave: true } },
+      versions: { drafts: true },
       hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
@@ -310,7 +307,7 @@ export default buildConfig({
         update: ({ req }) => !!req.user,
         delete: ({ req }) => isAdmin(req),
       },
-      admin: { useAsTitle: "name", defaultColumns: ["name", "tagline", "order"] },
+      admin: { useAsTitle: "name", defaultColumns: ["name", "tagline", "order"], components: { edit: { PublishButton: "@/components/payload/conditional-publish-button#ConditionalPublishButton" } } },
       fields: [
         { name: "name", type: "text", required: true, label: "Name / Title" },
         { name: "tagline", type: "text", required: true },
@@ -326,7 +323,7 @@ export default buildConfig({
 
     {
       slug: "news",
-      versions: { drafts: { autosave: true } },
+      versions: { drafts: true },
       hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
@@ -337,6 +334,7 @@ export default buildConfig({
       admin: {
         useAsTitle: "title",
         defaultColumns: ["title", "source", "date"],
+        components: { edit: { PublishButton: "@/components/payload/conditional-publish-button#ConditionalPublishButton" } },
       },
       fields: [
         {
@@ -360,7 +358,7 @@ export default buildConfig({
 
     {
       slug: "opportunities",
-      versions: { drafts: { autosave: true } },
+      versions: { drafts: true },
       hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
@@ -368,7 +366,7 @@ export default buildConfig({
         update: ({ req }) => !!req.user,
         delete: ({ req }) => isAdmin(req),
       },
-      admin: { useAsTitle: "title", defaultColumns: ["title", "order"] },
+      admin: { useAsTitle: "title", defaultColumns: ["title", "order"], components: { edit: { PublishButton: "@/components/payload/conditional-publish-button#ConditionalPublishButton" } } },
       fields: [
         { name: "title", type: "text", required: true },
         { name: "description", type: "textarea", required: true },
@@ -378,7 +376,7 @@ export default buildConfig({
 
     {
       slug: "posts",
-      versions: { drafts: { autosave: true } },
+      versions: { drafts: true },
       hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
@@ -386,7 +384,7 @@ export default buildConfig({
         update: ({ req }) => !!req.user,
         delete: ({ req }) => isAdmin(req),
       },
-      admin: { useAsTitle: "title", defaultColumns: ["title", "publishedAt", "_status"] },
+      admin: { useAsTitle: "title", defaultColumns: ["title", "publishedAt", "_status"], components: { edit: { PublishButton: "@/components/payload/conditional-publish-button#ConditionalPublishButton" } } },
       fields: [
         { name: "title", type: "text", required: true },
         {
@@ -422,7 +420,7 @@ export default buildConfig({
 
     {
       slug: "lab-photos",
-      versions: { drafts: { autosave: true } },
+      versions: { drafts: true },
       hooks: { beforeChange: [preventEditorPublish] },
       access: {
         read: () => true,
@@ -430,7 +428,7 @@ export default buildConfig({
         update: ({ req }) => !!req.user,
         delete: ({ req }) => isAdmin(req),
       },
-      admin: { useAsTitle: "year", defaultColumns: ["year", "caption"] },
+      admin: { useAsTitle: "year", defaultColumns: ["year", "caption"], components: { edit: { PublishButton: "@/components/payload/conditional-publish-button#ConditionalPublishButton" } } },
       fields: [
         { name: "year", type: "number", required: true, admin: { description: "Year the photo was taken (e.g. 2025)" } },
         { name: "caption", type: "text", label: "Caption (optional)" },
