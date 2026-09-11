@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
 import type { SiteSettingsData } from "@/lib/site-settings"
 
@@ -16,11 +17,14 @@ const links = [
 
 export function NavbarInner({ s }: { s: Pick<SiteSettingsData, "logoUrl" | "labName" | "piName" | "institution"> }) {
   const [open, setOpen] = useState(false)
+  const pathname = usePathname()
+  const isHome = pathname === "/"
+  const prefix = isHome ? "" : "/"
 
   return (
     <header className="sticky top-0 z-50 border-b border-ink/10 bg-warm-white/90 backdrop-blur">
       <nav data-reduced-nav="" className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-16">
-        <a href="#" className="flex items-center gap-3">
+        <a href={isHome ? "#" : "/"} className="flex items-center gap-3">
           <img src={s.logoUrl ?? "/fgl-logo.svg"} alt={`${s.labName} logo`} className="h-9 w-auto" />
           <div className="flex flex-col leading-tight md:hidden lg:flex">
             <span data-reduced-text="" className="font-heading text-xl font-semibold text-ink">
@@ -39,7 +43,7 @@ export function NavbarInner({ s }: { s: Pick<SiteSettingsData, "logoUrl" | "labN
           {links.map((link) => (
             <a
               key={link.href}
-              href={link.href}
+              href={prefix + link.href}
               data-reduced-text=""
               className="font-body text-xl text-dark-grey transition-colors hover:text-ink"
             >
@@ -64,7 +68,7 @@ export function NavbarInner({ s }: { s: Pick<SiteSettingsData, "logoUrl" | "labN
             {links.map((link) => (
               <a
                 key={link.href}
-                href={link.href}
+                href={prefix + link.href}
                 className="font-heading text-2xl font-medium text-ink"
                 onClick={() => setOpen(false)}
               >
