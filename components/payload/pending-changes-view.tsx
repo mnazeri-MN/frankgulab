@@ -41,11 +41,17 @@ export default async function PendingChangesView(props: AdminViewServerProps) {
   return (
     <DefaultTemplate
       i18n={req.i18n}
-      payload={payload}
-      visibleEntities={visibleEntities}
-      user={user ?? undefined}
+      locale={initPageResult.locale}
       params={params}
+      payload={payload}
+      permissions={initPageResult.permissions}
+      req={req}
       searchParams={searchParams}
+      user={user ?? undefined}
+      visibleEntities={{
+        collections: visibleEntities.collections,
+        globals: visibleEntities.globals,
+      }}
     >
       <div style={{ padding: "32px 40px", maxWidth: 860 }}>
         <h1 style={{ fontSize: 24, fontWeight: 600, marginBottom: 8 }}>Pending Changes</h1>
