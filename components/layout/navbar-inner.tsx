@@ -23,17 +23,17 @@ export function NavbarInner({ s }: { s: Pick<SiteSettingsData, "logoUrl" | "labN
 
   return (
     <header className="sticky top-0 z-50 border-b border-ink/10 bg-warm-white/90 backdrop-blur">
-      <nav data-reduced-nav="" className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-16">
+      <nav data-reduced-nav="" className="mx-auto flex max-w-7xl items-center justify-between px-3 py-2 lg:px-8">
         <a href={isHome ? "#" : "/"} className="flex items-center gap-3">
           <img src={s.logoUrl ?? "/fgl-logo.svg"} alt={`${s.labName} logo`} className="h-9 w-auto" />
           <div className="flex flex-col leading-tight md:hidden lg:flex">
-            <span data-reduced-text="" className="font-heading text-xl font-semibold text-ink">
+            <span data-reduced-text="" className="font-heading text-lg font-semibold text-ink">
               {s.labName}
             </span>
-            <span data-reduced-text="" className="font-body text-xl text-dark-grey min-[1152px]:hidden">
+            <span data-reduced-text="" className="font-body text-lg text-dark-grey min-[1152px]:hidden">
               {s.piName}
             </span>
-            <span data-reduced-text="" className="hidden font-body text-xl text-dark-grey min-[1152px]:block">
+            <span data-reduced-text="" className="hidden font-body text-lg text-dark-grey min-[1152px]:block">
               {s.piName} · {s.institution}
             </span>
           </div>
@@ -45,7 +45,7 @@ export function NavbarInner({ s }: { s: Pick<SiteSettingsData, "logoUrl" | "labN
               key={link.href}
               href={prefix + link.href}
               data-reduced-text=""
-              className="font-body text-xl text-dark-grey transition-colors hover:text-ink"
+              className="font-body text-lg text-dark-grey transition-colors hover:text-ink"
             >
               {link.label}
             </a>

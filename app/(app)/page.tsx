@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic"
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen [&_[data-section-label]]:hidden [&_section]:!py-12 [&_[data-reduced-text]]:!text-lg [&_[data-reduced-nav]]:!px-3 [&_[data-reduced-nav]]:!py-2 [&_[data-reduced-nav]]:lg:!px-8">
+    <div className="min-h-screen [&_[data-section-label]]:hidden [&_section]:!py-12">
       <Navbar />
       <main>
         <Hero />
