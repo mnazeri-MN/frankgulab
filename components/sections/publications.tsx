@@ -25,6 +25,7 @@ export async function Publications({ cardVariant, cardLayout }: { cardVariant?: 
       href: doc.href ?? "",
       imageUrl: uploadedUrl ?? (doc.fetchedImageUrl as string | null) ?? null,
       summary: (doc.summary as string | null) ?? null,
+      blogUrl: (doc.blogUrl as string | null) ?? null,
     }
   })
 

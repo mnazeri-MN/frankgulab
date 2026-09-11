@@ -5,6 +5,7 @@ import { getPayload } from "payload"
 import config from "@payload-config"
 import { RichText } from "@payloadcms/richtext-lexical/react"
 import type { SerializedEditorState } from "lexical"
+import { Linkedin } from "lucide-react"
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 
@@ -13,6 +14,8 @@ export const dynamic = "force-dynamic"
 interface Props {
   params: Promise<{ slug: string }>
 }
+
+const SITE_URL = "https://frankgulab.com"
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params
@@ -89,9 +92,21 @@ export default async function BlogPostPage({ params }: Props) {
           {post.title}
         </h1>
 
-        <p className="mt-4 font-body text-base text-dark-grey">
-          {[post.publishedAt, post.authorName].filter(Boolean).join(" · ")}
-        </p>
+        <div className="mt-4 flex items-center justify-between gap-4">
+          <p className="font-body text-base text-dark-grey">
+            {[post.publishedAt, post.authorName].filter(Boolean).join(" · ")}
+          </p>
+          <a
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${SITE_URL}/blog/${slug}`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Share on LinkedIn"
+            className="flex shrink-0 items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-sm text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
+          >
+            <Linkedin className="h-3.5 w-3.5" />
+            Share
+          </a>
+        </div>
 
         {post.coverImageUrl && (
           <div className="relative mt-8 h-72 w-full overflow-hidden rounded-2xl md:h-96">

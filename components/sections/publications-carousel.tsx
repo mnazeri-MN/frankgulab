@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { ArrowUpRight, ChevronLeft, ChevronRight, Linkedin } from "lucide-react"
+import { ArrowUpRight, BookOpen, ChevronLeft, ChevronRight, Linkedin } from "lucide-react"
 import { SectionLabel } from "@/components/ui/section-label"
 
 export type PublicationItem = {
@@ -11,6 +11,41 @@ export type PublicationItem = {
   href: string
   imageUrl: string | null
   summary?: string | null
+  blogUrl?: string | null
+}
+
+// ─── Shared action buttons (LinkedIn share + optional Blog link) ──────────────
+
+function PubCardActions({ pub }: { pub: PublicationItem }) {
+  if (!pub.href && !pub.blogUrl) return null
+  return (
+    <div className="mt-4 flex items-center justify-end gap-2">
+      {pub.blogUrl && (
+        <a
+          href={pub.blogUrl}
+          onClick={(e) => e.stopPropagation()}
+          aria-label="Read blog post"
+          className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-ink/40 hover:text-ink"
+        >
+          <BookOpen className="h-3.5 w-3.5" />
+          Blog
+        </a>
+      )}
+      {pub.href && (
+        <a
+          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pub.href)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          aria-label="Share on LinkedIn"
+          className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
+        >
+          <Linkedin className="h-3.5 w-3.5" />
+          Share
+        </a>
+      )}
+    </div>
+  )
 }
 
 // ─── Variant A: current (image + title left, summary right) ──────────────────
@@ -50,21 +85,7 @@ function PubCardA({ pub }: { pub: PublicationItem }) {
             <p className="font-body text-xl italic text-grey/50">No summary yet.</p>
           )}
         </div>
-        {pub.href && (
-          <div className="mt-4 flex justify-end">
-            <a
-              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pub.href)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              aria-label="Share on LinkedIn"
-              className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
-            >
-              <Linkedin className="h-3.5 w-3.5" />
-              Share
-            </a>
-          </div>
-        )}
+        <PubCardActions pub={pub} />
       </div>
     </a>
   )
@@ -105,21 +126,7 @@ function PubCardB({ pub }: { pub: PublicationItem }) {
             <p className="font-body text-xl italic text-grey/50">No summary yet.</p>
           )}
         </div>
-        {pub.href && (
-          <div className="mt-4 flex justify-end">
-            <a
-              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pub.href)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              aria-label="Share on LinkedIn"
-              className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
-            >
-              <Linkedin className="h-3.5 w-3.5" />
-              Share
-            </a>
-          </div>
-        )}
+        <PubCardActions pub={pub} />
       </div>
     </a>
   )
@@ -160,21 +167,7 @@ function PubCardC({ pub }: { pub: PublicationItem }) {
             <p className="font-body text-xl italic text-grey/50">No summary yet.</p>
           )}
         </div>
-        {pub.href && (
-          <div className="mt-4 flex justify-end">
-            <a
-              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pub.href)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              aria-label="Share on LinkedIn"
-              className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
-            >
-              <Linkedin className="h-3.5 w-3.5" />
-              Share
-            </a>
-          </div>
-        )}
+        <PubCardActions pub={pub} />
       </div>
     </a>
   )
@@ -215,19 +208,32 @@ function PubCardD({ pub }: { pub: PublicationItem }) {
         )}
         <div className="mt-auto flex items-center justify-between pt-4">
           <p className="font-body text-base text-grey">{pub.firstAuthor} · {pub.year}</p>
-          {pub.href && (
-            <a
-              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pub.href)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              aria-label="Share on LinkedIn"
-              className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
-            >
-              <Linkedin className="h-3.5 w-3.5" />
-              Share
-            </a>
-          )}
+          <div className="flex items-center gap-2">
+            {pub.blogUrl && (
+              <a
+                href={pub.blogUrl}
+                onClick={(e) => e.stopPropagation()}
+                aria-label="Read blog post"
+                className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-ink/40 hover:text-ink"
+              >
+                <BookOpen className="h-3.5 w-3.5" />
+                Blog
+              </a>
+            )}
+            {pub.href && (
+              <a
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pub.href)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                aria-label="Share on LinkedIn"
+                className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
+              >
+                <Linkedin className="h-3.5 w-3.5" />
+                Share
+              </a>
+            )}
+          </div>
         </div>
       </div>
     </a>
@@ -255,19 +261,32 @@ function PubCardE({ pub }: { pub: PublicationItem }) {
         )}
         <div className="mt-auto flex items-center justify-between pt-4">
           <p className="font-body text-base text-grey">{pub.firstAuthor} · {pub.year}</p>
-          {pub.href && (
-            <a
-              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pub.href)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              aria-label="Share on LinkedIn"
-              className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
-            >
-              <Linkedin className="h-3.5 w-3.5" />
-              Share
-            </a>
-          )}
+          <div className="flex items-center gap-2">
+            {pub.blogUrl && (
+              <a
+                href={pub.blogUrl}
+                onClick={(e) => e.stopPropagation()}
+                aria-label="Read blog post"
+                className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-ink/40 hover:text-ink"
+              >
+                <BookOpen className="h-3.5 w-3.5" />
+                Blog
+              </a>
+            )}
+            {pub.href && (
+              <a
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pub.href)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                aria-label="Share on LinkedIn"
+                className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
+              >
+                <Linkedin className="h-3.5 w-3.5" />
+                Share
+              </a>
+            )}
+          </div>
         </div>
       </div>
       <div className="relative h-48 w-full overflow-hidden bg-light-grey">

@@ -264,6 +264,7 @@ export default buildConfig({
           label: "Cover Image",
           admin: { description: "Upload an image to override the one fetched from the DOI URL" },
         },
+        { name: "blogUrl", type: "text", label: "Blog Post URL", admin: { description: "Link to a Mixture Lab blog post about this publication. When set, a 'Blog' button appears on the publication card." } },
         { name: "fetchedImageUrl", type: "text", admin: { hidden: true } },
       ],
     },
