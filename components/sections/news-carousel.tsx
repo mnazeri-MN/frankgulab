@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { ArrowUpRight, ChevronLeft, ChevronRight, Linkedin } from "lucide-react"
 import { SectionLabel } from "@/components/ui/section-label"
+import { ExpandableSummary } from "@/components/ui/expandable-summary"
 
 export type NewsItem = {
   title: string
@@ -179,7 +180,6 @@ function truncateWords(text: string, max: number): string {
 }
 
 function NewsCardD({ item }: { item: NewsItem }) {
-  const summary = item.summary ? truncateWords(item.summary, 30) : null
   return (
     <a
       href={item.url}
@@ -200,8 +200,8 @@ function NewsCardD({ item }: { item: NewsItem }) {
           <p className="font-body text-xl font-medium leading-8 text-ink">{item.title}</p>
           <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
         </div>
-        {summary && (
-          <p data-reduced-text="" className="mt-3 font-body text-xl leading-9 text-dark-grey">{summary}</p>
+        {item.summary && (
+          <ExpandableSummary text={item.summary} className="mt-3 font-body text-xl leading-9 text-dark-grey" />
         )}
         <div className="mt-auto flex items-center justify-between pt-4">
           <p className="font-body text-base text-grey">{item.source} · {item.date}</p>
@@ -225,7 +225,6 @@ function NewsCardD({ item }: { item: NewsItem }) {
 // ─── Variant E: title + summary top, image bottom ────────────────────────────
 
 function NewsCardE({ item }: { item: NewsItem }) {
-  const summary = item.summary ? truncateWords(item.summary, 30) : null
   return (
     <a
       href={item.url}
@@ -238,8 +237,8 @@ function NewsCardE({ item }: { item: NewsItem }) {
           <p className="font-body text-xl font-medium leading-8 text-ink">{item.title}</p>
           <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
         </div>
-        {summary && (
-          <p data-reduced-text="" className="mt-3 font-body text-xl leading-9 text-dark-grey">{summary}</p>
+        {item.summary && (
+          <ExpandableSummary text={item.summary} className="mt-3 font-body text-xl leading-9 text-dark-grey" />
         )}
         <div className="mt-auto flex items-center justify-between pt-4">
           <p className="font-body text-base text-grey">{item.source} · {item.date}</p>

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { ArrowUpRight, BookOpen, ChevronLeft, ChevronRight, Linkedin } from "lucide-react"
 import { SectionLabel } from "@/components/ui/section-label"
+import { ExpandableSummary } from "@/components/ui/expandable-summary"
 
 export type PublicationItem = {
   title: string
@@ -182,7 +183,6 @@ function truncateWords(text: string, max: number): string {
 }
 
 function PubCardD({ pub }: { pub: PublicationItem }) {
-  const summary = pub.summary ? truncateWords(pub.summary, 30) : null
   return (
     <a
       href={pub.href || "#"}
@@ -203,8 +203,8 @@ function PubCardD({ pub }: { pub: PublicationItem }) {
           <p className="font-body text-xl font-medium leading-8 text-ink">{pub.title}</p>
           <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
         </div>
-        {summary && (
-          <p data-reduced-text="" className="mt-3 font-body text-xl leading-9 text-dark-grey">{summary}</p>
+        {pub.summary && (
+          <ExpandableSummary text={pub.summary} className="mt-3 font-body text-xl leading-9 text-dark-grey" />
         )}
         <div className="mt-auto flex items-center justify-between pt-4">
           <p className="font-body text-base text-grey">{pub.firstAuthor} · {pub.year}</p>
@@ -243,7 +243,6 @@ function PubCardD({ pub }: { pub: PublicationItem }) {
 // ─── Variant E: title + summary top, image bottom ────────────────────────────
 
 function PubCardE({ pub }: { pub: PublicationItem }) {
-  const summary = pub.summary ? truncateWords(pub.summary, 30) : null
   return (
     <a
       href={pub.href || "#"}
@@ -256,8 +255,8 @@ function PubCardE({ pub }: { pub: PublicationItem }) {
           <p className="font-body text-xl font-medium leading-8 text-ink">{pub.title}</p>
           <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
         </div>
-        {summary && (
-          <p data-reduced-text="" className="mt-3 font-body text-xl leading-9 text-dark-grey">{summary}</p>
+        {pub.summary && (
+          <ExpandableSummary text={pub.summary} className="mt-3 font-body text-xl leading-9 text-dark-grey" />
         )}
         <div className="mt-auto flex items-center justify-between pt-4">
           <p className="font-body text-base text-grey">{pub.firstAuthor} · {pub.year}</p>
