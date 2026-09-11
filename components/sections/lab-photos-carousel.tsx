@@ -8,8 +8,9 @@ export type LabPhoto = {
 export function LabPhotosCarousel({ photos }: { photos: LabPhoto[] }) {
   if (photos.length === 0) return null
 
-  // Duplicate for seamless infinite loop
-  const doubled = [...photos, ...photos]
+  // Sort newest first, then duplicate for seamless infinite loop
+  const sorted = [...photos].sort((a, b) => b.year - a.year)
+  const doubled = [...sorted, ...sorted]
   const duration = photos.length * 7
 
   return (
