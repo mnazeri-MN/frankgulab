@@ -4,6 +4,7 @@ import { buildConfig } from "payload"
 import { postgresAdapter } from "@payloadcms/db-postgres"
 import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob"
 import { lexicalEditor } from "@payloadcms/richtext-lexical"
+import * as migration_20260911_add_blog_url from "./migrations/20260911_add_blog_url"
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -519,7 +520,13 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL,
     },
-    push: true,
+    prodMigrations: [
+      {
+        name: "20260911_add_blog_url",
+        up: migration_20260911_add_blog_url.up,
+        down: migration_20260911_add_blog_url.down,
+      },
+    ],
   }),
 
   editor: lexicalEditor({}),
