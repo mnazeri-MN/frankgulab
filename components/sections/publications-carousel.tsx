@@ -308,6 +308,7 @@ const VISIBLE = 2
 export function PublicationsCarousel({ publications, cardVariant = "a", cardLayout = "carousel" }: { publications: PublicationItem[]; cardVariant?: "a" | "b" | "c" | "d" | "e"; cardLayout?: "carousel" | "grid3" }) {
   const [start, setStart] = useState(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const touchStartX = useRef<number | null>(null)
   const max = Math.max(0, publications.length - VISIBLE)
 
   function advance() { setStart((s) => (s >= max ? 0 : s + 1)) }
@@ -341,6 +342,19 @@ export function PublicationsCarousel({ publications, cardVariant = "a", cardLayo
     window.addEventListener("resize", update)
     return () => window.removeEventListener("resize", update)
   }, [])
+
+  function onTouchStart(e: React.TouchEvent) {
+    touchStartX.current = e.touches[0].clientX
+  }
+  function onTouchEnd(e: React.TouchEvent, step: number) {
+    if (touchStartX.current === null) return
+    const diff = touchStartX.current - e.changedTouches[0].clientX
+    touchStartX.current = null
+    if (Math.abs(diff) < 50) return
+    if (diff > 0) setStart((s) => Math.min(s + step, max))
+    else setStart((s) => Math.max(s - step, 0))
+    resetTimer()
+  }
 
   const visible = publications.slice(start, start + VISIBLE)
   const PubCard = cardVariant === "e" ? PubCardE : cardVariant === "d" ? PubCardD : cardVariant === "c" ? PubCardC : cardVariant === "b" ? PubCardB : PubCardA
@@ -378,7 +392,7 @@ export function PublicationsCarousel({ publications, cardVariant = "a", cardLayo
             <p className="mt-10 font-body text-xl text-grey">No publications yet.</p>
           ) : (
             <>
-              <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" onTouchStart={onTouchStart} onTouchEnd={(e) => onTouchEnd(e, cols)}>
                 {visible3.map((pub, i) => <PubCard key={i} pub={pub} />)}
               </div>
               {publications.length > cols && (
@@ -425,10 +439,10 @@ export function PublicationsCarousel({ publications, cardVariant = "a", cardLayo
           <p className="mt-10 font-body text-xl text-grey">No publications yet.</p>
         ) : (
           <>
-            <div className="mt-10 hidden gap-5 md:grid md:grid-cols-2">
+            <div className="mt-10 hidden gap-5 md:grid md:grid-cols-2" onTouchStart={onTouchStart} onTouchEnd={(e) => onTouchEnd(e, 1)}>
               {visible.map((pub, i) => <PubCard key={i} pub={pub} />)}
             </div>
-            <div className="mt-10 md:hidden">
+            <div className="mt-10 md:hidden" onTouchStart={onTouchStart} onTouchEnd={(e) => onTouchEnd(e, 1)}>
               <PubCard pub={publications[start] ?? publications[0]} />
             </div>
             {publications.length > VISIBLE && (
