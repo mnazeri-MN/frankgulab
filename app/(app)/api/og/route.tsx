@@ -2,97 +2,58 @@ import { ImageResponse } from "next/og"
 
 export const runtime = "edge"
 
-const R = 31 // circle radius px
-const SCALE = 200 / 392
-
-const circles = [
-  { cx: 178,   cy: 61,    fill: "#47537a" },
-  { cx: 294.8, cy: 128.5, fill: "#a1a9bc" },
-  { cx: 294.8, cy: 263.5, fill: "#9098af" },
-  { cx: 178,   cy: 331,   fill: "#7c85a0" },
-  { cx: 61,    cy: 263.5, fill: "#6d7794" },
-  { cx: 61,    cy: 128.5, fill: "#576485" },
-  { cx: 178,   cy: 196,   fill: "#293147" },
-]
-
 export function GET() {
-  const logoW = Math.round(356 * SCALE)
-  const logoH = Math.round(392 * SCALE)
-
   return new ImageResponse(
     (
       <div
         style={{
-          width: 1200,
-          height: 630,
-          background: "#1a2035",
+          width: "100%",
+          height: "100%",
           display: "flex",
-          alignItems: "center",
-          padding: "0 80px",
+          flexDirection: "column",
+          alignItems: "flex-start",
+          justifyContent: "center",
+          background: "#1a2035",
+          padding: "60px 80px",
           fontFamily: "system-ui, sans-serif",
         }}
       >
-        {/* Logo: circles as positioned divs (Satori doesn't reliably render SVG) */}
-        <div
-          style={{
-            position: "relative",
-            width: logoW,
-            height: logoH,
-            flexShrink: 0,
-            marginRight: 64,
-          }}
-        >
-          {circles.map((c, i) => (
+        <div style={{ display: "flex", alignItems: "center", marginBottom: 32 }}>
+          {/* 7 circles — laid out inline so no absolute positioning needed */}
+          {[
+            "#47537a", "#a1a9bc", "#9098af",
+            "#7c85a0", "#6d7794", "#576485", "#293147",
+          ].map((color, i) => (
             <div
               key={i}
               style={{
-                position: "absolute",
-                width: R * 2,
-                height: R * 2,
-                borderRadius: "50%",
-                background: c.fill,
-                left: Math.round(c.cx * SCALE) - R,
-                top: Math.round(c.cy * SCALE) - R,
+                width: 48,
+                height: 48,
+                borderRadius: 24,
+                background: color,
+                marginRight: 10,
+                flexShrink: 0,
               }}
             />
           ))}
         </div>
 
-        {/* Text */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <div
-            style={{
-              fontSize: 52,
-              fontWeight: 700,
-              color: "#ffffff",
-              lineHeight: 1.1,
-              letterSpacing: "-0.02em",
-            }}
-          >
-            The Mixture Lab
-          </div>
-          <div
-            style={{
-              fontSize: 26,
-              color: "#9098af",
-              fontWeight: 400,
-              lineHeight: 1.4,
-            }}
-          >
-            Prof. Frank Gu · University of Toronto
-          </div>
-          <div
-            style={{
-              marginTop: 8,
-              fontSize: 22,
-              color: "#7c85a0",
-              fontWeight: 400,
-              lineHeight: 1.5,
-              maxWidth: 560,
-            }}
-          >
-            Automated discovery &amp; AI-driven formulation
-          </div>
+        <div
+          style={{
+            fontSize: 56,
+            fontWeight: 700,
+            color: "#ffffff",
+            lineHeight: 1.1,
+            marginBottom: 16,
+          }}
+        >
+          The Mixture Lab
+        </div>
+        <div style={{ fontSize: 28, color: "#9098af", marginBottom: 12 }}>
+          Prof. Frank Gu · University of Toronto
+        </div>
+        <div style={{ fontSize: 22, color: "#7c85a0" }}>
+          Automated discovery and AI-driven formulation
         </div>
       </div>
     ),
