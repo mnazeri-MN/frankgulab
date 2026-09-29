@@ -5,23 +5,23 @@ export const alt = "The Mixture Lab — Frank Gu Lab, University of Toronto"
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
-export default function OGImage() {
-  const circles = [
-    { cx: 178,   cy: 61,    r: 61, fill: "#47537a" },
-    { cx: 294.8, cy: 128.5, r: 61, fill: "#a1a9bc" },
-    { cx: 294.8, cy: 263.5, r: 61, fill: "#9098af" },
-    { cx: 178,   cy: 331,   r: 61, fill: "#7c85a0" },
-    { cx: 61,    cy: 263.5, r: 61, fill: "#6d7794" },
-    { cx: 61,    cy: 128.5, r: 61, fill: "#576485" },
-    { cx: 178,   cy: 196,   r: 61, fill: "#293147" },
-  ]
+// Logo: 7 circles in a hexagonal arrangement
+// Original viewBox 356×392, scaled to fit ~200px tall
+const SCALE = 200 / 392
+const circles = [
+  { cx: 178,   cy: 61,    fill: "#47537a" },
+  { cx: 294.8, cy: 128.5, fill: "#a1a9bc" },
+  { cx: 294.8, cy: 263.5, fill: "#9098af" },
+  { cx: 178,   cy: 331,   fill: "#7c85a0" },
+  { cx: 61,    cy: 263.5, fill: "#6d7794" },
+  { cx: 61,    cy: 128.5, fill: "#576485" },
+  { cx: 178,   cy: 196,   fill: "#293147" },
+]
+const R = Math.round(61 * SCALE)   // ~31px
 
-  // Scale the 356×392 logo to fit ~220px tall in the image
-  const scale = 200 / 392
-  const logoW = 356 * scale   // ~182
-  const logoH = 392 * scale   // 200
-  const logoX = 90            // left margin
-  const logoY = (630 - logoH) / 2  // vertically centred
+export default function OGImage() {
+  const logoW = Math.round(356 * SCALE)  // ~182
+  const logoH = Math.round(392 * SCALE)  // 200
 
   return new ImageResponse(
     (
@@ -36,17 +36,31 @@ export default function OGImage() {
           fontFamily: "system-ui, sans-serif",
         }}
       >
-        {/* Logo */}
-        <svg
-          width={logoW}
-          height={logoH}
-          viewBox="0 0 356 392"
-          style={{ flexShrink: 0, marginRight: 64 }}
+        {/* Logo rendered as positioned divs */}
+        <div
+          style={{
+            position: "relative",
+            width: logoW,
+            height: logoH,
+            flexShrink: 0,
+            marginRight: 64,
+          }}
         >
           {circles.map((c, i) => (
-            <circle key={i} cx={c.cx} cy={c.cy} r={c.r} fill={c.fill} />
+            <div
+              key={i}
+              style={{
+                position: "absolute",
+                width: R * 2,
+                height: R * 2,
+                borderRadius: "50%",
+                background: c.fill,
+                left: Math.round(c.cx * SCALE) - R,
+                top: Math.round(c.cy * SCALE) - R,
+              }}
+            />
           ))}
-        </svg>
+        </div>
 
         {/* Text */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
