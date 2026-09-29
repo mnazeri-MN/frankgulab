@@ -1,13 +1,10 @@
 import { ImageResponse } from "next/og"
 
 export const runtime = "edge"
-export const alt = "The Mixture Lab — Frank Gu Lab, University of Toronto"
-export const size = { width: 1200, height: 630 }
-export const contentType = "image/png"
 
-// Logo: 7 circles in a hexagonal arrangement
-// Original viewBox 356×392, scaled to fit ~200px tall
+const R = 31 // circle radius px
 const SCALE = 200 / 392
+
 const circles = [
   { cx: 178,   cy: 61,    fill: "#47537a" },
   { cx: 294.8, cy: 128.5, fill: "#a1a9bc" },
@@ -17,11 +14,10 @@ const circles = [
   { cx: 61,    cy: 128.5, fill: "#576485" },
   { cx: 178,   cy: 196,   fill: "#293147" },
 ]
-const R = Math.round(61 * SCALE)   // ~31px
 
-export default function OGImage() {
-  const logoW = Math.round(356 * SCALE)  // ~182
-  const logoH = Math.round(392 * SCALE)  // 200
+export function GET() {
+  const logoW = Math.round(356 * SCALE)
+  const logoH = Math.round(392 * SCALE)
 
   return new ImageResponse(
     (
@@ -36,7 +32,7 @@ export default function OGImage() {
           fontFamily: "system-ui, sans-serif",
         }}
       >
-        {/* Logo rendered as positioned divs */}
+        {/* Logo: circles as positioned divs (Satori doesn't reliably render SVG) */}
         <div
           style={{
             position: "relative",
@@ -95,11 +91,11 @@ export default function OGImage() {
               maxWidth: 560,
             }}
           >
-            Automated discovery & AI-driven formulation
+            Automated discovery &amp; AI-driven formulation
           </div>
         </div>
       </div>
     ),
-    { ...size }
+    { width: 1200, height: 630 }
   )
 }

@@ -26,11 +26,13 @@ export async function generateMetadata(): Promise<Metadata> {
       description,
       siteName: s.labName,
       type: "website",
+      images: [{ url: "/api/og", width: 1200, height: 630, alt: title }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: ["/api/og"],
     },
   }
 }
