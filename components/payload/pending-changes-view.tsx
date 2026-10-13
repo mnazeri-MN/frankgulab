@@ -1,16 +1,21 @@
 import type { AdminViewServerProps } from "payload"
 import { DefaultTemplate } from "@payloadcms/next/templates"
 
-const COLLECTIONS = [
-  { slug: "people",        label: "People",             titleField: "preferredFirstName" },
-  { slug: "publications",  label: "Publications",        titleField: "title" },
-  { slug: "projects",      label: "Research Highlights", titleField: "title" },
-  { slug: "hero-slides",   label: "Hero Slides",         titleField: "name" },
-  { slug: "news",          label: "News",                titleField: "title" },
-  { slug: "opportunities", label: "Opportunities",       titleField: "title" },
-  { slug: "posts",         label: "Posts",               titleField: "title" },
-  { slug: "lab-photos",    label: "Lab Photos",          titleField: "year" },
-] as const
+type PendingDoc = { id: number; title: string; updatedAt: string }
+type CollectionResult = { slug: string; label: string; docs: PendingDoc[] }
+
+// Maps each collection to its version table and the SQL expression for the display title.
+// Filters on latest = true so old draft history entries are not included.
+const COLLECTIONS: { slug: string; label: string; table: string; titleExpr: string }[] = [
+  { slug: "people",        label: "People",             table: "_people_v",        titleExpr: "version_preferred_first_name || ' ' || version_last_initial" },
+  { slug: "publications",  label: "Publications",        table: "_publications_v",  titleExpr: "version_title" },
+  { slug: "projects",      label: "Research Highlights", table: "_projects_v",      titleExpr: "version_title" },
+  { slug: "hero-slides",   label: "Hero Slides",         table: "_hero_slides_v",   titleExpr: "version_name" },
+  { slug: "news",          label: "News",                table: "_news_v",          titleExpr: "version_title" },
+  { slug: "opportunities", label: "Opportunities",       table: "_opportunities_v", titleExpr: "version_title" },
+  { slug: "posts",         label: "Posts",               table: "_posts_v",         titleExpr: "version_title" },
+  { slug: "lab-photos",    label: "Lab Photos",          table: "_lab_photos_v",    titleExpr: "version_year::text" },
+]
 
 export default async function PendingChangesView(props: AdminViewServerProps) {
   const { initPageResult, params, searchParams } = props
@@ -19,24 +24,29 @@ export default async function PendingChangesView(props: AdminViewServerProps) {
 
   const isAdmin = (user as { role?: string } | null)?.role === "admin"
 
-  let results: { slug: string; label: string; titleField: string; docs: unknown[]; totalDocs: number }[] = []
+  let results: CollectionResult[] = []
 
   if (isAdmin) {
+    const db = (payload.db as unknown as { pool: { query: (sql: string) => Promise<{ rows: { id: number; title: string; updated_at: string }[] }> } }).pool
     results = await Promise.all(
-      COLLECTIONS.map(async ({ slug, label, titleField }) => {
-        const { docs, totalDocs } = await payload.find({
-          collection: slug,
-          where: { _status: { equals: "draft" } },
-          limit: 100,
-          overrideAccess: true,
-          draft: true,
-        })
-        return { slug, label, titleField, docs, totalDocs }
+      COLLECTIONS.map(async ({ slug, label, table, titleExpr }) => {
+        const { rows } = await db.query(
+          `SELECT parent_id AS id, ${titleExpr} AS title, version_updated_at AS updated_at
+           FROM ${table}
+           WHERE latest = true AND version__status = 'draft'
+           ORDER BY version_updated_at DESC
+           LIMIT 100`
+        )
+        return {
+          slug,
+          label,
+          docs: rows.map(r => ({ id: r.id, title: r.title ?? "Untitled", updatedAt: r.updated_at })),
+        }
       })
     )
   }
 
-  const hasAny = results.some((r) => r.totalDocs > 0)
+  const hasAny = results.some((r) => r.docs.length > 0)
 
   return (
     <DefaultTemplate
@@ -76,8 +86,8 @@ export default async function PendingChangesView(props: AdminViewServerProps) {
           </div>
         ) : (
           results
-            .filter((r) => r.totalDocs > 0)
-            .map(({ slug, label, titleField, docs }) => (
+            .filter((r) => r.docs.length > 0)
+            .map(({ slug, label, docs }) => (
               <div key={slug} style={{ marginBottom: 32 }}>
                 <h2 style={{
                   fontSize: 13,
@@ -94,18 +104,16 @@ export default async function PendingChangesView(props: AdminViewServerProps) {
                   borderRadius: 8,
                   overflow: "hidden",
                 }}>
-                  {docs.map((doc, i) => {
-                    const d = doc as Record<string, unknown>
-                    const title = String(d[titleField] ?? d.id ?? "Untitled")
-                    const updatedAt = d.updatedAt
-                      ? new Date(d.updatedAt as string).toLocaleDateString("en-CA", {
+                  {docs.map(({ id, title, updatedAt }, i) => {
+                    const dateStr = updatedAt
+                      ? new Date(updatedAt).toLocaleDateString("en-CA", {
                           year: "numeric", month: "short", day: "numeric",
                         })
                       : ""
                     return (
                       <a
-                        key={String(d.id)}
-                        href={`/admin/collections/${slug}/${d.id}`}
+                        key={id}
+                        href={`/admin/collections/${slug}/${id}`}
                         style={{
                           display: "flex",
                           alignItems: "center",
@@ -119,7 +127,7 @@ export default async function PendingChangesView(props: AdminViewServerProps) {
                       >
                         <span style={{ fontWeight: 500 }}>{title}</span>
                         <span style={{ fontSize: 12, color: "var(--theme-elevation-400)", whiteSpace: "nowrap", marginLeft: 16 }}>
-                          {updatedAt} →
+                          {dateStr} →
                         </span>
                       </a>
                     )
