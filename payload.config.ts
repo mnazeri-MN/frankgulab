@@ -403,7 +403,21 @@ export default buildConfig({
           type: "text",
           required: true,
           unique: true,
-          admin: { description: "URL-friendly identifier, e.g. 'new-paper-2025'. Must be unique." },
+          admin: { description: "URL-friendly identifier — auto-generated from the title. Lowercase, hyphens only, e.g. 'new-paper-2025'." },
+          hooks: {
+            beforeValidate: [
+              ({ value, data }) => {
+                const raw = value || (data as Record<string, string> | undefined)?.title || ""
+                return (raw as string)
+                  .toLowerCase()
+                  .trim()
+                  .replace(/[^\w\s-]/g, "")
+                  .replace(/[\s_]+/g, "-")
+                  .replace(/-+/g, "-")
+                  .replace(/^-|-$/g, "")
+              },
+            ],
+          },
         },
         { name: "excerpt", type: "textarea", label: "Excerpt", admin: { description: "1–2 sentence preview shown on the homepage card." } },
         {
