@@ -39,24 +39,33 @@ export async function GET() {
       })
     : null
 
-  // Also expose what's in the import map
+  // payload.importMap is the RUNTIME map used by initLexicalFeatures
+  const payloadImportMapKeys = Object.keys(payload.importMap ?? {})
+
+  // Also expose what's in our manual importMap.js
   const { importMap } = await import(
     "@/app/(payload)/admin/importMap.js"
   )
-  const importMapKeys = Object.keys(importMap)
+  const manualImportMapKeys = Object.keys(importMap)
+
+  const fixedKey = "@payloadcms/richtext-lexical/client#FixedToolbarFeatureClient"
+  const inlineKey = "@payloadcms/richtext-lexical/client#InlineToolbarFeatureClient"
+  const boldKey = "@payloadcms/richtext-lexical/client#BoldFeatureClient"
 
   return NextResponse.json({
     postsCollectionFound: !!postsCollection,
     bodyFieldFound: !!bodyField,
-    bodyFieldType: bodyField ? ("type" in bodyField ? bodyField.type : "unknown") : null,
-    editorKeys: editor ? Object.keys(editor) : null,
     featureCount: featureMap?.size ?? null,
     features,
-    importMapKeys,
-    fixedToolbarInImportMap: importMapKeys.includes(
-      "@payloadcms/richtext-lexical/client#FixedToolbarFeatureClient"
-    ),
-    fixedToolbarFeatureInMap:
-      featureMap?.has("toolbarFixed") ?? null,
+    // payload.importMap is what initLexicalFeatures uses
+    payloadImportMapSize: payloadImportMapKeys.length,
+    payloadImportMapHasFixed: payloadImportMapKeys.includes(fixedKey),
+    payloadImportMapHasInline: payloadImportMapKeys.includes(inlineKey),
+    payloadImportMapHasBold: payloadImportMapKeys.includes(boldKey),
+    // sample of what's in payload.importMap
+    payloadImportMapSample: payloadImportMapKeys.slice(0, 30),
+    // our manual importMap.js
+    manualImportMapSize: manualImportMapKeys.length,
+    manualImportMapHasFixed: manualImportMapKeys.includes(fixedKey),
   })
 }
