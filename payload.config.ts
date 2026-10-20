@@ -520,6 +520,15 @@ export default buildConfig({
           label: "Contact Section Photo",
           admin: { description: "Photo shown on the right side of the Contact section" },
         },
+        {
+          name: "alumniWindowMonths",
+          type: "number",
+          label: "Show alumni for (months)",
+          defaultValue: 12,
+          admin: {
+            description: "Alumni who left more than this many months ago are hidden from the site. Default: 12 (1 year).",
+          },
+        },
       ],
     },
   ],

@@ -41,7 +41,12 @@ export async function People() {
     }
   }
 
+  const siteSettings = await payload.findGlobal({ slug: "site-settings" })
+  const alumniWindowMonths = (siteSettings.alumniWindowMonths as number | null | undefined) ?? 12
   const today = new Date()
+  const alumniCutoff = new Date(today)
+  alumniCutoff.setMonth(alumniCutoff.getMonth() - alumniWindowMonths)
+
   function isActive(doc: (typeof docs)[number]) {
     const start = doc.startDate ? new Date(doc.startDate as string) : null
     const end = doc.endDate ? new Date(doc.endDate as string) : null
@@ -82,7 +87,12 @@ export async function People() {
   }
 
   const people = sortPeople(docs.filter(isActive)).map(toPerson)
-  const alumni = sortPeople(docs.filter((d) => !isActive(d) && d.endDate)).map(toPerson)
+  const alumni = sortPeople(
+    docs.filter((d) => {
+      if (isActive(d) || !d.endDate) return false
+      return new Date(d.endDate as string) >= alumniCutoff
+    })
+  ).map(toPerson)
 
   let labPhotos: LabPhoto[] = []
   try {
