@@ -5,6 +5,7 @@ import { postgresAdapter } from "@payloadcms/db-postgres"
 import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob"
 import {
   lexicalEditor,
+  FixedToolbarFeature,
   HeadingFeature,
   BoldFeature,
   ItalicFeature,
@@ -440,6 +441,7 @@ export default buildConfig({
           label: "Body",
           editor: lexicalEditor({
             features: [
+              FixedToolbarFeature(),
               HeadingFeature({ enabledHeadingSizes: ["h2", "h3", "h4"] }),
               BoldFeature(),
               ItalicFeature(),
