@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "node --import ./polyfill-node18.mjs ./node_modules/.bin/next dev",
     "dev:clean": "rm -rf .next && node --import ./polyfill-node18.mjs ./node_modules/.bin/next dev",
-    "prebuild": "node --import ./polyfill-node18.mjs ./node_modules/.bin/payload generate:importmap",
     "build": "node --import ./polyfill-node18.mjs ./node_modules/.bin/next build",
     "start": "node --import ./polyfill-node18.mjs ./node_modules/.bin/next start",
     "lint": "next lint",
