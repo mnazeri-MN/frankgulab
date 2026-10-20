@@ -3,7 +3,21 @@ import { fileURLToPath } from "url"
 import { buildConfig } from "payload"
 import { postgresAdapter } from "@payloadcms/db-postgres"
 import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob"
-import { lexicalEditor } from "@payloadcms/richtext-lexical"
+import {
+  lexicalEditor,
+  HeadingFeature,
+  BoldFeature,
+  ItalicFeature,
+  UnderlineFeature,
+  StrikethroughFeature,
+  LinkFeature,
+  UnorderedListFeature,
+  OrderedListFeature,
+  BlockquoteFeature,
+  InlineCodeFeature,
+  HorizontalRuleFeature,
+  UploadFeature,
+} from "@payloadcms/richtext-lexical"
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -424,7 +438,22 @@ export default buildConfig({
           name: "body",
           type: "richText",
           label: "Body",
-          editor: lexicalEditor({}),
+          editor: lexicalEditor({
+            features: [
+              HeadingFeature({ enabledHeadingSizes: ["h2", "h3", "h4"] }),
+              BoldFeature(),
+              ItalicFeature(),
+              UnderlineFeature(),
+              StrikethroughFeature(),
+              LinkFeature(),
+              UnorderedListFeature(),
+              OrderedListFeature(),
+              BlockquoteFeature(),
+              InlineCodeFeature(),
+              HorizontalRuleFeature(),
+              UploadFeature({ collections: { media: { fields: [{ name: "alt", type: "text" }] } } }),
+            ],
+          }),
         },
       ],
     },
