@@ -19,19 +19,11 @@ const serverFunction: ServerFunctionClient = async function (args) {
 }
 
 export default function Layout({ children }: Args) {
-  return (
-    <>
-      {/* DEBUG: remove once toolbar issue is resolved */}
-      <style>{`
-        .fixed-toolbar { outline: 3px solid red !important; background: yellow !important; min-height: 20px !important; display: flex !important; visibility: visible !important; opacity: 1 !important; }
-      `}</style>
-      {RootLayout({
-        children,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        config: import("@payload-config").then((m) => m.default) as any,
-        importMap,
-        serverFunction,
-      })}
-    </>
-  )
+  return RootLayout({
+    children,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    config: import("@payload-config").then((m) => m.default) as any,
+    importMap,
+    serverFunction,
+  })
 }
