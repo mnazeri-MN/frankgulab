@@ -22,7 +22,7 @@ function PubCard({ pub }: { pub: PublicationItem }) {
       rel="noopener noreferrer"
       className="group flex flex-col overflow-hidden rounded-card bg-white ring-1 ring-ink/10 transition-shadow hover:shadow-md"
     >
-      <div className="flex flex-col p-4 md:p-5">
+      <div className="flex flex-1 flex-col p-4 md:p-5">
         <div className="flex items-start justify-between gap-2">
           <p className="font-body text-xl font-medium leading-8 text-ink">{pub.title}</p>
           <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
