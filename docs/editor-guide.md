@@ -10,9 +10,7 @@ This guide is for lab members who have an editor account on the Mixture Lab webs
 ## Logging In
 
 1. Go to **https://frankgulab.com/admin**
-2. Enter your email and password
-3. If you've forgotten your password, click **Forgot Password** on the login screen
-4. If you're locked out entirely, ask Frank to reset your account
+2. Enter the editor's login credentials (Can be requested from the lab admin or Prof. Gu)
 
 ---
 
