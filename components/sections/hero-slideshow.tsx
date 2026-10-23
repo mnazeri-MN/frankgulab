@@ -23,30 +23,35 @@ export function HeroSlideshow({ slides }: { slides: HeroSlide[] }) {
 
   if (slides.length === 0) return null
 
+  const s = slides[current]
+
   return (
     <div className="flex flex-col gap-4">
-      <div className="relative aspect-[4/3] overflow-hidden rounded-card bg-light-grey sm:aspect-[2/1] lg:aspect-[4/3]">
-        {slides.map((s, i) => (
-          <div
-            key={s.name}
-            className={`absolute inset-0 transition-opacity duration-700 ${
-              i === current ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <Image
-              src={s.imageUrl}
-              alt={s.imageAlt}
-              fill
-              className="object-cover"
-              priority={i === 0}
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-            <div className="absolute inset-x-0 top-0 bg-black/40 p-5 backdrop-blur-sm">
-              <p className="font-heading text-xl font-semibold text-white">{s.name}</p>
-              <p className="mt-0.5 font-body text-xl text-white/70">{s.tagline}</p>
+      <div className="overflow-hidden rounded-card">
+        <div className="relative aspect-[4/3] bg-light-grey sm:aspect-[2/1] lg:aspect-[4/3]">
+          {slides.map((slide, i) => (
+            <div
+              key={slide.name}
+              className={`absolute inset-0 transition-opacity duration-700 ${
+                i === current ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <Image
+                src={slide.imageUrl}
+                alt={slide.imageAlt}
+                fill
+                className="object-cover"
+                priority={i === 0}
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+        <div className="relative bg-black/40 px-5 py-3 backdrop-blur-sm">
+          <div className="pointer-events-none absolute inset-x-0 -top-6 h-6 bg-gradient-to-b from-transparent to-black/40" />
+          <p className="font-heading text-xl font-semibold text-white">{s.name}</p>
+          <p className="mt-0.5 font-body text-xl text-white/70">{s.tagline}</p>
+        </div>
       </div>
 
       {slides.length > 1 && (
