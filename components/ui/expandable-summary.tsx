@@ -21,7 +21,7 @@ export function ExpandableSummary({ text, className }: { text: string; className
 
   return (
     <>
-      <p ref={ref} className={`${className ?? ""} ${!expanded ? "line-clamp-3" : ""}`}>
+      <p ref={ref} className={`${className ?? ""} ${!expanded ? "line-clamp-5" : ""}`}>
         {text}
       </p>
       {(clamped || expanded) && (

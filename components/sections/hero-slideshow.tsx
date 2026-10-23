@@ -25,7 +25,7 @@ export function HeroSlideshow({ slides }: { slides: HeroSlide[] }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="relative aspect-video overflow-hidden rounded-card bg-light-grey lg:aspect-[4/3]">
+      <div className="relative aspect-[2/1] overflow-hidden rounded-card bg-light-grey lg:aspect-[4/3]">
         {slides.map((s, i) => (
           <div
             key={s.name}

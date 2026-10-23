@@ -333,23 +333,11 @@ export function NewsCarousel({ items, cardVariant = "a", cardLayout = "carousel"
     return (
       <section id="news" className="bg-warm-white px-6 py-12 lg:px-16">
         <div className="mx-auto max-w-7xl">
-          <div className="flex items-end justify-between">
-            <div>
-              <SectionLabel>Press &amp; Updates</SectionLabel>
-              <h2 className="mt-4 font-heading text-4xl font-semibold tracking-[-0.02em] text-ink md:text-5xl">
-                News
-              </h2>
-            </div>
-            {items.length > cols && (
-              <div className="hidden items-center gap-2 md:flex">
-                <button onClick={() => { setStart((s) => (s <= 0 ? max3 : s - 1)); resetTimer() }} aria-label="Previous news" className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
-                  <ChevronLeft className="h-4 w-4" />
-                </button>
-                <button onClick={() => { setStart((s) => (s >= max3 ? 0 : s + 1)); resetTimer() }} aria-label="Next news" className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
-                  <ChevronRight className="h-4 w-4" />
-                </button>
-              </div>
-            )}
+          <div>
+            <SectionLabel>Press &amp; Updates</SectionLabel>
+            <h2 className="mt-4 font-heading text-4xl font-semibold tracking-[-0.02em] text-ink md:text-5xl">
+              News
+            </h2>
           </div>
           <p className="mt-4 max-w-2xl font-body text-xl leading-9 text-dark-grey">
             Lab updates, press coverage, and recent highlights from the Mixture Lab.
@@ -358,7 +346,22 @@ export function NewsCarousel({ items, cardVariant = "a", cardLayout = "carousel"
             <p className="mt-10 font-body text-xl text-grey">No news yet.</p>
           ) : (
             <>
-              <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" onTouchStart={onTouchStart} onTouchEnd={(e) => onTouchEnd(e, 1)}>
+              <div className="mt-10 hidden items-center gap-3 md:flex">
+                {items.length > cols && (
+                  <button onClick={() => { setStart((s) => (s <= 0 ? max3 : s - 1)); resetTimer() }} aria-label="Previous news" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
+                    <ChevronLeft className="h-4 w-4" />
+                  </button>
+                )}
+                <div className="grid flex-1 grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" onTouchStart={onTouchStart} onTouchEnd={(e) => onTouchEnd(e, 1)}>
+                  {visible3.map((item, i) => <NewsCard key={i} item={item} />)}
+                </div>
+                {items.length > cols && (
+                  <button onClick={() => { setStart((s) => (s >= max3 ? 0 : s + 1)); resetTimer() }} aria-label="Next news" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+              <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 md:hidden" onTouchStart={onTouchStart} onTouchEnd={(e) => onTouchEnd(e, 1)}>
                 {visible3.map((item, i) => <NewsCard key={i} item={item} />)}
               </div>
               {items.length > cols && (
