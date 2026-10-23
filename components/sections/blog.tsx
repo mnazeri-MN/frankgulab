@@ -100,7 +100,7 @@ export async function Blog() {
                     {post.title}
                   </h3>
                   {post.excerpt && (
-                    <p className="mt-3 font-body text-base leading-7 text-dark-grey line-clamp-3">
+                    <p className="mt-3 font-body text-lg leading-8 text-dark-grey line-clamp-3">
                       {post.excerpt}
                     </p>
                   )}
