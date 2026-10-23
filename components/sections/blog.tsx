@@ -93,10 +93,7 @@ export async function Blog() {
                   </div>
                 )}
                 <div className="flex flex-1 flex-col p-6">
-                  <p className="font-body text-sm text-dark-grey">
-                    {[post.publishedAt, post.authorName].filter(Boolean).join(" · ")}
-                  </p>
-                  <h3 className="mt-2 font-heading text-xl font-semibold leading-snug text-ink">
+                  <h3 className="font-heading text-xl font-semibold leading-snug text-ink">
                     {post.title}
                   </h3>
                   {post.excerpt && (
@@ -105,8 +102,8 @@ export async function Blog() {
                     </p>
                   )}
                   <div className="mt-auto flex items-center justify-between pt-4">
-                    <p className="font-body text-sm font-medium text-ink group-hover:underline">
-                      Read more →
+                    <p className="font-body text-sm text-grey">
+                      {[post.publishedAt, post.authorName].filter(Boolean).join(" · ")}
                     </p>
                     <a
                       href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${SITE_URL}/blog/${post.slug}`)}`}
