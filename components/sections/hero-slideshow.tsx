@@ -41,11 +41,9 @@ export function HeroSlideshow({ slides }: { slides: HeroSlide[] }) {
               priority={i === 0}
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
-            <div className="absolute inset-x-0 bottom-0 p-4">
-              <div className="inline-block rounded-lg bg-ink/50 px-3 py-2 backdrop-blur-sm">
-                <p className="font-heading text-xl font-semibold text-white">{s.name}</p>
-                {s.tagline && <p className="mt-0.5 font-body text-base text-white/80">{s.tagline}</p>}
-              </div>
+            <div className="absolute inset-x-0 bottom-0 bg-black/40 p-5 backdrop-blur-sm">
+              <p className="font-heading text-xl font-semibold text-white">{s.name}</p>
+              <p className="mt-0.5 font-body text-xl text-white/70">{s.tagline}</p>
             </div>
           </div>
         ))}
