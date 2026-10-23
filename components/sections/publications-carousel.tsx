@@ -28,7 +28,7 @@ function PubCard({ pub }: { pub: PublicationItem }) {
           <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
         </div>
         {pub.summary && (
-          <p className="mt-3 line-clamp-3 font-body text-base leading-7 text-dark-grey">{pub.summary}</p>
+          <p className="mt-3 line-clamp-5 font-body text-base leading-7 text-dark-grey">{pub.summary}</p>
         )}
         <div className="mt-auto flex items-center justify-between pt-4">
           <p className="font-body text-sm text-grey">{pub.firstAuthor} · {pub.year}</p>
