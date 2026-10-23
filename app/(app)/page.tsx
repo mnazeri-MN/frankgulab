@@ -18,9 +18,9 @@ export default function HomePage() {
       <main>
         <Hero />
         <Research />
-        <Publications cardVariant="e" cardLayout="grid3" />
+        <Publications />
         <People />
-        <News cardVariant="e" cardLayout="grid3" />
+        <News />
         <Blog />
         <Opportunities />
         <Contact />

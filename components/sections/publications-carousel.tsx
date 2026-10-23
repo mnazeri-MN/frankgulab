@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react"
 import { ArrowUpRight, BookOpen, ChevronLeft, ChevronRight, Linkedin } from "lucide-react"
 import { SectionLabel } from "@/components/ui/section-label"
-import { ExpandableSummary } from "@/components/ui/expandable-summary"
 
 export type PublicationItem = {
   title: string
@@ -15,196 +14,24 @@ export type PublicationItem = {
   blogUrl?: string | null
 }
 
-// ─── Shared action buttons (LinkedIn share + optional Blog link) ──────────────
-
-function PubCardActions({ pub }: { pub: PublicationItem }) {
-  if (!pub.href && !pub.blogUrl) return null
-  return (
-    <div className="mt-4 flex items-center justify-end gap-2">
-      {pub.blogUrl && (
-        <a
-          href={pub.blogUrl}
-          onClick={(e) => e.stopPropagation()}
-          aria-label="Read blog post"
-          className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-ink/40 hover:text-ink"
-        >
-          <BookOpen className="h-3.5 w-3.5" />
-          Blog
-        </a>
-      )}
-      {pub.href && (
-        <a
-          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pub.href)}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => e.stopPropagation()}
-          aria-label="Share on LinkedIn"
-          className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
-        >
-          <Linkedin className="h-3.5 w-3.5" />
-          Share
-        </a>
-      )}
-    </div>
-  )
-}
-
-// ─── Variant A: current (image + title left, summary right) ──────────────────
-
-function PubCardA({ pub }: { pub: PublicationItem }) {
+function PubCard({ pub }: { pub: PublicationItem }) {
   return (
     <a
       href={pub.href || "#"}
       target={pub.href ? "_blank" : undefined}
       rel="noopener noreferrer"
-      className="group overflow-hidden rounded-card bg-white ring-1 ring-ink/10 transition-shadow hover:shadow-md md:flex"
+      className="group flex max-h-[55vh] flex-col overflow-hidden rounded-card bg-white ring-1 ring-ink/10 transition-shadow hover:shadow-md"
     >
-      <div className="flex flex-col md:w-1/2">
-        <div className="relative aspect-video w-full overflow-hidden bg-light-grey md:flex-1 md:aspect-auto">
-          {pub.imageUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={pub.imageUrl} alt={pub.title} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center bg-light-grey">
-              <span className="font-body text-base text-grey">No image</span>
-            </div>
-          )}
-        </div>
-        <div className="p-4 md:p-5">
-          <div className="flex items-start justify-between gap-3">
-            <p className="font-body text-xl font-medium leading-8 text-ink">{pub.title}</p>
-            <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
-          </div>
-          <p className="mt-2 font-body text-sm text-grey">{pub.firstAuthor} · {pub.year}</p>
-        </div>
-      </div>
-      <div className="flex flex-col justify-between border-t border-ink/10 p-4 md:w-1/2 md:border-l md:border-t-0 md:p-5">
-        <div>
-          {pub.summary ? (
-            <p data-reduced-text="" className="font-body text-base leading-7 text-dark-grey">{pub.summary}</p>
-          ) : (
-            <p className="font-body text-base italic text-grey/50">No summary yet.</p>
-          )}
-        </div>
-        <PubCardActions pub={pub} />
-      </div>
-    </a>
-  )
-}
-
-// ─── Variant B: image top-left, title top-right, summary bottom ───────────────
-
-function PubCardB({ pub }: { pub: PublicationItem }) {
-  return (
-    <a
-      href={pub.href || "#"}
-      target={pub.href ? "_blank" : undefined}
-      rel="noopener noreferrer"
-      className="group flex flex-col overflow-hidden rounded-card bg-white ring-1 ring-ink/10 transition-shadow hover:shadow-md"
-    >
-      <div className="flex">
-        <div className="relative w-2/3 shrink-0 overflow-hidden bg-light-grey" style={{ aspectRatio: "1/1" }}>
-          {pub.imageUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={pub.imageUrl} alt={pub.title} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
-          ) : (
-            <div className="h-full w-full bg-light-grey" />
-          )}
-        </div>
-        <div className="flex flex-1 flex-col justify-between p-4">
-          <div className="flex items-start justify-between gap-2">
-            <p className="line-clamp-3 font-body text-xl font-medium leading-8 text-ink">{pub.title}</p>
-            <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
-          </div>
-          <p className="mt-2 font-body text-sm text-grey">{pub.firstAuthor} · {pub.year}</p>
-        </div>
-      </div>
-      <div className="flex flex-col justify-between border-t border-ink/10 p-4 md:p-5">
-        <div>
-          {pub.summary ? (
-            <p data-reduced-text="" className="font-body text-base leading-7 text-dark-grey">{pub.summary}</p>
-          ) : (
-            <p className="font-body text-base italic text-grey/50">No summary yet.</p>
-          )}
-        </div>
-        <PubCardActions pub={pub} />
-      </div>
-    </a>
-  )
-}
-
-// ─── Variant C: full-width image top half, title cut-out overlay, summary bottom
-
-function PubCardC({ pub }: { pub: PublicationItem }) {
-  return (
-    <a
-      href={pub.href || "#"}
-      target={pub.href ? "_blank" : undefined}
-      rel="noopener noreferrer"
-      className="group flex flex-col overflow-hidden rounded-card bg-white ring-1 ring-ink/10 transition-shadow hover:shadow-md"
-    >
-      {/* Upper: full-width image with title/author cut-out top-right */}
-      <div className="relative aspect-video w-full overflow-hidden bg-light-grey">
-        {pub.imageUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={pub.imageUrl} alt={pub.title} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
-        ) : (
-          <div className="h-full w-full bg-light-grey" />
-        )}
-        <div className="absolute right-3 top-3 flex max-w-[60%] flex-col gap-1 rounded-lg bg-white/95 p-3 shadow-sm backdrop-blur-sm">
-          <div className="flex items-start justify-between gap-2">
-            <p className="line-clamp-3 font-body text-xl font-medium leading-8 text-ink">{pub.title}</p>
-            <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
-          </div>
-          <p className="font-body text-sm text-grey">{pub.firstAuthor} · {pub.year}</p>
-        </div>
-      </div>
-      {/* Lower: summary + share */}
-      <div className="flex flex-col justify-between p-4 md:p-5">
-        <div>
-          {pub.summary ? (
-            <p data-reduced-text="" className="font-body text-base leading-7 text-dark-grey">{pub.summary}</p>
-          ) : (
-            <p className="font-body text-base italic text-grey/50">No summary yet.</p>
-          )}
-        </div>
-        <PubCardActions pub={pub} />
-      </div>
-    </a>
-  )
-}
-
-// ─── Variant D: full-width cropped image, title below, truncated summary, bottom bar ─
-
-function truncateWords(text: string, max: number): string {
-  const words = text.trim().split(/\s+/)
-  if (words.length <= max) return text
-  return words.slice(0, max).join(" ") + "…"
-}
-
-function PubCardD({ pub }: { pub: PublicationItem }) {
-  return (
-    <a
-      href={pub.href || "#"}
-      target={pub.href ? "_blank" : undefined}
-      rel="noopener noreferrer"
-      className="group flex flex-col overflow-hidden rounded-card bg-white ring-1 ring-ink/10 transition-shadow hover:shadow-md"
-    >
-      <div className="relative h-48 w-full overflow-hidden bg-light-grey">
-        {pub.imageUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={pub.imageUrl} alt={pub.title} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
-        ) : (
-          <div className="h-full w-full bg-light-grey" />
-        )}
-      </div>
       <div className="flex flex-1 flex-col p-4 md:p-5">
         <div className="flex items-start justify-between gap-2">
           <p className="font-body text-xl font-medium leading-8 text-ink">{pub.title}</p>
           <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
         </div>
         {pub.summary && (
-          <ExpandableSummary text={pub.summary} className="mt-3 font-body text-base leading-7 text-dark-grey" />
+          <div className="relative mt-3 min-h-0 flex-1 overflow-hidden">
+            <p className="font-body text-base leading-7 text-dark-grey">{pub.summary}</p>
+            <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-white to-transparent" />
+          </div>
         )}
         <div className="mt-auto flex items-center justify-between pt-4">
           <p className="font-body text-sm text-grey">{pub.firstAuthor} · {pub.year}</p>
@@ -236,59 +63,7 @@ function PubCardD({ pub }: { pub: PublicationItem }) {
           </div>
         </div>
       </div>
-    </a>
-  )
-}
-
-// ─── Variant E: title + summary top, image bottom ────────────────────────────
-
-function PubCardE({ pub }: { pub: PublicationItem }) {
-  return (
-    <a
-      href={pub.href || "#"}
-      target={pub.href ? "_blank" : undefined}
-      rel="noopener noreferrer"
-      className="group flex flex-col overflow-hidden rounded-card bg-white ring-1 ring-ink/10 transition-shadow hover:shadow-md"
-    >
-      <div className="flex flex-1 flex-col p-4 md:p-5">
-        <div className="flex items-start justify-between gap-2">
-          <p className="font-body text-xl font-medium leading-8 text-ink">{pub.title}</p>
-          <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
-        </div>
-        {pub.summary && (
-          <ExpandableSummary text={pub.summary} className="mt-3 font-body text-base leading-7 text-dark-grey" />
-        )}
-        <div className="mt-auto flex items-center justify-between pt-4">
-          <p className="font-body text-sm text-grey">{pub.firstAuthor} · {pub.year}</p>
-          <div className="flex items-center gap-2">
-            {pub.blogUrl && (
-              <a
-                href={pub.blogUrl}
-                onClick={(e) => e.stopPropagation()}
-                aria-label="Read blog post"
-                className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-ink/40 hover:text-ink"
-              >
-                <BookOpen className="h-3.5 w-3.5" />
-                Blog
-              </a>
-            )}
-            {pub.href && (
-              <a
-                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pub.href)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                aria-label="Share on LinkedIn"
-                className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
-              >
-                <Linkedin className="h-3.5 w-3.5" />
-                Share
-              </a>
-            )}
-          </div>
-        </div>
-      </div>
-      <div className="relative h-48 w-full overflow-hidden bg-light-grey">
+      <div className="relative h-48 w-full shrink-0 overflow-hidden bg-light-grey">
         {pub.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={pub.imageUrl} alt={pub.title} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
@@ -300,35 +75,10 @@ function PubCardE({ pub }: { pub: PublicationItem }) {
   )
 }
 
-// ─── Carousel ─────────────────────────────────────────────────────────────────
-
-const VISIBLE = 2
-
-export function PublicationsCarousel({ publications, cardVariant = "a", cardLayout = "carousel" }: { publications: PublicationItem[]; cardVariant?: "a" | "b" | "c" | "d" | "e"; cardLayout?: "carousel" | "grid3" }) {
+export function PublicationsCarousel({ publications }: { publications: PublicationItem[] }) {
   const [start, setStart] = useState(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const touchStartX = useRef<number | null>(null)
-  const max = Math.max(0, publications.length - VISIBLE)
-
-  function advance() { setStart((s) => (s >= max ? 0 : s + 1)) }
-  function retreat() { setStart((s) => (s <= 0 ? max : s - 1)) }
-
-  function resetTimer() {
-    if (timerRef.current) clearInterval(timerRef.current)
-    timerRef.current = setInterval(advance, 5000)
-  }
-
-  useEffect(() => {
-    if (publications.length <= VISIBLE) return
-    timerRef.current = setInterval(advance, 5000)
-    return () => { if (timerRef.current) clearInterval(timerRef.current) }
-  }, [publications.length])
-
-  function handleDot(i: number) { setStart(i); resetTimer() }
-  function handleArrow(dir: "prev" | "next") {
-    dir === "next" ? advance() : retreat()
-    resetTimer()
-  }
 
   const [cols, setCols] = useState(3)
   useEffect(() => {
@@ -342,115 +92,72 @@ export function PublicationsCarousel({ publications, cardVariant = "a", cardLayo
     return () => window.removeEventListener("resize", update)
   }, [])
 
-  function onTouchStart(e: React.TouchEvent) {
-    touchStartX.current = e.touches[0].clientX
-  }
-  function onTouchEnd(e: React.TouchEvent, step: number) {
-    if (touchStartX.current === null) return
-    const diff = touchStartX.current - e.changedTouches[0].clientX
-    touchStartX.current = null
-    if (Math.abs(diff) < 50) return
-    if (diff > 0) setStart((s) => Math.min(s + step, max))
-    else setStart((s) => Math.max(s - step, 0))
-    resetTimer()
-  }
-
-  const visible = publications.slice(start, start + VISIBLE)
-  const PubCard = cardVariant === "e" ? PubCardE : cardVariant === "d" ? PubCardD : cardVariant === "c" ? PubCardC : cardVariant === "b" ? PubCardB : PubCardA
-
   const max3 = Math.max(0, publications.length - cols)
   const start3 = Math.min(start, max3)
   const visible3 = publications.slice(start3, start3 + cols)
 
-  if (cardLayout === "grid3") {
-    return (
-      <section id="publications" className="bg-warm-white px-6 py-12 lg:px-16">
-        <div className="mx-auto max-w-7xl">
-          <div>
-            <SectionLabel>Selected Works</SectionLabel>
-            <h2 className="mt-4 font-heading text-4xl font-semibold tracking-[-0.02em] text-ink md:text-5xl">
-              Publications
-            </h2>
-          </div>
-          <p className="mt-4 max-w-2xl font-body text-xl leading-9 text-dark-grey">
-            Peer-reviewed research from the Mixture Lab. Click any card to view the full publication.
-          </p>
-          {publications.length === 0 ? (
-            <p className="mt-10 font-body text-xl text-grey">No publications yet.</p>
-          ) : (
-            <>
-              <div className="mt-10 hidden items-center gap-3 md:flex">
-                {publications.length > cols && (
-                  <button onClick={() => { setStart((s) => (s <= 0 ? max3 : s - 1)); resetTimer() }} aria-label="Previous publications" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
-                    <ChevronLeft className="h-4 w-4" />
-                  </button>
-                )}
-                <div className="grid flex-1 grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" onTouchStart={onTouchStart} onTouchEnd={(e) => onTouchEnd(e, 1)}>
-                  {visible3.map((pub, i) => <PubCard key={i} pub={pub} />)}
-                </div>
-                {publications.length > cols && (
-                  <button onClick={() => { setStart((s) => (s >= max3 ? 0 : s + 1)); resetTimer() }} aria-label="Next publications" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
-                    <ChevronRight className="h-4 w-4" />
-                  </button>
-                )}
-              </div>
-              <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 md:hidden" onTouchStart={onTouchStart} onTouchEnd={(e) => onTouchEnd(e, 1)}>
-                {visible3.map((pub, i) => <PubCard key={i} pub={pub} />)}
-              </div>
-              {publications.length > cols && (
-                <div className="mt-6 flex items-center justify-center gap-2">
-                  {Array.from({ length: max3 + 1 }).map((_, i) => (
-                    <button key={i} onClick={() => { setStart(i); resetTimer() }} aria-label={`Position ${i + 1}`} className={`h-1.5 rounded-full transition-all duration-300 ${start3 === i ? "w-6 bg-ink" : "w-1.5 bg-light-grey"}`} />
-                  ))}
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      </section>
-    )
+  function resetTimer() {
+    if (timerRef.current) clearInterval(timerRef.current)
+    timerRef.current = setInterval(() => setStart((s) => (s >= max3 ? 0 : s + 1)), 5000)
+  }
+
+  useEffect(() => {
+    if (publications.length <= cols) return
+    timerRef.current = setInterval(() => setStart((s) => (s >= max3 ? 0 : s + 1)), 5000)
+    return () => { if (timerRef.current) clearInterval(timerRef.current) }
+  }, [publications.length, cols, max3])
+
+  function onTouchStart(e: React.TouchEvent) {
+    touchStartX.current = e.touches[0].clientX
+  }
+  function onTouchEnd(e: React.TouchEvent) {
+    if (touchStartX.current === null) return
+    const diff = touchStartX.current - e.changedTouches[0].clientX
+    touchStartX.current = null
+    if (Math.abs(diff) < 50) return
+    if (diff > 0) setStart((s) => (s >= max3 ? 0 : s + 1))
+    else setStart((s) => (s <= 0 ? max3 : s - 1))
+    resetTimer()
   }
 
   return (
-    <section id="publications" className="bg-white px-6 py-12 lg:px-16">
+    <section id="publications" className="bg-warm-white px-6 py-12 lg:px-16">
       <div className="mx-auto max-w-7xl">
-        <div className="flex items-end justify-between">
-          <div>
-            <SectionLabel>Selected Works</SectionLabel>
-            <h2 className="mt-4 font-heading text-4xl font-semibold tracking-[-0.02em] text-ink md:text-5xl">
-              Publications
-            </h2>
-          </div>
-          {publications.length > VISIBLE && (
-            <div className="hidden items-center gap-2 md:flex">
-              <button onClick={() => handleArrow("prev")} aria-label="Previous publications" className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-              <button onClick={() => handleArrow("next")} aria-label="Next publications" className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
-                <ChevronRight className="h-4 w-4" />
-              </button>
-            </div>
-          )}
+        <div>
+          <SectionLabel>Selected Works</SectionLabel>
+          <h2 className="mt-4 font-heading text-4xl font-semibold tracking-[-0.02em] text-ink md:text-5xl">
+            Publications
+          </h2>
         </div>
-
         <p className="mt-4 max-w-2xl font-body text-xl leading-9 text-dark-grey">
           Peer-reviewed research from the Mixture Lab. Click any card to view the full publication.
         </p>
-
         {publications.length === 0 ? (
           <p className="mt-10 font-body text-xl text-grey">No publications yet.</p>
         ) : (
           <>
-            <div className="mt-10 hidden gap-5 md:grid md:grid-cols-2" onTouchStart={onTouchStart} onTouchEnd={(e) => onTouchEnd(e, 1)}>
-              {visible.map((pub, i) => <PubCard key={i} pub={pub} />)}
+            <div className="mt-10 hidden items-center gap-3 md:flex">
+              {publications.length > cols && (
+                <button onClick={() => { setStart((s) => (s <= 0 ? max3 : s - 1)); resetTimer() }} aria-label="Previous publications" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
+                  <ChevronLeft className="h-4 w-4" />
+                </button>
+              )}
+              <div className="grid flex-1 grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+                {visible3.map((pub, i) => <PubCard key={i} pub={pub} />)}
+              </div>
+              {publications.length > cols && (
+                <button onClick={() => { setStart((s) => (s >= max3 ? 0 : s + 1)); resetTimer() }} aria-label="Next publications" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              )}
             </div>
-            <div className="mt-10 md:hidden" onTouchStart={onTouchStart} onTouchEnd={(e) => onTouchEnd(e, 1)}>
-              <PubCard pub={publications[start] ?? publications[0]} />
+            <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 md:hidden" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+              {visible3.map((pub, i) => <PubCard key={i} pub={pub} />)}
             </div>
-            {publications.length > VISIBLE && (
+            {publications.length > cols && (
               <div className="mt-6 flex items-center justify-center gap-2">
-                {Array.from({ length: max + 1 }).map((_, i) => (
-                  <button key={i} onClick={() => handleDot(i)} aria-label={`Go to publication ${i + 1}`} className={`h-1.5 rounded-full transition-all duration-300 ${i === start ? "w-6 bg-ink" : "w-1.5 bg-light-grey"}`} />
+                {Array.from({ length: max3 + 1 }).map((_, i) => (
+                  <button key={i} onClick={() => { setStart(i); resetTimer() }} aria-label={`Position ${i + 1}`} className={`h-1.5 rounded-full transition-all duration-300 ${start3 === i ? "w-6 bg-ink" : "w-1.5 bg-light-grey"}`} />
                 ))}
               </div>
             )}
