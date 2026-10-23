@@ -373,6 +373,16 @@ export function PublicationsCarousel({ publications, cardVariant = "a", cardLayo
                 Publications
               </h2>
             </div>
+            {publications.length > cols && (
+              <div className="hidden items-center gap-2 md:flex">
+                <button onClick={() => { setStart((s) => (s <= 0 ? max3 : s - 1)); resetTimer() }} aria-label="Previous publications" className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
+                  <ChevronLeft className="h-4 w-4" />
+                </button>
+                <button onClick={() => { setStart((s) => (s >= max3 ? 0 : s + 1)); resetTimer() }} aria-label="Next publications" className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              </div>
+            )}
           </div>
           <p className="mt-4 max-w-2xl font-body text-xl leading-9 text-dark-grey">
             Peer-reviewed research from the Mixture Lab. Click any card to view the full publication.
@@ -381,22 +391,7 @@ export function PublicationsCarousel({ publications, cardVariant = "a", cardLayo
             <p className="mt-10 font-body text-xl text-grey">No publications yet.</p>
           ) : (
             <>
-              <div className="mt-10 hidden items-center gap-3 md:flex">
-                {publications.length > cols && (
-                  <button onClick={() => { setStart((s) => Math.max(0, s - 1)); resetTimer() }} aria-label="Previous publications" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
-                    <ChevronLeft className="h-4 w-4" />
-                  </button>
-                )}
-                <div className="grid flex-1 grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" onTouchStart={onTouchStart} onTouchEnd={(e) => onTouchEnd(e, 1)}>
-                  {visible3.map((pub, i) => <PubCard key={i} pub={pub} />)}
-                </div>
-                {publications.length > cols && (
-                  <button onClick={() => { setStart((s) => Math.min(s + 1, max3)); resetTimer() }} aria-label="Next publications" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors hover:border-ink/40">
-                    <ChevronRight className="h-4 w-4" />
-                  </button>
-                )}
-              </div>
-              <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 md:hidden" onTouchStart={onTouchStart} onTouchEnd={(e) => onTouchEnd(e, 1)}>
+              <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" onTouchStart={onTouchStart} onTouchEnd={(e) => onTouchEnd(e, 1)}>
                 {visible3.map((pub, i) => <PubCard key={i} pub={pub} />)}
               </div>
               {publications.length > cols && (

@@ -7,8 +7,8 @@ import type { SiteSettingsData } from "@/lib/site-settings"
 
 const links = [
   { href: "#research", label: "Research" },
-  { href: "#people", label: "People" },
   { href: "#publications", label: "Publications" },
+  { href: "#people", label: "People" },
   { href: "#news", label: "News" },
   { href: "#blog", label: "Blog" },
   { href: "#opportunities", label: "Opportunities" },
