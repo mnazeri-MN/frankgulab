@@ -38,15 +38,15 @@ function NewsCardA({ item }: { item: NewsItem }) {
             <p className="font-body text-xl font-medium leading-8 text-ink">{item.title}</p>
             <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
           </div>
-          <p className="mt-2 font-body text-base text-grey">{item.source} · {item.date}</p>
+          <p className="mt-2 font-body text-sm text-grey">{item.source} · {item.date}</p>
         </div>
       </div>
       <div className="flex flex-col justify-between border-t border-ink/10 p-4 md:w-1/2 md:border-l md:border-t-0 md:p-5">
         <div>
           {item.summary ? (
-            <p data-reduced-text="" className="font-body text-xl leading-9 text-dark-grey">{item.summary}</p>
+            <p data-reduced-text="" className="font-body text-base leading-7 text-dark-grey">{item.summary}</p>
           ) : (
-            <p className="font-body text-xl italic text-grey/50">No summary yet.</p>
+            <p className="font-body text-base italic text-grey/50">No summary yet.</p>
           )}
         </div>
         <div className="mt-4 flex justify-end">
@@ -91,15 +91,15 @@ function NewsCardB({ item }: { item: NewsItem }) {
             <p className="line-clamp-3 font-body text-xl font-medium leading-8 text-ink">{item.title}</p>
             <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
           </div>
-          <p className="mt-2 font-body text-xl text-grey">{item.source} · {item.date}</p>
+          <p className="mt-2 font-body text-sm text-grey">{item.source} · {item.date}</p>
         </div>
       </div>
       <div className="flex flex-col justify-between border-t border-ink/10 p-4 md:p-5">
         <div>
           {item.summary ? (
-            <p data-reduced-text="" className="font-body text-xl leading-9 text-dark-grey">{item.summary}</p>
+            <p data-reduced-text="" className="font-body text-base leading-7 text-dark-grey">{item.summary}</p>
           ) : (
-            <p className="font-body text-xl italic text-grey/50">No summary yet.</p>
+            <p className="font-body text-base italic text-grey/50">No summary yet.</p>
           )}
         </div>
         <div className="mt-4 flex justify-end">
@@ -142,15 +142,15 @@ function NewsCardC({ item }: { item: NewsItem }) {
             <p className="line-clamp-3 font-body text-xl font-medium leading-8 text-ink">{item.title}</p>
             <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
           </div>
-          <p className="font-body text-base text-grey">{item.source} · {item.date}</p>
+          <p className="font-body text-sm text-grey">{item.source} · {item.date}</p>
         </div>
       </div>
       <div className="flex flex-col justify-between p-4 md:p-5">
         <div>
           {item.summary ? (
-            <p data-reduced-text="" className="font-body text-xl leading-9 text-dark-grey">{item.summary}</p>
+            <p data-reduced-text="" className="font-body text-base leading-7 text-dark-grey">{item.summary}</p>
           ) : (
-            <p className="font-body text-xl italic text-grey/50">No summary yet.</p>
+            <p className="font-body text-base italic text-grey/50">No summary yet.</p>
           )}
         </div>
         <div className="mt-4 flex justify-end">
@@ -201,10 +201,10 @@ function NewsCardD({ item }: { item: NewsItem }) {
           <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
         </div>
         {item.summary && (
-          <ExpandableSummary text={item.summary} className="mt-3 font-body text-xl leading-9 text-dark-grey" />
+          <ExpandableSummary text={item.summary} className="mt-3 font-body text-base leading-7 text-dark-grey" />
         )}
         <div className="mt-auto flex items-center justify-between pt-4">
-          <p className="font-body text-base text-grey">{item.source} · {item.date}</p>
+          <p className="font-body text-sm text-grey">{item.source} · {item.date}</p>
           <a
             href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(item.url)}`}
             target="_blank"
@@ -238,10 +238,10 @@ function NewsCardE({ item }: { item: NewsItem }) {
           <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
         </div>
         {item.summary && (
-          <ExpandableSummary text={item.summary} className="mt-3 font-body text-xl leading-9 text-dark-grey" />
+          <ExpandableSummary text={item.summary} className="mt-3 font-body text-base leading-7 text-dark-grey" />
         )}
         <div className="mt-auto flex items-center justify-between pt-4">
-          <p className="font-body text-base text-grey">{item.source} · {item.date}</p>
+          <p className="font-body text-sm text-grey">{item.source} · {item.date}</p>
           <a
             href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(item.url)}`}
             target="_blank"

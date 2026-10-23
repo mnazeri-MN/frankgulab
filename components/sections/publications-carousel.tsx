@@ -75,15 +75,15 @@ function PubCardA({ pub }: { pub: PublicationItem }) {
             <p className="font-body text-xl font-medium leading-8 text-ink">{pub.title}</p>
             <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
           </div>
-          <p className="mt-2 font-body text-base text-grey">{pub.firstAuthor} · {pub.year}</p>
+          <p className="mt-2 font-body text-sm text-grey">{pub.firstAuthor} · {pub.year}</p>
         </div>
       </div>
       <div className="flex flex-col justify-between border-t border-ink/10 p-4 md:w-1/2 md:border-l md:border-t-0 md:p-5">
         <div>
           {pub.summary ? (
-            <p data-reduced-text="" className="font-body text-xl leading-9 text-dark-grey">{pub.summary}</p>
+            <p data-reduced-text="" className="font-body text-base leading-7 text-dark-grey">{pub.summary}</p>
           ) : (
-            <p className="font-body text-xl italic text-grey/50">No summary yet.</p>
+            <p className="font-body text-base italic text-grey/50">No summary yet.</p>
           )}
         </div>
         <PubCardActions pub={pub} />
@@ -116,15 +116,15 @@ function PubCardB({ pub }: { pub: PublicationItem }) {
             <p className="line-clamp-3 font-body text-xl font-medium leading-8 text-ink">{pub.title}</p>
             <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
           </div>
-          <p className="mt-2 font-body text-xl text-grey">{pub.firstAuthor} · {pub.year}</p>
+          <p className="mt-2 font-body text-sm text-grey">{pub.firstAuthor} · {pub.year}</p>
         </div>
       </div>
       <div className="flex flex-col justify-between border-t border-ink/10 p-4 md:p-5">
         <div>
           {pub.summary ? (
-            <p data-reduced-text="" className="font-body text-xl leading-9 text-dark-grey">{pub.summary}</p>
+            <p data-reduced-text="" className="font-body text-base leading-7 text-dark-grey">{pub.summary}</p>
           ) : (
-            <p className="font-body text-xl italic text-grey/50">No summary yet.</p>
+            <p className="font-body text-base italic text-grey/50">No summary yet.</p>
           )}
         </div>
         <PubCardActions pub={pub} />
@@ -156,16 +156,16 @@ function PubCardC({ pub }: { pub: PublicationItem }) {
             <p className="line-clamp-3 font-body text-xl font-medium leading-8 text-ink">{pub.title}</p>
             <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
           </div>
-          <p className="font-body text-base text-grey">{pub.firstAuthor} · {pub.year}</p>
+          <p className="font-body text-sm text-grey">{pub.firstAuthor} · {pub.year}</p>
         </div>
       </div>
       {/* Lower: summary + share */}
       <div className="flex flex-col justify-between p-4 md:p-5">
         <div>
           {pub.summary ? (
-            <p data-reduced-text="" className="font-body text-xl leading-9 text-dark-grey">{pub.summary}</p>
+            <p data-reduced-text="" className="font-body text-base leading-7 text-dark-grey">{pub.summary}</p>
           ) : (
-            <p className="font-body text-xl italic text-grey/50">No summary yet.</p>
+            <p className="font-body text-base italic text-grey/50">No summary yet.</p>
           )}
         </div>
         <PubCardActions pub={pub} />
@@ -204,10 +204,10 @@ function PubCardD({ pub }: { pub: PublicationItem }) {
           <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
         </div>
         {pub.summary && (
-          <ExpandableSummary text={pub.summary} className="mt-3 font-body text-xl leading-9 text-dark-grey" />
+          <ExpandableSummary text={pub.summary} className="mt-3 font-body text-base leading-7 text-dark-grey" />
         )}
         <div className="mt-auto flex items-center justify-between pt-4">
-          <p className="font-body text-base text-grey">{pub.firstAuthor} · {pub.year}</p>
+          <p className="font-body text-sm text-grey">{pub.firstAuthor} · {pub.year}</p>
           <div className="flex items-center gap-2">
             {pub.blogUrl && (
               <a
@@ -256,10 +256,10 @@ function PubCardE({ pub }: { pub: PublicationItem }) {
           <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
         </div>
         {pub.summary && (
-          <ExpandableSummary text={pub.summary} className="mt-3 font-body text-xl leading-9 text-dark-grey" />
+          <ExpandableSummary text={pub.summary} className="mt-3 font-body text-base leading-7 text-dark-grey" />
         )}
         <div className="mt-auto flex items-center justify-between pt-4">
-          <p className="font-body text-base text-grey">{pub.firstAuthor} · {pub.year}</p>
+          <p className="font-body text-sm text-grey">{pub.firstAuthor} · {pub.year}</p>
           <div className="flex items-center gap-2">
             {pub.blogUrl && (
               <a
