@@ -20,18 +20,15 @@ function PubCard({ pub }: { pub: PublicationItem }) {
       href={pub.href || "#"}
       target={pub.href ? "_blank" : undefined}
       rel="noopener noreferrer"
-      className="group flex max-h-[55vh] flex-col overflow-hidden rounded-card bg-white ring-1 ring-ink/10 transition-shadow hover:shadow-md"
+      className="group flex flex-col overflow-hidden rounded-card bg-white ring-1 ring-ink/10 transition-shadow hover:shadow-md"
     >
-      <div className="flex flex-1 flex-col p-4 md:p-5">
+      <div className="flex max-h-[calc(55vh-12rem)] flex-col overflow-hidden p-4 md:p-5">
         <div className="flex items-start justify-between gap-2">
           <p className="font-body text-xl font-medium leading-8 text-ink">{pub.title}</p>
           <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
         </div>
         {pub.summary && (
-          <div className="relative mt-3 min-h-0 flex-1 overflow-hidden">
-            <p className="font-body text-base leading-7 text-dark-grey">{pub.summary}</p>
-            <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-white to-transparent" />
-          </div>
+          <p className="mt-3 line-clamp-3 font-body text-base leading-7 text-dark-grey">{pub.summary}</p>
         )}
         <div className="mt-auto flex items-center justify-between pt-4">
           <p className="font-body text-sm text-grey">{pub.firstAuthor} · {pub.year}</p>
