@@ -104,23 +104,24 @@ export async function Blog() {
                       {post.excerpt}
                     </p>
                   )}
-                  <p className="mt-4 font-body text-sm font-medium text-ink group-hover:underline">
-                    Read more →
-                  </p>
+                  <div className="mt-auto flex items-center justify-between pt-4">
+                    <p className="font-body text-sm font-medium text-ink group-hover:underline">
+                      Read more →
+                    </p>
+                    <a
+                      href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${SITE_URL}/blog/${post.slug}`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Share on LinkedIn"
+                      onClick={(e) => e.stopPropagation()}
+                      className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
+                    >
+                      <Linkedin className="h-3.5 w-3.5" />
+                      Share
+                    </a>
+                  </div>
                 </div>
               </Link>
-              <div className="flex justify-end px-6 pb-5">
-                <a
-                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${SITE_URL}/blog/${post.slug}`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Share on LinkedIn"
-                  className="flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-body text-base text-grey transition-colors hover:border-[#0A66C2]/40 hover:text-[#0A66C2]"
-                >
-                  <Linkedin className="h-3.5 w-3.5" />
-                  Share
-                </a>
-              </div>
             </div>
           ))}
         </div>
