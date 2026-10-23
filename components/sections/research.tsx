@@ -79,7 +79,7 @@ export async function Research() {
                     <h3 className="mt-3 font-heading text-xl font-semibold text-ink">
                       {project.title}
                     </h3>
-                    <p data-reduced-text="" className="mt-2 font-body text-xl leading-9 text-dark-grey">
+                    <p data-reduced-text="" className="mt-2 font-body text-lg leading-8 text-dark-grey">
                       {project.description}
                     </p>
                   </div>

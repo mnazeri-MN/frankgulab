@@ -27,7 +27,7 @@ function NewsCard({ item }: { item: NewsItem }) {
           <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-grey transition-colors group-hover:text-ink" />
         </div>
         {item.summary && (
-          <p className="mt-3 line-clamp-5 font-body text-base leading-7 text-dark-grey">{item.summary}</p>
+          <p className="mt-3 line-clamp-5 font-body text-lg leading-8 text-dark-grey">{item.summary}</p>
         )}
         <div className="mt-auto flex items-center justify-between pt-4">
           <p className="font-body text-sm text-grey">{item.source} · {item.date}</p>
