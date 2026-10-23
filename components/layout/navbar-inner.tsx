@@ -63,7 +63,7 @@ export function NavbarInner({ s }: { s: Pick<SiteSettingsData, "logoUrl" | "labN
       </nav>
 
       {open && (
-        <div className="border-t border-ink/10 px-6 py-6 md:hidden">
+        <div className="absolute inset-x-0 top-full border-t border-ink/10 bg-warm-white/95 px-6 py-6 backdrop-blur md:hidden">
           <div className="flex flex-col gap-5">
             {links.map((link) => (
               <a
